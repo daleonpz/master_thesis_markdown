@@ -9,7 +9,7 @@ and add the centred logo
 
     % Delete the following line
     % to remove the UCL header logo
-    \ThisULCornerWallPaper{1.0}{style/univ_logo.eps}
+    %\ThisULCornerWallPaper{1.0}{style/univ_logo.eps}
         
         \vspace*{2.5cm}
         
@@ -19,7 +19,7 @@ and add the centred logo
         \vspace{1.5cm}
         
         \Large
-        Firstname Surname
+        Daniel Leoncio Paredes Zevallos 
 
         \vspace{1.5cm}
 
