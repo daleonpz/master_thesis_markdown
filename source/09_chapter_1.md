@@ -59,8 +59,8 @@ In this model, a CPU runnable will read data from memory, execute some computati
 ![Runnable example for a CPU [@Water2019Url] \label{img:amalthea01}](source/figures/amalthea-01.png)
 
 In the case of GPU modeling, the runnable will follow the same pattern as in the CPU case: read, execution, write back.
-However, the reading operation is actually to copy memory from host to device, thus it is modelled as _memory reading from host_ and then as  _memory writing to device_.
-On the other hand, the writing back operation requires to copy memory from device to host, therefore it  is modelled as _memory reading from device_ and then as _memory writing to host_ as shown in Figure \ref{img:amalthea02}.
+However, the reading operation is actually to copy memory from host to device, thus it is modeled as _memory reading from host_ and then as  _memory writing to device_.
+On the other hand, the writing back operation requires to copy memory from device to host, therefore it  is modeled as _memory reading from device_ and then as _memory writing to host_ as shown in Figure \ref{img:amalthea02}.
 
 ![Runnable example for a GPU [@Water2019Url] \label{img:amalthea02}](source/figures/amalthea-02.png)
 
