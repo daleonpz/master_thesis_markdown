@@ -1,12 +1,59 @@
-# Literature review, with maths
+# CUDA and Jetson TX2
 
 <!--
 After the introductory chapter, it seems fairly common to 
 include a chapter that reviews the literature and 
 introduces methodology used throughout the thesis.
 -->
+In this chapter...blablabla 
 
-## Jetson TX2
+
+
+## NVIDIA GPU Software Model
+Now a days computer applications run on heterogeneous hardware and GPUs are important in order to achieve high performance computing. 
+Since 2006 running software on NVIDIA GPUs are known as a _CUDA application_ [@CUDAZONE2019].
+A CUDA application will run concurrently multiple instances of special functions called **kernels**.Each instance runs on a **thread**. 
+Moreover, these threads are arranged in **blocks**, and blocks compose **grids** as shown in Figure \ref{img:sw_model_grids}. 
+
+![Organisation of grids, blocks, threads, and kernels [@CCUDA2010]. \label{img:sw_model_grids} ](source/figures/sw_model_grids.png){width=60%}
+
+It's logical to think that there is also a hierarchical memory structure. 
+Threads, blocks and grids have access to different memory spaces as ilustrated in Figure \ref{img:sw_model_memory}.
+The types of memory are summarized in Table \ref{tab:memory_hierarchy}.
+
+\newpage
+
+---------------------------------------------------------------------------------------
+Memory      Main Characteristics                            Scope   Lifetime
+--------    -------------------                             -----   -----------
+Global      R/W, Slow and big                               Grid    Application
+
+Texture     ROM, Fast, Optimized for 2D/3D access           Grid    Application
+
+Constant    ROM, Fast, Constants and kernel parameters      Grid    Application
+ 
+Shared      R/W, Fast, it's on-chip                         Block   Block
+
+Local       R/W, Slow as global, when registers are full    Thread  Thread
+
+Registers   R/W, Fast                                       Thread  Thread
+
+---------------------------------------------------------------------------
+
+Table: Types of memories in a GPU \label{tab:memory_hierarchy}
+
+
+
+
+![Memory hierarchy [@CCUDA2010]. \label{img:sw_model_memory} ](source/figures/sw_model_memory.png){width=60%}
+
+In summary, CUDA application solve problems that were modeled based on _divide and conquer_ principle. Moreover, CUDA software model not only allow users to achieve high computational performance, but also CUDA application are highly scalable. 
+
+
+## NVIDIA GPU Hardware Model
+aeouae
+
+## NVIDIA processors inside Jetson TX2
 
 ### NVIDIA Denver2
 The other ARM cluster is composed of  two NVIDIA Denver2 cores and 2MB of L2 Cache.
@@ -22,7 +69,6 @@ Frequently used software routines are converted into a dense and highly tunned e
 A Denver2 core analyze the ARM code just before execution and look for places where instructions can be handle together to maximize throughput taking in advantage the 7-way superscalar microarchitecture. 
 In Figure \ref{img:denver_arch} can be observed that each Denver2 core has  64KB of L1 Data Cache, and  128KB of Instruction Cache. 
 The optimized code is stored in the former one, also known as _Optimization Cache_ [@Denver2019url].
-
 
 
 ## Introduction
