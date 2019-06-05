@@ -51,7 +51,48 @@ In summary, CUDA application solve problems that were modeled based on _divide a
 
 
 ## NVIDIA GPU Hardware Model
-aeouae
+The CUDA architecture is based on **Streaming Multiprocessors** (SM) which perform the actual computation.
+Each SM has it own control units, registers, execution pipelines and local memories, but they also have access to global memory as ilustrated in Figure \ref{img:sm_memory}.
+A **stream** is a queue of CUDA operations, memory copy and kernel launch.
+We will talk more about streams in following sections.
+
+![Memory hierarchy  \label{img:sm_memory} ](source/figures/sm_memory.png){width=60%}
+
+
+When a kernel grid is launch blocks are enumerated and assigend to the SMs. 
+Once the blocks are assigned, threads are managed in **wraps** by the **wrap scheduler**. A wraps is a group of 32 threads that run in parallel. 
+Thus, it's highly recommendable to use block sizes of size $32N, N \in \mathbb{N}$, otherwise there would be "inactive" threads.
+A example is shown in Figure \ref{img:inactive_thread}, where there is a block of 140 threads but since the wrap scheduler works with wraps, 20 threads are wasted and no other block can make use of them. 
+
+
+ 
+![Inactive threads \label{img:inactive_thread} ](source/figures/inactive_thread.png){width=60%}
+
+
+
+
+The amount of  threads and blocks that can run concurrently per SM depends on the number of 32-bit registers and shared memory within SM, as well as the CUDA computing capability of the GPU. Information related to maximum amount of blocks  or threads, as well as the computing capability of the GPU can be display executing `deviceQuery` tool. 
+Some information about Jetson TX2 is presented below: 
+
+```sh
+CUDA Device Query (Runtime API) version (CUDART static linking)
+Detected 1 CUDA Capable device(s)
+Device 0: "NVIDIA Tegra X2"
+  CUDA Driver Version / Runtime Version     9.0 / 9.0
+  CUDA Capability:                          6.2
+  Total amount of global memory:            7850 MBytes 
+  ( 2) SM, (128) CUDA Cores/SM:             256 CUDA Cores
+  L2 Cache Size:                            524288 bytes
+  Total amount of shared memory per block:  49152 bytes
+  Total number of registers per block:      32768
+  Warp size:                                32
+  Max. number of threads per SM:            2048
+  Max. number of threads per block:         1024
+  Max dim. size of a thread block (x,y,z):  (1024, 1024, 64)
+  Max dim. size of a grid size    (x,y,z):  (2^31-1, 65535, 65535)
+```
+
+
 
 ## NVIDIA processors inside Jetson TX2
 
