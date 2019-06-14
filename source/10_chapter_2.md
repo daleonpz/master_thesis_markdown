@@ -92,6 +92,15 @@ Device 0: "NVIDIA Tegra X2"
   Max dim. size of a grid size    (x,y,z):  (2^31-1, 65535, 65535)
 ```
 
+## NVIDIA Jetson TX2's GPU Scheduler
+Predictability is an important characteristic of safety-critical systems. It requires both functional and timing correctness.
+However, a detailed information about the Jetson TX2's GPU scheduler behaviour is not publicly available. 
+Without such details, it is imposible to analyze timing constrains. 
+Nevertheless, there are some efforts [@amert2017gpu], [@yang2018] and [@bakita2018scaling] aimed at revealing these details through black-box experimentation.
+
+NVIDIA GPU scheduling policies depend on whether the GPU workloads are launched by a CPU executing OS threads or OS processes. 
+We will focus on the first case, because GPU computations launched by OS processes have more unpredictable behaviours, as stated in [@amert2017gpu] and [@yang2018]. 
+In this section, we will present and explain GPU scheduling policies devired by [@amert2017gpu].
 
 
 ## NVIDIA processors inside Jetson TX2
