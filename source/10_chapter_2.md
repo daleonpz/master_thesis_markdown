@@ -93,6 +93,14 @@ Device 0: "NVIDIA Tegra X2"
 ```
 
 ## NVIDIA Jetson TX2's GPU Scheduler
+It's common to use several kernels in an application.
+In order to reduce computation time and maximaze GPU utilization, it's desire to run multiple kernels in parallel. 
+CUDA uses streams to achieve this goal. 
+As mentioned before, a stream is a queue of CUDA operations, memory copy and kernel launch.
+Thus, it  is possible either to launch multiple kernels within one streams or multiple kernels on multiple streams. 
+Operations within the same stream are managed in FIFO (First In First Out) fashion, thus, we will also use the term **stream queue** when we talk about FIFO queues within a stream.
+The Jeston TX2's GPU assigns resources to streams using its internal scheduler.
+
 Predictability is an important characteristic of safety-critical systems. It requires both functional and timing correctness.
 However, a detailed information about the Jetson TX2's GPU scheduler behaviour is not publicly available. 
 Without such details, it is imposible to analyze timing constrains. 
@@ -100,7 +108,45 @@ Nevertheless, there are some efforts [@amert2017gpu], [@yang2018] and [@bakita20
 
 NVIDIA GPU scheduling policies depend on whether the GPU workloads are launched by a CPU executing OS threads or OS processes. 
 We will focus on the first case, because GPU computations launched by OS processes have more unpredictable behaviours, as stated in [@amert2017gpu] and [@yang2018]. 
-In this section, we will present and explain GPU scheduling policies devired by [@amert2017gpu].
+In this section, we will present GPU scheduling policies devired by [@amert2017gpu] and use them in an example to clarify their use. 
+
+Let's start by defining some terms. When one block of a kernel has been scheduled for execution on a SM it's said that the block was **assigned**. Moreover, it's said a kernel was **dispatched** as soon as one of its blocks were assigned, and **fully dispatched** once all its blocks were assigned. 
+The same applies to copy operations and CE.  
+There are, in addition, FIFO CE queues used to schedule copy operations, and FIFO EE queues used to schedule kernel launches.
+Stream queues feed CE and EE queues. Bellow we will present the rules that determine scheduler and queues behaviours.
+
+* **General Scheduling Rules**:
+    * **G1** A copy operation or kernel is enqueued on the stream queue for its stream when the associated CUDA API function (memory transfer or kernel launch) is invoked.
+    * **G2** A kernel is enqueued on the EE queue when it reaches the head of its stream queue.
+    * **G3** A kernel at the head of the EE queue is dequeued from that queue once it becomes fully dispatched.
+    * **G4** A kernel is dequeued from its stream queue once all of its blocks complete execution.
+
+* **Non-preemptive execution**:
+    * **X1** Only blocks of the kernel at the head of the EE queue are eligible to be assigned.
+
+* **Rules governing thread resources**:
+    * **R1** A block of the kernel at the head of the EE queue is eligible to be assigned only if its resource constraints are met.
+    * **R2** A block of the kernel at the head of the EE queue is eligible to be assigned only if there are sufficient thread resources available on some SM.
+
+* **Rules governing shared-memory resources**:
+    * **R3** A block of the kernel at the head of the EE queue is eligible to be assigned only if there are sufficient shared-memory resources available on some SM.
+
+* **Copy operations**:
+    * **C1** A copy operation is enqueued on the CE queue when it reaches the head of its stream queue.
+    * **C2** A copy operation at the head of the CE queue is eligible to be assigned to the CE.
+    * **C3** A copy operation at the head of the CE queue is dequeued from the CE queue once the copy is
+    * **C4** A copy operation is dequeued from its stream queue once the CE has completed the copy.
+
+* **Streams with priorities**:
+    * **A1** A kernel can only be enqueued on the EE queue matching the priority of its stream.
+    * **A2** A block of a kernel at the head of any EE queue is eligible to be assigned only if all higher-priority EE queues (priority-high over priority-low) are empty.
+
+Authors in [@amert2017gpu] mentioned that rules related to **registry resources** are expected to have exactly the same impact as threads and shared-memory rules. 
+
+
+![Basic GPU scheduling experiment [@amert2017gpu] \label{img:scheduler_blocks} ](source/figures/scheduler_blocks.png){width=60%}
+
+![Detailed state information at various time points in Fig. \ref{img:scheduler_blocks} [@amert2017gpu] .\label{img:scheduler_queues} ](source/figures/scheduler_queues.png){width=100%}
 
 
 ## NVIDIA processors inside Jetson TX2
