@@ -39,42 +39,37 @@ We assume that a kernel $\tau_i$ has  a deadline equal to its period $T_i$.
 
 
 ## Assumptions
+For the calculation of the response time we have two assumption:
+
+### All blocks have the same amount of threads
+The election of the optimum number of threads for a specific kernel is a hard task, for that reason there have been some efforts towards that direction  [@Mukunoki2016], [@Lim2017], [@Torres2011], [@Kurzak2012].
+However, NVIDIA developers recommend,  for practical purposes, on their offical guides [@CCUDA20192] and [@CCUDA2019] to use block sizes equals to either 128, 256,  512 or 1024, because it has been documented that these values are more likely to take full advantage of the GPU resources.
+In our case we will assume that all the blocks, regarless the kernel, are the same size.
 
 
-### Subsection 1 with example code block
+\begin{equation} 
+b_i = b, \quad \forall \tau_i \in \tau
+\label{eq:blocksize}
+\end{equation}
 
-This is the first part of the methodology. Cras porta dui a dolor tincidunt placerat. Cras scelerisque sem et malesuada vestibulum. Vivamus faucibus ligula ac sodales consectetur. Aliquam vel tristique nisl. Aliquam erat volutpat. Pellentesque iaculis enim sit amet posuere facilisis. Integer egestas quam sit amet nunc maximus, id bibendum ex blandit.
 
-For syntax highlighting in code blocks, add three "`" characters before and after a code block:
 
-```python
-mood = 'happy'
-if mood == 'happy':
-    print("I am a happy robot")
-```
+### One big streaming multiprocessor
+This assumption is derived from the previous one. 
+Each streaming multiprocessor in the Jetson TX2 has 2048 available threads and since $b_i$ can be either 128, 256, 512 or 1024 ($2048/ b_i = k, k \in \mathbb{N}$), we can think of the two streaming multiprocessors as a big one of 4096 threads. 
 
-Alternatively, you can also use LaTeX to create a code block as shown in the Java example below:
-\lstinputlisting[style=javaCodeStyle, caption=Main.java]{source/code/HelloWorld.java}
+It means that it could be allocated $2048/b_i$ blocks per SM or $4096/b_i$ blocks in the big SM. 
+Hereafter we will refer the big SM as it were the only SM in the Jetson TX2's GPU. 
+Thus, we defined $g_{max}$  as the maximum number of blocks that can be allocated in the SM at some point in time.
 
-If you use `javaCodeStyle` as defined in the `preamble.tex`, it is best to keep the maximum line length in the source code at 80 characters.
 
-### Subsection 2
+\begin{equation} 
+g_{max} = \frac{b_{max}}{b}, \quad  g_{max} \in \mathbb{N}
+\label{eq:max_grid}
+\end{equation}
 
-This is the second part of the methodology. Proin tincidunt odio non sem mollis tristique. Fusce pharetra accumsan volutpat. In nec mauris vel orci rutrum dapibus nec ac nibh. Praesent malesuada sagittis nulla, eget commodo mauris ultricies eget. Suspendisse iaculis finibus ligula.
+Where $b_{max}$ is the maximum amount of threads in the GPU, in the case of Jetson TX2 is 4096. 
 
-<!-- 
-Comments can be added like this.
---> 
-
-## Results
-
-These are the results. Ut accumsan tempus aliquam. Sed massa ex, egestas non libero id, imperdiet scelerisque augue. Duis rutrum ultrices arcu et ultricies. Proin vel elit eu magna mattis vehicula. Sed ex erat, fringilla vel feugiat ut, fringilla non diam.
-
-## Discussion
-
-This is the discussion. Duis ultrices tempor sem vitae convallis. Pellentesque lobortis risus ac nisi varius bibendum. Phasellus volutpat aliquam varius. Mauris vitae neque quis libero volutpat finibus. Nunc diam metus, imperdiet vitae leo sed, varius posuere orci.
-
-## Conclusion
-
-This is the conclusion to the chapter. Praesent bibendum urna orci, a venenatis tellus venenatis at. Etiam ornare, est sed lacinia elementum, lectus diam tempor leo, sit amet elementum ex elit id ex. Ut ac viverra turpis. Quisque in nisl auctor, ornare dui ac, consequat tellus.
+## Calculation of response time 
+In addition to the variables defined in our assumptions we define $g_{free}$ as the number of blocks that are available at some point in time $t$, and $t_a$ as the point in time in which a block $b_i \in g_i$ can be allocated. 
 
