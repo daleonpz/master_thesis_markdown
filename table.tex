@@ -1,0 +1,52 @@
+
+----
+make tex
+then copy the code below
+xelatex thesis.tex
+----
+
+\begin{table}[hbtp]
+\small
+\begin{tabularx}{\linewidth}{|X|X|X|X|X|}
+    \hline
+Rules & (a) t=1.0s & (b) t=2.1s & (c) t=3.0s & (d) t=3.4s \\ \hline
+G1 & All Kernels except for K6 were enqueued on their streams. K6 is launched at t = 3.2s & K6 operations are not yet enqueued on  S2. Same reason as in (a). & Same situation as in (b). & K6 operations were enqueued at t=3.2s on S2. \\ \hline
+G2 & K1, K4, K5 were at the head of their streams. They were enqueued on EE queue. & There are not new kernel at the head of stream queues. & K2 was enqueued on EE queue. & K6 kernel was enqueued on EE, because it was at the head of S2. \\ \hline
+G3 & No kernels fullfill this rule. & K1, K4 have dispatched all their blocks. K5 is the only one on the EE queue. & K5, K2 were dequeued from EE queue, because all their blocks were dispatched.  & K6 was fully dispatched, thus was dequeued from EE queue. \\ \hline
+G4 & No kernels fullfill this rule. K1 still has running blocks. & K1, K4 still have running blocks. Thus they cannot be dequeued from their stream queues. & K1, K4 were dequeued from their stream queues, because all their blocks finished execution. K2, K5 still have running blocks, they cannot be dequeued from stream queues. & K6 still have running blocks. Thus cannot be yet dequeued from S2. \\ \hline
+\end{tabularx}
+\label{tab:scheduler_rules1}
+\caption{Detailed state information at various time points in Fig.}
+\end{table}
+
+
+\begin{table}[hbtp]
+    \small
+\begin{tabularx}{\linewidth}{|X|X|X|X|X|}
+    \hline
+Rules & (a) t=1.0s & (b) t=2.1s & (c) t=3.0s & (d) t=3.4s \\ \hline
+X1 & K4 cannot be launched because of this rule, even when there are enough resources (512 threads) & K4 was the next kernel on the EE queue. It was launch because K1 already dispatched it's remaining blocks. & K5 blocks became eligible then dispatched. After that K2 blocks became eligible and then dispatched. & K6 blocks became eligible, because K6 was at the head of EE queue. \\ \hline
+R1 & Applies only to K1. & K5 is eligible, but check R3 & K5 became eligible. K2 became eligible after K5. & There were enough resources for K6. \\ \hline
+R2 & Applies only to K1. & K5 is eligible, but check R3 & There were enough thread resources for K2 and K5 (1024 threads in SM0, and 1536 threads in SM1). & There were enough thread resources in each SM for K6 (free 512 threads per SM , each K6 block needed 512 threads). \\ \hline
+R3 & Applies only to K1. & There is not enough shared memory to launch K5.  Each K5 block requires 32KB (64KB in total), but K4 blocks are consuming the whole shared memory available per SM (64KB). & There were enough shared memory for K2 and K5 (64KB in each SM). & K6 blocks required no memory shared.  \\ \hline
+\end{tabularx}
+\label{tab:scheduler_rules2}
+\caption{Detailed state information at various time points in Fig.}
+\end{table}
+
+
+\begin{table}[hbtp]
+\small
+\begin{tabularx}{\linewidth}{|X|X|X|X|X|}
+    \hline
+Rules & (a) t=1.0s & (b) t=2.1s & (c) t=3.0s & (d) t=3.4s \\ \hline
+C1 & No copy operations at the head of streams. & No copy operations at the head of streams. & No copy operations at the head of streams. & C5o, C2o were enqueued on CE queue. \\ \hline
+C2 & No available copy operations. & No available copy operations. & No available copy operations. & C5o was assigned to CE. \\ \hline
+C3 & No available copy operations. & No available copy operations. & No available copy operations. & C5o was dequeued from CE. \\ \hline
+C4 & No copy operations at the head of streams. & No copy operations at the head of streams. & No copy operations at the head of streams. & C5o is still copying. Thus it cannot be dequeued from S3. \\ \hline
+\end{tabularx}
+\label{tab:scheduler_rules3}
+\caption{Detailed state information at various time points in Fig.}
+\end{table}
+
+

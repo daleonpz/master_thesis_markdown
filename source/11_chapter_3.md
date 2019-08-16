@@ -1,12 +1,45 @@
-# First research study, with code
-
+# Jetson TX2's GPU scheduler response time analysis 
+ 
 ## Introduction
+In this chapter, we present our approach to calculate the response time analysis for Jetson TX2's GPU scheduler based on the set of scheduling rules explained in the last chapter. **Need a better introduction**
 
-This is the introduction. Nam mollis congue tortor, sit amet convallis tortor mollis eget. Fusce viverra ut magna eu sagittis. Vestibulum at ultrices sapien, at elementum urna. Nam a blandit leo, non lobortis quam. Aliquam feugiat turpis vitae tincidunt ultricies. Mauris ullamcorper pellentesque nisl, vel molestie lorem viverra at.
+## Task model
+There is a set of tasks or kernels $\tau$ of $n$ independent kernels $\{\tau_1, \tau_2, \ldots, \tau_n\}$ on a single GPU. 
+Each kernel has a period $T_i$ defined as the separatin between two consecutivs releases of $\tau_i$, thread execution time workload $C_i$ and a grid of blocks $g_i$. Each block contains $b_i$ threads. 
 
-## Method
+\begin{equation} 
+\tau = \{ \tau_i \}; \quad i \geq n \wedge n \in \mathbb{N}
+\end{equation}
 
-Suspendisse iaculis in lacus ut dignissim. Cras dignissim dictum eleifend. Suspendisse potenti. Suspendisse et nisi suscipit, vestibulum est at, maximus sapien. Sed ut diam tortor.
+\begin{equation} 
+\tau_i = \{ T_i,  C_i,  g_i,  b_i \}
+\label{eq:task_def}
+\end{equation}
+
+Thus each kernel $\tau_i$ has a total of $g_i\cdot b_i$ threads, and the total execution time workload of $\tau_i$ is $C_i \cdot g_i \cdot b_i$. 
+The utilization of each kernel is defined as the total execution time workload divided by the period, as stated in [@yang2019].
+
+
+\begin{equation} 
+u_i = \frac{C_i g_i b_i}{T_i}
+\label{eq:task_utilization}
+\end{equation}
+
+In addition, the total utilization of the set of tasks $\tau$ is defined as:
+
+\begin{equation} 
+U_t = \sum_{\tau_i \in \tau} u_i
+\label{eq:task_utilization}
+\end{equation}
+
+For a kernel $\tau_i$ we denote the release time as $r_i$, the completion time as $f_i$ and response time as $R_i = f_i - r_i$ 
+We assume that a kernel $\tau_i$ has  a deadline equal to its period $T_i$.
+
+![Time chart \label{img:task_timing} ](source/figures/task_timing.png){width=100%}
+
+
+## Assumptions
+
 
 ### Subsection 1 with example code block
 
