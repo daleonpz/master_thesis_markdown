@@ -71,5 +71,15 @@ g_{max} = \frac{b_{max}}{b}, \quad  g_{max} \in \mathbb{N}
 Where $b_{max}$ is the maximum amount of threads in the GPU, in the case of Jetson TX2 is 4096. 
 
 ## Calculation of response time 
-In addition to the variables defined in our assumptions we define $g_{free}$ as the number of blocks that are available at some point in time $t$, and $t_a$ as the point in time in which a block $b_i \in g_i$ can be allocated. 
+In addition to the variables defined in our assumptions we define $g_{f}$ as the number of blocks that are available at some point in time $t$, and $t_a$ as the point in time in which a block $b_i \in g_i$ can be allocated. 
+
+For example in Figure \ref{img:free_blocks}a is shown that for a $t=t_1$ the amount of free blocks $g_{f}$ is lower than $g_{max}$ while in Figure \ref{img:free_blocks}b for a $t=t_2$, $g_{f} = g_{max}$.
+
+![Free blocks (a) at $t=t_1$, $g_f < g_{max}$ (b) at $t=t_2$, $g_f = g_{max}$ \label{img:free_blocks}](source/figures/free_blocks.png)
+
+
+In Figure \ref{img:ta_example} we present two cases. Let's assume there is  a new kernel K4 which wants to allocate a block $b_i \in g_i$. In Figure \ref{img:ta_example}a the release time $r_4$ of the kernel 4 is lower than $t_1$, which means that $t_a = t_1$ because $r_4 \leq t_1$ and kernel 3 (K3) was already dequeued.
+In Figure \ref{img:ta_example}b  $r_4$ lies between $t_2$ and $t_3$, in that case $t_a = r_4$, because all previous kernels  were already dequeued and there are enough resources.  
+
+![(a) $t_a=t_1 \quad  \forall r_4$ s.t $r_4 \leq t_1$ (b) $t_a=r_4 \quad \forall r_4$ s.t $t_2 \leq r_4 \leq t_3$ \label{img:ta_example}](source/figures/ta_example.png)
 
