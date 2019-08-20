@@ -70,7 +70,7 @@ g_{max} = \frac{b_{max}}{b}, \quad  g_{max} \in \mathbb{N}
 
 Where $b_{max}$ is the maximum amount of threads in the GPU, in the case of Jetson TX2 is 4096. 
 
-## Calculation of response time 
+## Introduction to GPU  Response Time Analysis 
 In addition to the variables defined in our assumptions we define $g_{f}$ as the number of blocks that are available at some point in time $t$, and $t_a$ as the point in time in which a block $b_i \in g_i$ can be allocated. 
 
 For example in Figure \ref{img:free_blocks}a is shown that for a $t=t_1$ the amount of free blocks $g_{f}$ is lower than $g_{max}$ while in Figure \ref{img:free_blocks}b for a $t=t_2$, $g_{f} = g_{max}$.
@@ -124,7 +124,7 @@ After K3 allocation, $t_a$ and $g_f$ should be updated again. In this example, t
 
 
 
-
+## Response Time Analysis Algorithm
 
 Just a sample algorithmn
 
