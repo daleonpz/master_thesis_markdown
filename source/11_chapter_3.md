@@ -125,27 +125,78 @@ After K3 allocation, $t_a$ and $g_f$ should be updated again. In this example, t
 
 
 ## Response Time Analysis Algorithm
+Our algorithm is focused on the calculation of $t_a$ and $g_f$ for each block regarless from which kernel $t_i$ comes. 
+In addition, it is important to notice that  $t_a$ and $g_f$ depend on how previous blocks were allocated and on the GPU state at some point in time, as it was described above and illustrated in the Figure \ref{img:new_kernel_1} and Figure \ref{img:new_kernel_2}.  
+The output of our algorithm is a set of release times ${f_1, f_2, \cdots, f_n}$ where $n$ is the length of $\tau$ which values $f_i$ depend on $t_a$ and $C_i$.
 
-Just a sample algorithmn
+\begin{equation}
+f_i = f(t_a, C_i)
+\end{equation}
 
-aeuhaehutaehtn
+A basic version of our algorithm is described in Algorithm \ref{alg:basic}. 
+This version is derived directly from the examples illustrated in Figure \ref{img:new_kernel_1} and Figure \ref{img:new_kernel_2}, in other words, this basic algorithm is a summary of the section above. 
+We have omitted details such as how $t_a$ and $g_f$ are updated in the case that $g_f \geq g_i$, however we still keep the big picture of what is necessary at each step.
 
-\begin{algorithm}[H]
-\DontPrintSemicolon
-\SetAlgoLined
-\KwResult{Write here the result}
-\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
-\Input{Write here the input}
-\Output{Write here the output}
-\BlankLine
-\While{While condition}{
-    instructions\;
-    \eIf{condition}{
-        instructions1\;
-        instructions2\;
-    }{
-        instructions3\;
-    }
-}
-\caption{While loop with If/Else condition}
-\end{algorithm} 
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}{.7\linewidth}
+    \begin{algorithm}[H]
+        \DontPrintSemicolon
+        \SetAlgoLined
+        \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+        \Input{$\tau$}
+        \Output{${f_1,\cdots, f_n}$}
+        \BlankLine
+        Initialization: $t_a = 0$, $g_f = g_{max}$ \\
+        \While{ $i \leq n$}{
+            \eIf{ $g_f \geq g_i$}{
+                $f_i = t_a + C_i$; \\
+                Update $g_f$ and $t_a$; \\
+                i++ ; // Next kernel \\ 
+            }{
+                $g_i = g_i - g_f$;\\
+                Update $g_f$ and $t_a$; \\
+            }
+        }
+        \caption{Basic real time analysis algorithm }
+        \label{alg:basic}
+    \end{algorithm} 
+  \end{minipage}
+\end{figure}
+
+In order to analyze a new kernel $\tau_i$ and update $t_a$ and $g_f$, it is important to track old values of $g_f$ as well as grid sizes and completion times of previous kernels, in others words one must know $g_{i-k}$ and $f_{i-k}$ where $k \in {1,2,\dots, i-1}$ and $g_f \forall t \leq t_a$. 
+Luckily, we need only the values of $g_f$ at specific time points, and these points depend on $f_{i-k}$. 
+An array $h$ is introduced to keep $g_f$ and $t_a$  values overtime. 
+In a further example we will explain how this array $h$ is filled and updated. 
+A complete version of our algorithm is presented in Algorithm \ref{alg:full}. 
+
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}{.7\linewidth}
+    \begin{algorithm}[H]
+        \DontPrintSemicolon
+        \SetAlgoLined
+        \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+        \Input{$\tau$}
+        \Output{${f_1,\cdots, f_n}$}
+        \BlankLine
+        Initialization: $t_a = 0$, $g_f = g_{max}$ \\
+        \While{ $i \leq n$}{
+            \eIf{ $g_f \geq g_i$}{
+                $f_i = t_a + C_i$; \\
+                Update $g_f$ and $t_a$; \\
+                i++ ; // Next kernel \\ 
+            }{
+                $g_i = g_i - g_f$;\\
+                Update $g_f$ and $t_a$; \\
+            }
+        }
+        \caption{Basic real time analysis algorithm }
+        \label{alg:full}
+    \end{algorithm} 
+  \end{minipage}
+\end{figure}
+
+
