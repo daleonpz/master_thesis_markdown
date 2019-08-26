@@ -148,7 +148,7 @@ We have omitted details such as how $t_a$ and $g_f$ are updated in the case that
         \Input{$\tau$}
         \Output{${f_1,\cdots, f_n}$}
         \BlankLine
-        Initialization: $t_a = 0$, $g_f = g_{max}$ \\
+        Initialization: $t_a = 0$, $g_f = g_{max}$, $i=1$ \\
         \While{ $i \leq n$}{
             \eIf{ $g_f \geq g_i$}{
                 $f_i = t_a + C_i$; \\
@@ -165,10 +165,12 @@ We have omitted details such as how $t_a$ and $g_f$ are updated in the case that
   \end{minipage}
 \end{figure}
 
-In order to analyze a new kernel $\tau_i$ and update $t_a$ and $g_f$, it is important to track old values of $g_f$ as well as grid sizes and completion times of previous kernels, in others words one must know $g_{i-k}$ and $f_{i-k}$ where $k \in {1,2,\dots, i-1}$ and $g_f \forall t \leq t_a$. 
-Luckily, we need only the values of $g_f$ at specific time points, and these points depend on $f_{i-k}$. 
-An array $h$ is introduced to keep $g_f$ and $t_a$  values overtime. 
-In a further example we will explain how this array $h$ is filled and updated. 
+In order to analyze a new kernel $\tau_i$ and update $t_a$ and $g_f$ we need to track old values of $g_f\quad \forall t \leq t_a$. 
+Fortunately, it is necessary only to track $g_f$ at specific points of time.
+Some relevant points of time , as it was shown in the previous example described by Figure \ref{img:new_kernel_2}, are given by completion times of previous kernels, in other words we must track $g_{i-k}$ and $f_{i-k}$ where $k \in {1,2,\dots, i-1}$, because updated values of $g_f$ and $t_a$ depend as well  on these them.
+
+Let's define a set $h$ of pair of values $(t_k, g_k)$ where $g_k$ are the number of free blocks at $t=t_k$ such that  $t_k \geq t_a$. In a further example we will show step by step how this array $h$ is filled and updated in order to have a better understanding. 
+
 A complete version of our algorithm is presented in Algorithm \ref{alg:full}. 
 
 
@@ -182,21 +184,48 @@ A complete version of our algorithm is presented in Algorithm \ref{alg:full}.
         \Input{$\tau$}
         \Output{${f_1,\cdots, f_n}$}
         \BlankLine
-        Initialization: $t_a = 0$, $g_f = g_{max}$ \\
+        Initialization: $t_a = 0$, $g_f = g_{max}$, $i=1$, $h = {}$ \\
         \While{ $i \leq n$}{
             \eIf{ $g_f \geq g_i$}{
                 $f_i = t_a + C_i$; \\
-                Update $g_f$ and $t_a$; \\
+                $h = \{h; (f_i, g_i )\}$;\\
+                $t_a = t_a$;\\ 
+                $g_f = g_f - g_i$; \\
                 i++ ; // Next kernel \\ 
             }{
                 $g_i = g_i - g_f$;\\
-                Update $g_f$ and $t_a$; \\
+                $h = \{ h; (t_a+C_i, g_f) \}$;\\
+                index = min($h$(:,1));\\
+                $t_a = h($index$, 1)$;\\
+                $g_f = h($index$, 2)$;\\
             }
         }
-        \caption{Basic real time analysis algorithm }
+        \caption{Real time analysis algorithm }
         \label{alg:full}
     \end{algorithm} 
   \end{minipage}
 \end{figure}
 
+
+Our algorithm is based on three main updates: $h$, $t_a$ and $g_f$.
+The set $h$ can be seen as an array of size Nx2, where $N$ is the number of tracked pairs.
+For this reason, when $g_f > g_i$ we used MATLAB notation, where `index` is the position of the pair or row $(t_k, g_k) \in h$ that has the minimun of all time values saved in $h$. 
+Once we know which pair has the minimun time, we just assign $t_a = t_k$ and $g_f = g_k$.
+It is important to mention again that by definition of $h$, all the tracked times should be greater or equal than the current $t_a$, meaning that pairs that have tracked times lower than $t_a$ must be removed. 
+
+## Example 
+Let's say there are four kernels we want to allocated, all with the same period $T = 15$ and block size of 512 threads, $b = 512$, which means $g_{max} = 8$.
+The four tasks are defined as  $\tau = \{\tau_1 = \{15, 4, 2, 512\} , \tau_2 = \{15, 6,7,512\}, \tau_3 = \{15, 6,2,512\}, \tau_4 =\{ 15, 5,5,512\} \}$.
+
+At the beginning $t_a =0$, $i=1$, $h=\{\}$ and $g_f = g_{max} = 8$. 
+Let's start with $\tau_1$. 
+
+- $g_f \geq g_1$? yes, because $g_i = 2$
+- $f_1 = t_a + C_1 = 0 + 4 = 4$
+- $h = \{h, (f_1, g_1)\} = \{ (4,2) \}$
+- $t_a = 0$
+- $g_f = g_f - g_i = 8 - 2 = 6$
+- $i = 2$
+
+Since $i=2$, it's time to analyze $\tau_2$
 
