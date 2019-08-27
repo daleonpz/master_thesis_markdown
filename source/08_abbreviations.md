@@ -24,7 +24,7 @@ $C_i$ \> Execution time workload of a thread within $b_i$ \\
 $u_i$ \> Utilization of $\tau_i$ \\
 $r_i$ \> Release time of $\tau_i$ \\
 $f_i$ \> Completion time of $\tau_i$ \\
-$R_i$ \> Release time of $\tau_i$ \\
+$R_i$ \> Response time of $\tau_i$ \\
 $U_t$ \> Total utilization of $\tau$ \\
 $b_{max}$ \> Maximum amount of threads in a SM \\
 $g_{max}$ \> Maximum amount of blocks that can be allocated in a SM \\

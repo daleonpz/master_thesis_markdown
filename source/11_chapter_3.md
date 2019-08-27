@@ -224,7 +224,7 @@ Kernel $\tau_1$ and inital state of GPU are shown in Figure \ref{img:ex_1}(a) an
 - $f_1 = t_a + C_1 = 0 + 4 = 4$
 - $h = \{h, (f_1, g_1)\} = \{ (4,2) \}$
 - $t_a = 0$
-- $g_f = g_f - g_i = 8 - 2 = 6$
+- $g_f = g_f - g_1 = 8 - 2 = 6$
 - $i = 2$
 
 After $\tau_1$ allocation the GPU state is as shown in Figure \ref{img:ex_1}(c), as it is observed, $t_a$ remains the same but $g_f$ now is 6. Furthermore, that is the initial GPU state when $\tau_2$ arrives.
@@ -256,7 +256,46 @@ However, completion time for $\tau_2$ is not known yet. Let's continue with the 
 - $f_2 = t_a + C_2 = 4 + 6 = 10$
 - $h = \{h, (f_2, g_2)\} = \{ (6,6),(10,1) \}$
 - $t_a = 4$
-- $g_f = g_f - g_i = 2 - 1 = 1$
+- $g_f = g_f - g_2 = 2 - 1 = 1$
 - $i = 3$
 
+In Figure \ref{img:ex_2}(c) is shown the GPU state, $t_a$ and $g_f$ values after $\tau_2$ allocation. This setup is the starting point for the analysis of $\tau_3$ as observed in Figure \ref{img:ex_3}(b). Since we already described step by step analysis for $\tau_1$ and $\tau_2$, we skip some details in $\tau_3$ analysis, however we will point out something important about $h$. 
+
+![(a) Kernel $\tau_3$ (b)GPU state prior to $\tau_3$ allocation (c) GPU state after $\tau_3$ allocation \label{img:ex_3}](source/figures/ex_3.jpg)
+
+
+The initial setup for $\tau_3$ is $t_a = 4$, $g_f= 1$ and $h = \{ (6,6),(10,1) \}$. The number of blocks and thread execution time of $\tau_3$ is illustrated in Figure \ref{img:ex_3}.
+
+
+- $g_f \geq g_3$? no
+- $g_3 = g_2 - g_f = 1$
+- $h =  \{ (6,6), (10,1), (10,1) \}$
+- $h = \{ (6,6), (10,2) \}$
+- $[ t_a, \mathrm{index} ] = [6,1]$ 
+- $g_f = h[ \mathrm{index},2] = h[1,2] = 6$
+- $h = \{(10,2)\}$ 
+
+As mention before, we performed an _extra_ step with $h$ in which $h$ went from having three pairs to having just two. 
+The reason behind it lies on the definition of $h$. The set $h$ of pair of values $(t_k, g_k)$ where $g_k$ are the number of free blocks at $t=t_k$; notice that at $t=10$ there are two  _free_ tracked blocks, one that comes from $\tau_2$ and other from $\tau_3$ as shown is Figure \ref{img:ex_3}(c), as well as the results of the following $\tau_3$ analysis.
+
+- $g_f \geq g_3$? yes
+- $f_3 = t_a + C_3 = 12$
+- $h = \{ (10,2),(12,1) \}$
+- $t_a = 6$
+- $g_f = g_f - g_3 = 5$
+- $i = 4$
+
+The analysis for $\tau_4$ is straightforward.
+The blocks and thread execution time for $\tau_4$, the GPU prior to $\tau_4$ allocation and GPU state after $\tau_4$ allocation are shown in Figure \ref{img:ex_4}.
+It is easy to find out that the completion time $f_4$ is 11. 
+
+![(a) Kernel $\tau_4$ (b)GPU state prior to $\tau_4$ allocation (c) GPU state after $\tau_4$ allocation \label{img:ex_4}](source/figures/ex_4.jpg)
+
+We have calculated the completion times $f_i \quad \forall i \in \tau$, $f = \{4,10,12,11\}$. 
+Given the fact that all kernel were scheduled at the same time, the release time for all kernels is 0. 
+Thus, the response time for each kernel is the same as their completion times. 
+Furthermore, we can conclude that all the kernels can be scheduled because $R_i \leq T \quad \forall i \in \tau$. 
+
+## A Special case
+In this section we demostrate that if all kernels have the same thread execution time, $C_i = C \quad \forall i \in \tau$, our response time analysis has not algorithmic behavior, instead it's a set of three equations. 
 
