@@ -299,10 +299,77 @@ Furthermore, we can conclude that all the kernels can be scheduled because $R_i 
 ## A Special case
 In this section we demostrate that if all kernels are released at the same time and also have the same thread execution time, $C_i = C \quad \forall i \in \tau$, our response time analysis has not algorithmic behavior, instead it's a set of three equations. 
 
-In this special case, there is no need of $h$, because $t_a$ and $g_f$ can be calculated directly with two equations. 
+In this special case, there is no need of $h$, because $t_a$ and $g_f$ can be calculated directly with two equations. The goal is as always to find $t_a$, $g_f$ and $f_i$, however, we will exploit the fact that $C_i$ is the same for all kernels.
+The case in which $g_i \leq g_f$ is trivial to analyze, therefore we will analyze the other case.
+If Figure \ref{img:free_blocks_alg} is shown the block distribution when $g_i > g_f$, thus in order to find $g^{*}_f$ and $t^{*}_a$, that are the updated values, we must calculate $K$. 
 
 
-![New kernel allocation \label{img:free_blocks_alg](source/figures/free_blocks_alg.png)
+![New kernel allocation \label{img:free_blocks_alg}](source/figures/free_blocks_alg.png)
 
+It is not hard to see that $K$ is given by equation \ref{eq:K}. The interpretation is that $K$ is the maximum amount of times that $g_{max}$ blocks can be allocated. 
+
+
+\begin{equation}
+K = \lfloor \frac{g_i - g_f}{g_{max}} \rfloor
+\label{eq:K}
+\end{equation}
+
+
+From $K$ , the value of $g^{*}_f$ is calculated using equation \ref{eq:g_f}. If we observed the blocks in Figure \ref{img:free_blocks_alg}, we notice that $g^{*}_f$ can be calculated using geometry.
+The area of the first block is $g_f$, of the second one $Kg_{max}$ and the last one is $g_i - g_f - K g_{max}$.
+
+\begin{equation}
+g^{*}_f = g_{max} - (g_i -  g_f - K g_{max} )
+\label{eq:g_f}
+\end{equation}
+
+The value of $t^{*}_a$ is calculated in similar fashion and is given by equation \ref{eq:t_a}.
+On the other hand, the calculation of $f_i$ remains the same.
+
+\begin{equation}
+t^{*}_a = t_a + C+ KC
+\label{eq:t_a}
+\end{equation}
+
+We are at a point at which we are able to calculate with formulas the updated values of $t_a$ and $g_f$, nonetheless, we still have the algoritmic behavior given by the `if` condition. 
+Therefore to no longer use that dependency, we will make use of the absolute value and the signum function. 
+The signum function of a real number x is defined as follows:
+
+\begin{equation}
+\mathrm{sgn}(x)=
+    \begin{cases}
+        -1  & \text{if    x<0,}\\
+        0   & \text{if    x=0,}\\
+        1   & \text{if    x>0.}
+    \end{cases} 
+\end{equation}
+
+We redefine $K$ with the absolute value using equation \ref{eq:new_k}, we use absolute value in \ref{eq:new_k} because we want K to be zero when $g_i \leq g_f$.
+
+\begin{equation}
+K = \lfloor \frac{ \| g_i - g_f \|}{g_{max}} \rfloor
+\label{eq:new_k}
+\end{equation}
+
+In addition, we define $\alpha$ which value is given by equation \ref{eq:alpha}. The value of $\alpha$ is zero when $g_i \leq g_f$ and one otherwise. 
+
+\begin{equation}
+\alpha =  \frac{ \mathrm{sgn}(g_i-g_f) + 1 }{2}
+\label{eq:alpha}
+\end{equation}
+
+With  \ref{eq:new_k} and \ref{eq:alpha} we eliminate the `if` condition and at the same time the algoritmic behavior. 
+Therefore, the updated values of $t_a$ and $g_f$ as calculated using \ref{eq:new_t_a} and \ref{eq:new_g_f}. 
+To emphasize again, when $g_i \leq g_f$  \ref{eq:new_t_a} and \ref{eq:new_g_f} are the same steps described in Algorithm \ref{alg:full}. 
+
+\begin{equation}
+t_a = t_a + C\alpha+ KC
+\label{eq:new_t_a}
+\end{equation}
+
+\begin{equation}
+g_f = g_{max}\alpha - (g_i -  g_f - K g_{max} )
+\label{eq:new_g_f}
+\end{equation}
 
 
