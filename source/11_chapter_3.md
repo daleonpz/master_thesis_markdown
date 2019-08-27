@@ -184,7 +184,7 @@ A complete version of our algorithm is presented in Algorithm \ref{alg:full}.
         \Input{$\tau$}
         \Output{${f_1,\cdots, f_n}$}
         \BlankLine
-        Initialization: $t_a = 0$, $g_f = g_{max}$, $i=1$, $h = {}$ \\
+        Initialization: $t_a = 0$, $g_f = g_{max}$, $i=1$, $h = \{\}$ \\
         \While{ $i \leq n$}{
             \eIf{ $g_f \geq g_i$}{
                 $f_i = t_a + C_i$; \\
@@ -195,9 +195,8 @@ A complete version of our algorithm is presented in Algorithm \ref{alg:full}.
             }{
                 $g_i = g_i - g_f$;\\
                 $h = \{ h; (t_a+C_i, g_f) \}$;\\
-                index = min($h$(:,1));\\
-                $t_a = h($index$, 1)$;\\
-                $g_f = h($index$, 2)$;\\
+                $[ t_a, \mathrm{index}] = \mathrm{min}( h[:,1] )$;\\
+                $g_f = h[ \mathrm{index}, 2]$;\\
             }
         }
         \caption{Real time analysis algorithm }
@@ -209,7 +208,7 @@ A complete version of our algorithm is presented in Algorithm \ref{alg:full}.
 
 Our algorithm is based on three main updates: $h$, $t_a$ and $g_f$.
 The set $h$ can be seen as an array of size Nx2, where $N$ is the number of tracked pairs.
-For this reason, when $g_f > g_i$ we used MATLAB notation, where `index` is the position of the pair or row $(t_k, g_k) \in h$ that has the minimun of all time values saved in $h$. 
+For this reason, when $g_f > g_i$ we used MATLAB notation of `min` function `[value, index] = min(A)`, where `index` is the position of the pair or row $(t_k, g_k) \in h$ that has the minimun of all time values saved in $h$. 
 Once we know which pair has the minimun time, we just assign $t_a = t_k$ and $g_f = g_k$.
 It is important to mention again that by definition of $h$, all the tracked times should be greater or equal than the current $t_a$, meaning that pairs that have tracked times lower than $t_a$ must be removed. 
 
@@ -219,13 +218,45 @@ The four tasks are defined as  $\tau = \{\tau_1 = \{15, 4, 2, 512\} , \tau_2 = \
 
 At the beginning $t_a =0$, $i=1$, $h=\{\}$ and $g_f = g_{max} = 8$. 
 Let's start with $\tau_1$. 
+Kernel $\tau_1$ and inital state of GPU are shown in Figure \ref{img:ex_1}(a) and Figure \ref{img:ex_1}(b) respectively.  
 
-- $g_f \geq g_1$? yes, because $g_i = 2$
+- $g_f \geq g_1$? yes, because $g_1 = 2$
 - $f_1 = t_a + C_1 = 0 + 4 = 4$
 - $h = \{h, (f_1, g_1)\} = \{ (4,2) \}$
 - $t_a = 0$
 - $g_f = g_f - g_i = 8 - 2 = 6$
 - $i = 2$
 
-Since $i=2$, it's time to analyze $\tau_2$
+After $\tau_1$ allocation the GPU state is as shown in Figure \ref{img:ex_1}(c), as it is observed, $t_a$ remains the same but $g_f$ now is 6. Furthermore, that is the initial GPU state when $\tau_2$ arrives.
+
+![(a) Kernel $\tau_1$ (b)GPU state prior to $\tau_1$ allocation (c) GPU state after $\tau_1$ allocation \label{img:ex_1}](source/figures/ex_1.jpg)
+
+
+Since $i=2$, it's time to analyze $\tau_2$.
+Figure \ref{img:ex_2}(a) shows the number of blocks that should be allocated for $\tau_2$. 
+It this case $t_a = 0$  and $g_f = 6$ as shown in Figure \ref{img:ex_2}(b). 
+ 
+- $g_f \geq g_2$? no, because $g_i = 7$
+- $g_2 = g_2 - g_f = 7-6 = 1$
+- $h = \{h, (t_a + C_2, g_f)\} = \{ (4,2), (6,6) \}$
+- $[ t_a, \mathrm{index} ] = \mathrm{min}(h[:,1]) = \mathrm{min}([4,6])$
+- $[ t_a, \mathrm{index} ] = [4,1]$ 
+- $g_f = h[ \mathrm{index},2] = h[1,2] = 2$
+- $h = h - \{ (4,2) \} = \{ (4,2), (6,6) \} - \{ (4,2) \}$
+- $h = \{(6,6)\}$ 
+
+![(a) Kernel $\tau_2$ (b)GPU state prior to $\tau_2$ allocation (c) GPU state after $\tau_2$ allocation \label{img:ex_2}](source/figures/ex_2.jpg)
+
+Values for $t_a$, $g_f$, $g_2$ and $h$ were updated. 
+Notice that current value of $t_a$ is the completion time of $\tau_1$ and $g_f$ is $g_1$, that is why, as mention before, it is important to track $f_1$ and $g_1$.
+However, completion time for $\tau_2$ is not known yet. Let's continue with the analysis. 
+
+
+- $g_f \geq g_2$? yes, because $g_2 = 1$
+- $f_2 = t_a + C_2 = 4 + 6 = 10$
+- $h = \{h, (f_2, g_2)\} = \{ (6,6),(10,1) \}$
+- $t_a = 4$
+- $g_f = g_f - g_i = 2 - 1 = 1$
+- $i = 3$
+
 
