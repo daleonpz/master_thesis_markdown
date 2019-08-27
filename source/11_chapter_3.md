@@ -297,5 +297,12 @@ Thus, the response time for each kernel is the same as their completion times.
 Furthermore, we can conclude that all the kernels can be scheduled because $R_i \leq T \quad \forall i \in \tau$. 
 
 ## A Special case
-In this section we demostrate that if all kernels have the same thread execution time, $C_i = C \quad \forall i \in \tau$, our response time analysis has not algorithmic behavior, instead it's a set of three equations. 
+In this section we demostrate that if all kernels are released at the same time and also have the same thread execution time, $C_i = C \quad \forall i \in \tau$, our response time analysis has not algorithmic behavior, instead it's a set of three equations. 
+
+In this special case, there is no need of $h$, because $t_a$ and $g_f$ can be calculated directly with two equations. 
+
+
+![New kernel allocation \label{img:free_blocks_alg](source/figures/free_blocks_alg.png)
+
+
 
