@@ -359,16 +359,16 @@ In addition, we define $\alpha$ which value is given by equation \ref{eq:alpha}.
 \end{equation}
 
 With  \ref{eq:new_k} and \ref{eq:alpha} we eliminate the `if` condition and at the same time the algoritmic behavior. 
-Therefore, the updated values of $t_a$ and $g_f$ as calculated using \ref{eq:new_t_a} and \ref{eq:new_g_f}. 
+Therefore, the updated values of $t_a$ and $g_f$ are calculated using \ref{eq:new_t_a} and \ref{eq:new_g_f}. 
 To emphasize again, when $g_i \leq g_f$  \ref{eq:new_t_a} and \ref{eq:new_g_f} are the same steps described in Algorithm \ref{alg:full}. 
 
 \begin{equation}
-t_a = t_a + C\alpha+ KC
+t_a = t_a + \alpha C+ KC
 \label{eq:new_t_a}
 \end{equation}
 
 \begin{equation}
-g_f = g_{max}\alpha - (g_i -  g_f - K g_{max} )
+g_f = \alpha g_{max} - (g_i -  g_f - K g_{max} )
 \label{eq:new_g_f}
 \end{equation}
 
