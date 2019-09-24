@@ -1,5 +1,4 @@
-﻿ function m= rta()
-
+function m = rta()
 % [ time, g_i] 
 tau = [ 4,2; 6,7; 6,2; 5,5] ;
 n = size(tau,1);
@@ -37,7 +36,7 @@ while ( i <= n )
        
        m(ro: ro + g_i(i)-1,ta+1 : ta+c_i(i)) = farbe;
        
-       i += 1;
+       i = i+1;
        
        farbe = randi([100 250]);
        
@@ -66,5 +65,4 @@ end
 
 f
 imshow(m,[]);
-
-end
+end 
