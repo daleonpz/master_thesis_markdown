@@ -1,0 +1,13 @@
+{
+"scenario_name": "Concurrency during 1st kernel test",
+"benchmark_name": "Timer Spin",
+"label": "Kernel 4",
+"max_resident_threads": 4096,
+"data_size": 0,
+"release_time": 0.000000,
+"PID": 13211,
+"TID": 13223,
+"times": [{},
+{"copy_in_times": [0.068092000,0.068092320], "execute_times": [0.068092576,11.068665728], "copy_out_times": [11.068666464,11.068738496], "cpu_times": [0.068092000,11.068738496]},
+{"kernel_name": "GPUSpin", "block_count": 5, "thread_count": 512, "shared_memory": 0, "cuda_launch_times": [0.068093344, 0.068684736, 11.068664160], "block_times": [6.068822517,11.068993493,6.068823573,11.068993493,6.068822517,11.068992533,6.068823573,11.068993493,6.068822517,11.068992533], "block_smids": [0,0,1,0,1], "cpu_core": 4}
+]}
