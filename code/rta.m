@@ -1,10 +1,13 @@
 function m = rta()
 % [ time, g_i] 
 tau = [ 4,2; 6,7; 6,2; 5,5] ;
+tau = [  6,7; 6,2; 5,5; 4,2] ;
+tau = [  6,7; 5,5; 4,2; 6,2] ;
+tau = [  6,7; 4,2; 5,5; 6,2] ;
 n = size(tau,1);
 f = zeros( n, 1);
 
-T = 15;
+T = 10;
 
 % Initalization
 ta = 0;
@@ -64,5 +67,7 @@ while ( i <= n )
 end
 
 f
+m = imresize(m, 10, 'nearest');
 imshow(m,[]);
+axis on
 end 
