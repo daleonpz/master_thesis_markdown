@@ -1,7 +1,7 @@
 # Experimental Results
 In this chapter we presents our experimental results. 
 We compare results from Jetson TX2 platfrom againts our Octave implementation. 
-The former are used as ground truth to verify our implementation. 
+The former are used as ground truth to verify our implementation and assumptions.
 
 ## Ground truth generation
 Amert et. al [@amert2017gpu] published their code in github. 
