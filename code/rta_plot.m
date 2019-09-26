@@ -4,7 +4,7 @@ t = zeros(1,num_kernels);
 total_blocks = zeros(1,num_kernels);
 for n = 1:num_kernels
     tic;
-    total_blocks(n) = run_rta(n,8,2);
+    total_blocks(n) = run_rta(n,100,2,30);
     t(n) = toc;
 end
 
@@ -15,21 +15,25 @@ tsort = tsort(ids);
 
 figure;
 subplot(121)
-plot(1:num_kernels,t,'b--*','MarkerSize',10)
+plot(1:num_kernels,t,'b--*','MarkerSize',10, 'LineWidth',2)
 p = polyfit(1:num_kernels,t,5)
 f = polyval(p,1:num_kernels);
 hold on
-plot(1:num_kernels,f,'--r')
+plot(1:num_kernels,f,'--r','LineWidth',2)
+legend('Raw Data','Best fit')
+title('Number of kernels vs Computation Time')
 subplot(122)
-plot(total_blocks, tsort,'b*','MarkerSize',10); 
+plot(total_blocks, tsort,'b*','MarkerSize',10,'LineWidth',2); 
 p = polyfit(total_blocks,tsort,2)
 f = polyval(p,total_blocks);
 hold on
-plot(total_blocks,f,'--r')
+plot(total_blocks,f,'--r','LineWidth',2)
+legend('Raw Data','Best fit')
 grid on
+title('Total blocks vs Computation Time')
 end 
 
-function g = run_rta(n,gmax,gmin)
+function g = run_rta(n,gmax,gmin,g_m)
 % [ time, g_i] 
 f = zeros( n, 1);
 % g_i \in [2,500]
@@ -41,7 +45,6 @@ g  = sum(g_i);
 
 % Initalization
 ta = 0;
-g_m = 8;
 h = [];
 g_f = g_m; 
 i= 1;
