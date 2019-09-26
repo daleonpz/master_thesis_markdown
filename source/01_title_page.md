@@ -25,7 +25,7 @@ and add the centred logo
 
         \normalsize
         A thesis presented for the degree of\\
-        Doctor of Philosophy
+        Master of Engineering
         
         \vfill
         

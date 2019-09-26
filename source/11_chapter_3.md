@@ -1,7 +1,9 @@
 # Jetson TX2's GPU scheduler response time analysis 
  
-## Introduction
-In this chapter, we present our approach to calculate the response time analysis for Jetson TX2's GPU scheduler based on the set of scheduling rules explained in the last chapter. **Need a better introduction**
+
+In this chapter, we present our approach to calculate the response time analysis for Jetson TX2's GPU scheduler based on the set of scheduling rules explained in the last chapter. 
+We define a task model, declare our assumptions, and give an brief introduction to GPU response time analysis.  
+In addition we introduce our algorithm, show some examples, describe how algorithm can change under certain conditions, and discuss its computational complexity. 
 
 ## Task model
 There is a set of tasks or kernels $\tau$ of $n$ independent kernels $\{\tau_1, \tau_2, \ldots, \tau_n\}$ on a single GPU. 
@@ -411,14 +413,31 @@ Thus, the computational complexity of the `if` statement is  O(n).
 
 Let us analyze the outer `while` loop. The number of iterations depends on number of kernels, their grid sizes $g_i$ and how many blocks can be allocated in total in the GPU or $g_{max}$.
 An estimation can be given by $\frac{g}{g_{max}}$, where $g$ is $\sum g_i$, $g$ contains the information about number of kernels and their grid sizes.
-Thus, computational complexity of our algorithm is O( $\frac{gn}{g_{max}}$). 
+Thus, computational complexity of our algorithm is O( $\frac{ng}{g_{max}}$). 
+
+It can be observed in Figure \ref{img:bestfit} the relationship between computation time and number of kernels and total of allocated blocks. 
+The right side graph shows the polinomial behavior between time and number of kernels. 
+On the other hand, the lelf side graph shows a more linear relation between computation time and number of allocated blocks. 
 
 ![Best fit for computational complexity \label{img:bestfit}](source/figures/max100min2gmax10.png){width=100%}
 
+We analyze in more details the influence of $g_{max}$ and  maximum number of allocated blocks on computation time. 
+Let us assume that number of blocks per kernel increase in linear fashion to the number of kernels. 
+In order words, the more kernels we want to launch, the more blocks each kernel will have. As shown in Figure \ref{img:gmax_variable}b. 
+Results are shown in Figure \ref{img:gmax_variable}. 
+The value of $g_{max}$ has a strong influence on computation times. When $g_{max} = 128$ computation times are an order of magnitude lower than when $g_{max} = 8$. 
+The inverse relation is consistent with computational complexity. 
+The value of  $g_{max}$ tells us how many blocks can be allocated on the GPU at the same time which implies fewer iterations of our algorithm.
+
 ![Analysis of computational complexity when $g_{max}$ is variable \label{img:gmax_variable}](source/figures/gmax_variable.png){width=100%}
+
+Let us assume now the value of $g_{max}$ is  constant, but the number of of allocated blocks increase as shown in Figure \ref{img:bmax_variable}b. 
+Results are shown in Figure \ref{img:bmax_variable}. 
+In Figure \ref{img:bmax_variable}c, we can see that for the same amount of blocks the algorithm runs faster because there are fewer kernels. 
 
 ![Analysis of computational complexity when $b_{max}$ is variable \label{img:bmax_variable}](source/figures/bmax_variable.png){width=100%}
 
+The graphs above tell us that our algorithm perform better when the number of kernel is low and number of threads per block is low.  In addition, the grid size has a minor influence on the algorithm performance as shown in Figure \ref{img:bmax_variable}. 
 
 
 

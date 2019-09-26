@@ -5,9 +5,8 @@ After the introductory chapter, it seems fairly common to
 include a chapter that reviews the literature and 
 introduces methodology used throughout the thesis.
 -->
-In this chapter...blablabla 
-
-
+In this chapter we give an overview of the theorical background of  NVIDIA GPU software and hardware model. We introduce the concepts of threads, blocks, kernels and streaming multriprocesor, and how they apply to our study case.
+We discuss abour Jetson TX2's memory hierarchy and scheduler. In addition, we describe the rules behind the Jetson TX2's hardware scheduler with an example. 
 
 ## NVIDIA GPU Software Model
 Now a days computer applications run on heterogeneous hardware and GPUs are important in order to achieve high performance computing. 
