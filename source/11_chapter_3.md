@@ -372,4 +372,53 @@ g_f = \alpha g_{max} - (g_i -  g_f - K g_{max} )
 \label{eq:new_g_f}
 \end{equation}
 
+## Computational Complexity 
+Our algorithm described in Algorithm \ref{alg:full} has two branches, inside the `while` loop, given by an `if` conditional. 
+In Table \ref{tab:bigO} is shown the computational complexity of each step of the real time analysis algorithm. 
+
+------------------------------------------------------------------------------------------
+Step                                                Type of operation       Average Cost
+-------------------------------------------------   -------------------     --------------
+$f_i = t_a + C_i$                                   Sum                     O(1)
+
+$h = \{h; (f_i, g_i )\}$                            Append                  O(1)
+
+$t_a = t_a$                                         Sum                     O(1)
+
+$g_f = g_f - g_i$                                   Sum                     O(1)
+
+i++                                                 Sum                     O(1)
+
+$g_i = g_i - g_f$                                   Sum                     O(1)
+
+$h = \{ h; (t_a+C_i, g_f) \}$                       Append                  O(1)
+
+$[ t_a, \mathrm{index}] = \mathrm{min}( h[:,1] )$   Min                     O(n)
+
+$g_f = h[ \mathrm{index}, 2]$                       Index                   O(1)
+
+------------------------------------------------------------------------------------------
+
+Table: Computational Complexity  \label{tab:bigO}
+
+
+
+The first branch is when $g_f \geq g_i$. The computational complexity, given by big O notation, of that branch is O(1), because all the operations in this branch are O(1). 
+
+In the case of the second branch the computational complexity is O(n), because  `min` function is the most costly operation. 
+In the worst case scenario `n` is the number of kernels we want to allocate, it is important to highlight that only on the first branch the lenght of $h$ increases. 
+Thus, the computational complexity of the `if` statement is  O(n). 
+
+Let us analyze the outer `while` loop. The number of iterations depends on number of kernels, their grid sizes $g_i$ and how many blocks can be allocated in total in the GPU or $g_{max}$.
+An estimation can be given by $\frac{g}{g_{max}}$, where $g$ is $\sum g_i$, $g$ contains the information about number of kernels and their grid sizes.
+Thus, computational complexity of our algorithm is O( $\frac{gn}{g_{max}}$). 
+
+![Best fit for computational complexity \label{img:bestfit}](source/figures/max100min2gmax10.png){width=100%}
+
+![Analysis of computational complexity when $g_{max}$ is variable \label{img:gmax_variable}](source/figures/gmax_variable.png){width=100%}
+
+![Analysis of computational complexity when $b_{max}$ is variable \label{img:bmax_variable}](source/figures/bmax_variable.png){width=100%}
+
+
+
 
