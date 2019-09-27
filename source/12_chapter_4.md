@@ -72,3 +72,40 @@ Nevertheless, results from Octave shown in Figure \ref{img:octave-ex02}  remain 
 
 ![Octave: Scenario 3 - K2,K1,K3,K4 \label{img:octave-ex05}](source/figures/octave/ex05.png){width=100%}
 
+
+## More results 
+In this section we present more results. 
+We focused in this section on the interaction between kernels with several blocks, and kernels with long execution time.
+
+In Figure \ref{img:nvidia-ex06} can be observed the result after executing five kernels. 
+The kernels were  defined as follows:
+
+- $\tau_1 = \{15,4,2,512\}$: small block count, short execution time.
+- $\tau_2 = \{15, 7,1,512\}$: big block count, short execution time.
+- $\tau_3 = \{15,10,4,512\}$:  big block count, long execution time.
+- $\tau_4 =\{ 15, 1,11,512\}$: small block count, very long execution time.
+- $\tau_5 = \{15,3,6,512\}$: big block count, medium execution time. 
+
+Our result shown in Figure \ref{img:octave-ex06} is still consistent with the ground truth. We obtained the same completion time for each kernel. 
+
+![JetsonTX2  \label{img:nvidia-ex06}](source/figures/nvidia/ex06.png){width=100%}
+
+
+![Octave \label{img:octave-ex06}](source/figures/octave/ex06.png){width=100%}
+
+
+In this experiment the setup was as follows:
+
+- $\tau_1 = \{15,5,1.5,512\}$: small block count, small execution time.
+- $\tau_2 = \{15,4,1.5,512\}$: small block count, small execution time.
+- $\tau_3 = \{15,7,1.5,512\}$: big block count, small execution time.
+- $\tau_4 =\{ 15, 1,4,512\}$: very small block count, big execution time.
+- $\tau_5 = \{15,8,2.5,512\}$: big block count, large execution time.
+
+As expected completion times shown in Figure \ref{img:nvidia-ex07} and Figure \ref{img:octave-ex07} are the same for each kernel. 
+
+![JetsonTX2 \label{img:nvidia-ex07}](source/figures/nvidia/ex07.png){width=100%}
+
+
+![Octave \label{img:octave-ex07}](source/figures/octave/ex07.png){width=100%}
+
