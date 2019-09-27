@@ -109,3 +109,12 @@ As expected completion times shown in Figure \ref{img:nvidia-ex07} and Figure \r
 
 ![Octave \label{img:octave-ex07}](source/figures/octave/ex07.png){width=100%}
 
+## APP4MC Implementation
+A complete example using AMALTHEA models can be found in the Appendix 1.
+We tested our java implementation against Octave implementation. 
+The data set was generated randomly, using block counts between 2 and 100, and execution times between 10 and 20. 
+In Figure \ref{img:java_octave} can be found the relative error between both implementation. 
+The error is 
+
+![Octave \label{img:java_octave}](source/figures/octave/ex07.png){width=100%}
+

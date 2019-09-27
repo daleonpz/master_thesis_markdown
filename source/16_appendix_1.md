@@ -1,11 +1,11 @@
-# Appendix 1: Some extra stuff {.unnumbered}
+# Appendix 1: Example APP4MC  {.unnumbered}
 
 <!-- 
 This could be a list of papers by the author for example 
 -->
 
-Add appendix 1 here. Vivamus hendrerit rhoncus interdum. Sed ullamcorper et augue at porta. Suspendisse facilisis imperdiet urna, eu pellentesque purus suscipit in. Integer dignissim mattis ex aliquam blandit. Curabitur lobortis quam varius turpis ultrices egestas.
+Here is a complete example of how to use our response time analysis algorithm in APP4MC to analyze AMALTHEA based Jetson TX2's models. 
 
-
+\lstinputlisting[style=javaCodeStyle, caption=Complete example]{source/code/rta.java}
 
 

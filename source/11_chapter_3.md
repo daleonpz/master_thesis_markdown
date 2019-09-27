@@ -437,7 +437,7 @@ In Figure \ref{img:bmax_variable}c, we can see that for the same amount of block
 
 ![Analysis of computational complexity when $b_{max}$ is variable \label{img:bmax_variable}](source/figures/bmax_variable.png){width=100%}
 
-The graphs above tell us that our algorithm perform better when the number of kernel is low and number of threads per block is low.  In addition, the grid size has a minor influence on the algorithm performance as shown in Figure \ref{img:bmax_variable}. 
+The graphs above tell us that our algorithm perform better when the number of threads per block is low.  In addition, the grid size has a minor influence on the algorithm performance as shown in Figure \ref{img:bmax_variable}. 
 
 
 
