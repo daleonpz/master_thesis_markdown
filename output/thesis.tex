@@ -7,7 +7,6 @@
   a4paperpaper,
 ]{report}
 \usepackage{lmodern}
-\usepackage{tabularx}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
@@ -116,6 +115,7 @@
 \usepackage{fancyhdr}
 \pagestyle{plain}
 
+\usepackage{algorithm2e}
 % Following package is used to add background image to front page
 \usepackage{wallpaper}
 
@@ -252,7 +252,7 @@
         \vspace*{2.5cm}
         
         \huge
-        This is the title of the thesis
+        AMALTHEA-based GPU Response Time Analysis for NVidia's Jetson TX2
         
         \vspace{1.5cm}
         
@@ -263,14 +263,14 @@
 
         \normalsize
         A thesis presented for the degree of\\
-        Doctor of Philosophy
+        Master of Engineering
         
         \vfill
         
         \normalsize
         Supervised by:\\
-        Professor Louis Fage\\
-        Captain J. Y. Cousteau
+        Professor Dr. Carsten Wolff\\
+        Herr Robert Hoettger
 
         \vspace{0.8cm}
 
@@ -279,89 +279,128 @@
         % \includegraphics[width=0.4\textwidth]{style/univ_logo.eps}
         
         \normalsize
-        University College London, UK\\
-        January 2015
+        Fachhochschule Dortmund, Germany\\
+        December 2019
 
         % Except where otherwise noted, content in this thesis is licensed under a Creative Commons Attribution 4.0 License (http://creativecommons.org/licenses/by/4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited. Copyright 2015,Tom Pollard.
 
     \end{center}
 \end{titlepage}
 
-\vspace*{\fill}
-
-\noindent \textit{
-I, AUTHORNAME confirm that the work presented in this thesis is my own. Where information has been derived from other sources, I confirm that this has been indicated in the thesis.
-} \vspace*{\fill} \pagenumbering{gobble}
-
 \hypertarget{abstract}{%
 \chapter*{Abstract}\label{abstract}}
 \addcontentsline{toc}{chapter}{Abstract}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam et turpis
-gravida, lacinia ante sit amet, sollicitudin erat. Aliquam efficitur
-vehicula leo sed condimentum. Phasellus lobortis eros vitae rutrum
-egestas. Vestibulum ante ipsum primis in faucibus orci luctus et
-ultrices posuere cubilia Curae; Donec at urna imperdiet, vulputate orci
-eu, sollicitudin leo. Donec nec dui sagittis, malesuada erat eget,
-vulputate tellus. Nam ullamcorper efficitur iaculis. Mauris eu vehicula
-nibh. In lectus turpis, tempor at felis a, egestas fermentum massa.
+The purpose of the thesis is to develop a response time algorithm for
+AMALTHEA-based models to analyze timming behaviors of CUDA kernels on
+NVIDIA Jetson TX2's GPU. This work was developed on the context of Bosch
+WATERS Challenge 2019. The challenge focuses on timing-analysis for
+heterogeneous software-hardware systems based on centralized end-to-end
+architectures, and NVIDIA Jetson TX2 was the selected platform for
+testing. Furthermore, key concepts related to NVIDIA's GPU architecture
+are presented, as well as a detailed explanation of rules behind
+platform's GPU scheduler.
+
+Our algorithm is based on these rules and our experimental result shows
+the accuracy of our algorithm to estimate completion times for kernels
+executed on Jetson TX2 platform. Real timming data from NVIDIA's
+platform was used in our experiments. Moreover, we implemented our
+algorithm on Eclipse APP4MC, which allows AMALTHEA-based response time
+analysis for NVIDIA's Jetson TX2.
 
 \pagenumbering{roman}
 \setcounter{page}{1}
 
-\hypertarget{acknowledgements}{%
-\chapter*{Acknowledgements}\label{acknowledgements}}
-\addcontentsline{toc}{chapter}{Acknowledgements}
+\hypertarget{declaration-of-authorship}{%
+\chapter*{Declaration of Authorship}\label{declaration-of-authorship}}
+\addcontentsline{toc}{chapter}{Declaration of Authorship}
 
-Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam
-congue fermentum ante, semper porta nisl consectetur ut. Duis ornare sit
-amet dui ac faucibus. Phasellus ullamcorper leo vitae arcu ultricies
-cursus. Duis tristique lacus eget metus bibendum, at dapibus ante
-malesuada. In dictum nulla nec porta varius. Fusce et elit eget sapien
-fringilla maximus in sit amet dui.
+I hereby declare that the thesis submitted is my own unaided work. All
+direct or indirect sources used are acknowledged as references. I am
+aware that the thesis in digital form can be examined for the use of
+unauthorized aid and in order to determine whether the thesis as a whole
+or parts incorporated in it may be deemed as plagiarism. For the
+comparison of my work with existing sources I agree that it shall be
+entered in a data base where it shall also remain after examination, to
+enable comparison with future theses submitted. Further rights of
+reproduction and usage, however,are not granted here. This thesis was
+not previously presented to another examination board and has not been
+published.
 
-Mauris eget blandit nisi, faucibus imperdiet odio. Suspendisse blandit
-dolor sed tellus venenatis, venenatis fringilla turpis pretium. Donec
-pharetra arcu vitae euismod tincidunt. Morbi ut turpis volutpat,
-ultrices felis non, finibus justo. Proin convallis accumsan sem ac
-vulputate. Sed rhoncus ipsum eu urna placerat, sed rhoncus erat
-facilisis. Praesent vitae vestibulum dui. Proin interdum tellus ac velit
-varius, sed finibus turpis placerat.
+Place and Date
+\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad Signature
+
+\hypertarget{ehrenwuxf6rtliche-erkluxe4rung}{%
+\chapter*{Ehrenwörtliche
+Erklärung}\label{ehrenwuxf6rtliche-erkluxe4rung}}
+\addcontentsline{toc}{chapter}{Ehrenwörtliche Erklärung}
+
+Ich erkläre hiermit ehrenwörtlich, dass ich die vorliegende Arbeit
+selbständig angefertigt habe. Die aus fremden Quellen direkt und
+indirekt übernommenen Gedanken sind als solche kenntlich gemacht.Ich
+weiß, dass die Arbeit in digitalisierter Form daraufhin überprüft werden
+kann, ob unerlaubte Hilfsmittel verwendet wurden und ob es sich -
+insgesamt oder in Teilen - um ein Plagiat handelt. Zum Vergleich einer
+Arbeit mit existierenden Quellen darf sie in eine Datenbanke ingestellt
+werden und nach der Überprüfung zum Vergleich mit künftige ingehenden
+Arbeiten dort verbleiben. Weitere Vervielfältigungs- und
+Verwertungsrechte werden dadurch nicht eingeräumt. Die Arbeit wurde
+weder einer anderen Prüfungsbehörde vorgelegt noch veröffentlicht.
+
+Ort, Datum
+\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad  Unterschrifft
 
 \newpage
 
 \pagenumbering{gobble}
 
 \tableofcontents
+\setcounter{tocdepth}{1}
+\listoffigures
+\listoftables
 
 \newpage
 
-\hypertarget{list-of-figures}{%
-\chapter*{List of figures}\label{list-of-figures}}
-\addcontentsline{toc}{chapter}{List of figures}
-
-Figure 4.1 This is an example figure . . . \hfill{pp}\\
-Figure x.x Short title of the figure . . . \hfill{pp}
-
-\pagenumbering{roman}
-\setcounter{page}{3}
-
-\newpage
-
-\hypertarget{list-of-tables}{%
-\chapter*{List of tables}\label{list-of-tables}}
-\addcontentsline{toc}{chapter}{List of tables}
-
-Table 5.1 This is an example table . . . \hfill{pp}\\
-Table x.x Short title of the figure . . . \hfill{pp}
+\hypertarget{abbreviations-and-symbols}{%
+\chapter*{Abbreviations and Symbols}\label{abbreviations-and-symbols}}
+\addcontentsline{toc}{chapter}{Abbreviations and Symbols}
 
 \hypertarget{abbreviations}{%
-\chapter*{Abbreviations}\label{abbreviations}}
-\addcontentsline{toc}{chapter}{Abbreviations}
+\section*{Abbreviations}\label{abbreviations}}
+\addcontentsline{toc}{section}{Abbreviations}
 
 \begin{tabbing}
-\textbf{API}~~~~~~~~~~~~ \= \textbf{A}pplication \textbf{P}rogramming \textbf{I}nterface \\  
-\textbf{JSON} \> \textbf{J}ava\textbf{S}cript \textbf{O}bject \textbf{N}otation \\  
+\textbf{API}~~~~~~~~~~~~ \= \textbf{A}pplication \textbf{P}rogramming \textbf{I}nterface \\
+\textbf{CE} \> \textbf{C}opy \textbf{E}ngine \\
+\textbf{CPU} \> \textbf{C}entral \textbf{P}rocessing \textbf{U}nit \\
+\textbf{EE} \> \textbf{E}xecution \textbf{E}ngine \\
+\textbf{FIFO} \> \textbf{F}irst \textbf{I}n \textbf{F}irst \textbf{O}ut \\
+\textbf{GPU} \> \textbf{G}raphics \textbf{P}rocessing \textbf{U}nit \\  
+\textbf{HMP} \> \textbf{H}eterogeneous \textbf{M}ulti-\textbf{P}rocessor \\  
+\textbf{SM} \> \textbf{S}treaming \textbf{M}ultiprocessor \\  
+\textbf{OS} \> \textbf{O}perating \textbf{S}ystem \\
+\end{tabbing}
+
+\hypertarget{symbols}{%
+\section*{Symbols}\label{symbols}}
+\addcontentsline{toc}{section}{Symbols}
+
+\begin{tabbing}
+$\tau$~~~~~~~~~~~~ \= Set of tasks or kernels \\
+$\tau_i$ \> Task or kernel $i$\\
+$\T_i$ \> Period of $\tau_i$ \\
+$g_i$ \> Grid size of $\tau_i$ \\
+$b_i$ \> Number of thread per block within $g_i$ \\
+$C_i$ \> Execution time workload of a thread within $b_i$ \\
+$u_i$ \> Utilization of $\tau_i$ \\
+$r_i$ \> Release time of $\tau_i$ \\
+$f_i$ \> Completion time of $\tau_i$ \\
+$R_i$ \> Response time of $\tau_i$ \\
+$U_t$ \> Total utilization of $\tau$ \\
+$b_{max}$ \> Maximum amount of threads in a SM \\
+$g_{max}$ \> Maximum amount of blocks that can be allocated in a SM \\
+$g_f$ \> Available blocks at some point in time \\
+$t_a$ \> Point in ime at which a block will be allocated \\
 \end{tabbing}
 
 \newpage
@@ -503,7 +542,12 @@ host} as shown in Figure \ref{img:amalthea02}.
 \hypertarget{cuda-and-jetson-tx2}{%
 \chapter{CUDA and Jetson TX2}\label{cuda-and-jetson-tx2}}
 
-In this chapter\ldots blablabla
+In this chapter we give an overview of the theorical background of
+NVIDIA GPU software and hardware model. We introduce the concepts of
+threads, blocks, kernels and streaming multriprocesor, and how they
+apply to our study case. We discuss abour Jetson TX2's memory hierarchy
+and scheduler. In addition, we describe the rules behind the Jetson
+TX2's hardware scheduler with an example.
 
 \hypertarget{nvidia-gpu-software-model}{%
 \section{NVIDIA GPU Software Model}\label{nvidia-gpu-software-model}}
@@ -874,398 +918,1029 @@ C4 & No copy operations at the head of streams. & No copy operations at the head
 \caption{Detailed state information at various time points in Fig.}
 \end{table}
 
+
+
+
 \newpage
 
-\hypertarget{first-research-study-with-code}{%
-\chapter{First research study, with
-code}\label{first-research-study-with-code}}
+\hypertarget{jetson-tx2s-gpu-scheduler-response-time-analysis}{%
+\chapter{Jetson TX2's GPU scheduler response time
+analysis}\label{jetson-tx2s-gpu-scheduler-response-time-analysis}}
 
-\hypertarget{introduction-1}{%
-\section{Introduction}\label{introduction-1}}
+In this chapter, we present our approach to calculate the response time
+analysis for Jetson TX2's GPU scheduler based on the set of scheduling
+rules explained in the last chapter. We define a task model, declare our
+assumptions, and give an brief introduction to GPU response time
+analysis.\\
+In addition we introduce our algorithm, show some examples, describe how
+algorithm can change under certain conditions, and discuss its
+computational complexity.
 
-This is the introduction. Nam mollis congue tortor, sit amet convallis
-tortor mollis eget. Fusce viverra ut magna eu sagittis. Vestibulum at
-ultrices sapien, at elementum urna. Nam a blandit leo, non lobortis
-quam. Aliquam feugiat turpis vitae tincidunt ultricies. Mauris
-ullamcorper pellentesque nisl, vel molestie lorem viverra at.
+\hypertarget{task-model}{%
+\section{Task model}\label{task-model}}
 
-\hypertarget{method}{%
-\section{Method}\label{method}}
+There is a set of tasks or kernels \(\tau\) of \(n\) independent kernels
+\(\{\tau_1, \tau_2, \ldots, \tau_n\}\) on a single GPU. Each kernel has
+a period \(T_i\) defined as the separatin between two consecutivs
+releases of \(\tau_i\), thread execution time workload \(C_i\) and a
+grid of blocks \(g_i\). Each block contains \(b_i\) threads.
 
-Suspendisse iaculis in lacus ut dignissim. Cras dignissim dictum
-eleifend. Suspendisse potenti. Suspendisse et nisi suscipit, vestibulum
-est at, maximus sapien. Sed ut diam tortor.
+\begin{equation} 
+\tau = \{ \tau_i \}; \quad i \geq n \wedge n \in \mathbb{N}
+\end{equation}
 
-\hypertarget{subsection-1-with-example-code-block}{%
-\subsection{Subsection 1 with example code
-block}\label{subsection-1-with-example-code-block}}
+\begin{equation} 
+\tau_i = \{ T_i,  C_i,  g_i,  b_i \}
+\label{eq:task_def}
+\end{equation}
 
-This is the first part of the methodology. Cras porta dui a dolor
-tincidunt placerat. Cras scelerisque sem et malesuada vestibulum.
-Vivamus faucibus ligula ac sodales consectetur. Aliquam vel tristique
-nisl. Aliquam erat volutpat. Pellentesque iaculis enim sit amet posuere
-facilisis. Integer egestas quam sit amet nunc maximus, id bibendum ex
-blandit.
+Thus each kernel \(\tau_i\) has a total of \(g_i\cdot b_i\) threads, and
+the total execution time workload of \(\tau_i\) is
+\(C_i \cdot g_i \cdot b_i\). The utilization of each kernel is defined
+as the total execution time workload divided by the period, as stated in
+{[}15{]}.
 
-For syntax highlighting in code blocks, add three ```'' characters
-before and after a code block:
+\begin{equation} 
+u_i = \frac{C_i g_i b_i}{T_i}
+\label{eq:task_utilization}
+\end{equation}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{mood }\OperatorTok{=} \StringTok{\textquotesingle{}happy\textquotesingle{}}
-\ControlFlowTok{if}\NormalTok{ mood }\OperatorTok{==} \StringTok{\textquotesingle{}happy\textquotesingle{}}\NormalTok{:}
-    \BuiltInTok{print}\NormalTok{(}\StringTok{"I am a happy robot"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+In addition, the total utilization of the set of tasks \(\tau\) is
+defined as:
 
-Alternatively, you can also use LaTeX to create a code block as shown in
-the Java example below:
+\begin{equation} 
+U_t = \sum_{\tau_i \in \tau} u_i
+\label{eq:task_utilization}
+\end{equation}
 
-\lstinputlisting[style=javaCodeStyle, caption=Main.java]{source/code/HelloWorld.java}
-
-If you use \texttt{javaCodeStyle} as defined in the
-\texttt{preamble.tex}, it is best to keep the maximum line length in the
-source code at 80 characters.
-
-\hypertarget{subsection-2}{%
-\subsection{Subsection 2}\label{subsection-2}}
-
-This is the second part of the methodology. Proin tincidunt odio non sem
-mollis tristique. Fusce pharetra accumsan volutpat. In nec mauris vel
-orci rutrum dapibus nec ac nibh. Praesent malesuada sagittis nulla, eget
-commodo mauris ultricies eget. Suspendisse iaculis finibus ligula.
-
-\hypertarget{results}{%
-\section{Results}\label{results}}
-
-These are the results. Ut accumsan tempus aliquam. Sed massa ex, egestas
-non libero id, imperdiet scelerisque augue. Duis rutrum ultrices arcu et
-ultricies. Proin vel elit eu magna mattis vehicula. Sed ex erat,
-fringilla vel feugiat ut, fringilla non diam.
-
-\hypertarget{discussion}{%
-\section{Discussion}\label{discussion}}
-
-This is the discussion. Duis ultrices tempor sem vitae convallis.
-Pellentesque lobortis risus ac nisi varius bibendum. Phasellus volutpat
-aliquam varius. Mauris vitae neque quis libero volutpat finibus. Nunc
-diam metus, imperdiet vitae leo sed, varius posuere orci.
-
-\hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
-
-This is the conclusion to the chapter. Praesent bibendum urna orci, a
-venenatis tellus venenatis at. Etiam ornare, est sed lacinia elementum,
-lectus diam tempor leo, sit amet elementum ex elit id ex. Ut ac viverra
-turpis. Quisque in nisl auctor, ornare dui ac, consequat tellus.
-
-\hypertarget{research-containing-a-figure}{%
-\chapter{Research containing a
-figure}\label{research-containing-a-figure}}
-
-\hypertarget{introduction-2}{%
-\section{Introduction}\label{introduction-2}}
-
-This is the introduction. Sed vulputate tortor at nisl blandit interdum.
-Cras sagittis massa ex, quis eleifend purus condimentum congue. Maecenas
-tristique, justo vitae efficitur mollis, mi nulla varius elit, in
-consequat ligula nulla ut augue. Phasellus diam sapien, placerat sit
-amet tempor non, lobortis tempus ante.
-
-\hypertarget{method-1}{%
-\section{Method}\label{method-1}}
-
-Donec imperdiet, lectus vestibulum sagittis tempus, turpis dolor euismod
-justo, vel tempus neque libero sit amet tortor. Nam cursus commodo
-tincidunt.
-
-\hypertarget{subsection-1}{%
-\subsection{Subsection 1}\label{subsection-1}}
-
-This is the first part of the methodology. Duis tempor sapien sed tellus
-ultrices blandit. Sed porta mauris tortor, eu vulputate arcu dapibus ac.
-Curabitur sodales at felis efficitur sollicitudin. Quisque at neque
-sollicitudin, mollis arcu vitae, faucibus tellus.
-
-\hypertarget{subsection-2-1}{%
-\subsection{Subsection 2}\label{subsection-2-1}}
-
-This is the second part of the methodology. Sed ut ipsum ultrices,
-interdum ipsum vel, lobortis diam. Curabitur sit amet massa quis tortor
-molestie dapibus a at libero. Mauris mollis magna quis ante vulputate
-consequat. Integer leo turpis, suscipit ac venenatis pellentesque,
-efficitur non sem. Pellentesque eget vulputate turpis. Etiam id nibh at
-elit fermentum interdum.
-
-\hypertarget{results-1}{%
-\section{Results}\label{results-1}}
-
-These are the results. In vitae odio at libero elementum fermentum vel
-iaculis enim. Nullam finibus sapien in congue condimentum. Curabitur et
-ligula et ipsum mollis fringilla.
-
-\hypertarget{discussion-1}{%
-\section{Discussion}\label{discussion-1}}
-
-Figure \ref{ref_a_figure} shows how to add a figure. Donec ut lacinia
-nibh. Nam tincidunt augue et tristique cursus. Vestibulum sagittis odio
-nisl, a malesuada turpis blandit quis. Cras ultrices metus tempor
-laoreet sodales. Nam molestie ipsum ac imperdiet laoreet. Pellentesque
-habitant morbi tristique senectus et netus et malesuada fames ac turpis
-egestas.
+For a kernel \(\tau_i\) we denote the release time as \(r_i\), the
+completion time as \(f_i\) and response time as \(R_i = f_i - r_i\) We
+assume that a kernel \(\tau_i\) has a deadline equal to its period
+\(T_i\).
 
 \begin{figure}
 \centering
-\includegraphics[width=1\textwidth,height=\textheight]{source/figures/example_figure.pdf}
-\caption{RV Calypso is a former British Royal Navy minesweeper converted
-into a research vessel for the oceanographic researcher Jacques-Yves
-Cousteau. It was equipped with a mobile laboratory for underwater field
-research. \label{ref_a_figure}}
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/task_timing.png}
+\caption{Time chart \label{img:task_timing}}
 \end{figure}
 
-\hypertarget{conclusion-1}{%
-\section{Conclusion}\label{conclusion-1}}
+\hypertarget{assumptions}{%
+\section{Assumptions}\label{assumptions}}
 
-This is the conclusion to the chapter. Quisque nec purus a quam
-consectetur volutpat. Cum sociis natoque penatibus et magnis dis
-parturient montes, nascetur ridiculus mus. In lorem justo, convallis
-quis lacinia eget, laoreet eu metus. Fusce blandit tellus tellus.
-Curabitur nec cursus odio. Quisque tristique eros nulla, vitae finibus
-lorem aliquam quis. Interdum et malesuada fames ac ante ipsum primis in
-faucibus.
+For the calculation of the response time we have two assumption:
 
-\hypertarget{research-containing-a-table}{%
-\chapter{Research containing a
-table}\label{research-containing-a-table}}
+\hypertarget{all-blocks-have-the-same-amount-of-threads}{%
+\subsection{All blocks have the same amount of
+threads}\label{all-blocks-have-the-same-amount-of-threads}}
 
-\hypertarget{introduction-3}{%
-\section{Introduction}\label{introduction-3}}
+The election of the optimum number of threads for a specific kernel is a
+hard task, for that reason there have been some efforts towards that
+direction {[}16{]}, {[}17{]}, {[}18{]}, {[}19{]}. However, NVIDIA
+developers recommend, for practical purposes, on their offical guides
+{[}20{]} and {[}21{]} to use block sizes equals to either 128, 256, 512
+or 1024, because it has been documented that these values are more
+likely to take full advantage of the GPU resources. In our case we will
+assume that all the blocks, regarless the kernel, are the same size.
 
-This is the introduction. Phasellus non purus id mauris aliquam rutrum
-vitae quis tellus. Maecenas rhoncus ligula nulla, fringilla placerat mi
-consectetur eu. Aenean nec metus ac est ornare posuere. Nunc ipsum
-lacus, gravida commodo turpis quis, rutrum eleifend erat. Pellentesque
-id lorem eget ante porta tincidunt nec nec tellus.
+\begin{equation} 
+b_i = b, \quad \forall \tau_i \in \tau
+\label{eq:blocksize}
+\end{equation}
 
-\hypertarget{method-2}{%
-\section{Method}\label{method-2}}
+\hypertarget{one-big-streaming-multiprocessor}{%
+\subsection{One big streaming
+multiprocessor}\label{one-big-streaming-multiprocessor}}
 
-Vivamus consectetur, velit in congue lobortis, massa massa lacinia urna,
-sollicitudin semper ipsum augue quis tortor. Donec quis nisl at arcu
-volutpat ultrices. Maecenas ex nibh, consequat ac blandit sit amet,
-molestie in odio. Morbi finibus libero et nisl dignissim, at ultricies
-ligula pulvinar.
+This assumption is derived from the previous one. Each streaming
+multiprocessor in the Jetson TX2 has 2048 available threads and since
+\(b_i\) can be either 128, 256, 512 or 1024
+(\(2048/ b_i = k, k \in \mathbb{N}\)), we can think of the two streaming
+multiprocessors as a big one of 4096 threads.
 
-\hypertarget{subsection-1-1}{%
-\subsection{Subsection 1}\label{subsection-1-1}}
+It means that it could be allocated \(2048/b_i\) blocks per SM or
+\(4096/b_i\) blocks in the big SM. Hereafter we will refer the big SM as
+it were the only SM in the Jetson TX2's GPU. Thus, we defined
+\(g_{max}\) as the maximum number of blocks that can be allocated in the
+SM at some point in time.
 
-This is the first part of the methodology. Integer leo erat, commodo in
-lacus vel, egestas varius elit. Nulla eget magna quam. Nullam
-sollicitudin dolor ut ipsum varius tincidunt. Duis dignissim massa in
-ipsum accumsan imperdiet. Maecenas suscipit sapien sed dui pharetra
-blandit. Morbi fermentum est vel quam pretium maximus.
+\begin{equation} 
+g_{max} = \frac{b_{max}}{b}, \quad  g_{max} \in \mathbb{N}
+\label{eq:max_grid}
+\end{equation}
 
-\hypertarget{subsection-2-2}{%
-\subsection{Subsection 2}\label{subsection-2-2}}
+Where \(b_{max}\) is the maximum amount of threads in the GPU, in the
+case of Jetson TX2 is 4096.
 
-This is the second part of the methodology. Nullam accumsan condimentum
-eros eu volutpat. Maecenas quis ligula tempor, interdum ante sit amet,
-aliquet sem. Fusce tellus massa, blandit id tempus at, cursus in tortor.
-Nunc nec volutpat ante. Phasellus dignissim ut lectus quis porta. Lorem
-ipsum dolor sit amet, consectetur adipiscing elit.
+\hypertarget{introduction-to-gpu-response-time-analysis}{%
+\section{Introduction to GPU Response Time
+Analysis}\label{introduction-to-gpu-response-time-analysis}}
 
-\hypertarget{results-2}{%
-\section{Results}\label{results-2}}
+In addition to the variables defined in our assumptions we define
+\(g_{f}\) as the number of blocks that are available at some point in
+time \(t\), and \(t_a\) as the point in time in which a block
+\(b_i \in g_i\) can be allocated.
 
-Table \ref{ref_a_table} shows us how to add a table. Integer tincidunt
-sed nisl eget pellentesque. Mauris eleifend, nisl non lobortis
-fringilla, sapien eros aliquet orci, vitae pretium massa neque eu
-turpis. Pellentesque tincidunt aliquet volutpat. Ut ornare dui id ex
-sodales laoreet.
+For example in Figure \ref{img:free_blocks}a is shown that for a
+\(t=t_1\) the amount of free blocks \(g_{f}\) is lower than \(g_{max}\)
+while in Figure \ref{img:free_blocks}b for a \(t=t_2\),
+\(g_{f} = g_{max}\).
 
-\newpage
+\begin{figure}
+\centering
+\includegraphics{source/figures/free_blocks.png}
+\caption{Free blocks (a) at \(t=t_1\), \(g_f < g_{max}\) (b) at
+\(t=t_2\), \(g_f = g_{max}\) \label{img:free_blocks}}
+\end{figure}
+
+In Figure \ref{img:ta_example} we present two cases. Let's assume there
+is a new kernel K4 which wants to allocate a block \(b_i \in g_i\). In
+Figure \ref{img:ta_example}a the release time \(r_4\) of the kernel 4 is
+lower than \(t_1\), which means that \(t_a = t_1\) because
+\(r_4 \leq t_1\) and kernel 3 (K3) was already dequeued. In Figure
+\ref{img:ta_example}b \(r_4\) lies between \(t_2\) and \(t_3\), in that
+case \(t_a = r_4\), because all previous kernels were already dequeued
+and there are enough resources.
+
+\begin{figure}
+\centering
+\includegraphics{source/figures/ta_example.png}
+\caption{(a) \(t_a=t_1 \quad \forall r_4\) s.t \(r_4 \leq t_1\) (b)
+\(t_a=r_4 \quad \forall r_4\) s.t \(t_2 \leq r_4 \leq t_3\)
+\label{img:ta_example}}
+\end{figure}
+
+Assuming \(t_a\) is known, we would need to calculate how many blocks
+can be allocated at that point of time. In other words, we need to know
+the value of \(g_f\) at \(t_a\). In Figure \ref{img:new_kernel_1}a a new
+kernel K3 with 6 blocks \(g_3 = 6\) is going to be allocation on the
+Jetson's GPU. Each block have 512 threads, which means that
+\(g_{max} = 8\). The GPU is not executing any kernel at \(t=t_a\) as
+shown in Figure \ref{img:new_kernel_1}b therefore \(g_f = g_{max} = 8\)
+at \(t=t_a\). Given that \(g_3 < g_f\) all the blocks of K3 will be
+allocated at the same time as shown in Figure \ref{img:new_kernel_1}c.~
+The completion time \(f_3\) of kernel K3 is \(t_a\) plus the thread
+execution time given by \(C_3\), \(f_3 = C_3 + t_a\). If we assume that
+the release time \(r_3\) is the same as \(t_a\) then the completion time
+for K3 is the same as the response time \(R_3\), otherwise
+\(R_3 \geq f_3\).
+
+\begin{figure}
+\centering
+\includegraphics{source/figures/new_kernel_1.png}
+\caption{(a)New kernel \(K3\) with 6 blocks to allocate \(g_3 = 6\). (b)
+State prior to \(K3\) of the GPU (c) state after K3 allocation
+\label{img:new_kernel_1}}
+\end{figure}
+
+Once \(f_3\) and \(R_3\) are calculated, it's important to update the
+values of \(t_a\) and \(g_f\), because these values will be used by the
+following kernel. Let's start with \(g_f\), it is easy to notice that
+after K3 allocation there are two free blocks \(g_f - g_3 = 2\) as a
+result the new value of \(g_f = 2\). On the other hand, by definition
+\(t_a\) is the point in time in which a block \(b_i \in g_i\) can be
+allocated, therefore \(t_a\) will not change because \(g_f > 0\).
+
+In Figure \ref{img:new_kernel_2} we analyze another highly probable
+scenario. We use the same kernel K3 as in the last example
+(\(g_3 = 6\)). However, as shown in Figure \ref{img:new_kernel_2}b,
+there were two kernels allocated previously to K3. Kernel K1 with 5
+allocated blocks \(g_1 = 5\) and K2 with 3 allocated blocks \(g_2 = 3\).
+Note that these kernels have different completion time \(f_2 > f_1\).
+Nevertheless, what matters is not either K1 or K2 completion time but
+the value of \(t_a\) and \(g_f\). In this example, \(t_a\) is the same
+as K1 completion time and \(g_f\) has the same value as \(g_1\),
+\(g_f = 5\). Thus, 5 blocks from K3 will be allocated first as shown in
+Figure \ref{img:new_kernel_2}c.~
+
+\begin{figure}
+\centering
+\includegraphics{source/figures/new_kernel_2.png}
+\caption{(a)New kernel \(K3\) with 6 blocks to allocate \(g_3 = 6\). (b)
+State prior to \(K3\) of the GPU. Kernels K1 and K2 were previously
+allocated (c) state after K3 allocation \label{img:new_kernel_2}}
+\end{figure}
+
+The next logic question is where the last block of K3 should be
+allocated. The answer again is given by the updated values of \(t_a\)
+and \(g_f\). Looking at Figure \ref{img:new_kernel_2}c is easy to get
+these new values. The new value of \(t_a\) is \(f_2\) since
+\(f_2 <( t_a + C_3 )\), and for \(t=t_a\) the corresponding \(g_f\) is
+\(g_2\). Thus, the last K3 block is allocated at \(t=t_a=f_2\) and that
+give us the completion time for K3 that is \(f_3 = f_2+C_3\) or
+\(f_3 = t_a + C_3\). In Figure \ref{img:new_kernel_2}c, we defined a new
+variable \(C^{*}_3\) as the total amount of time in which K3 was using
+GPU resources.
+
+After K3 allocation, \(t_a\) and \(g_f\) should be updated again. In
+this example, the new \(g_f\) is the old value of \(g_f\) minus the last
+allocated K3 blocks \(g_f = g_f - 1 = 2\), while \(t_a\) remains the
+same \(t_a = f_2\) because the conditions are the same as in the later
+example where there was only one kernel.
+
+\hypertarget{response-time-analysis-algorithm}{%
+\section{Response Time Analysis
+Algorithm}\label{response-time-analysis-algorithm}}
+
+Our algorithm is focused on the calculation of \(t_a\) and \(g_f\) for
+each block regarless from which kernel \(t_i\) comes. In addition, it is
+important to notice that \(t_a\) and \(g_f\) depend on how previous
+blocks were allocated and on the GPU state at some point in time, as it
+was described above and illustrated in the Figure \ref{img:new_kernel_1}
+and Figure \ref{img:new_kernel_2}.\\
+The output of our algorithm is a set of release times
+\({f_1, f_2, \cdots, f_n}\) where \(n\) is the length of \(\tau\) which
+values \(f_i\) depend on \(t_a\) and \(C_i\).
+
+\begin{equation}
+f_i = f(t_a, C_i)
+\end{equation}
+
+A basic version of our algorithm is described in Algorithm
+\ref{alg:basic}. This version is derived directly from the examples
+illustrated in Figure \ref{img:new_kernel_1} and Figure
+\ref{img:new_kernel_2}, in other words, this basic algorithm is a
+summary of the section above. We have omitted details such as how
+\(t_a\) and \(g_f\) are updated in the case that \(g_f \geq g_i\),
+however we still keep the big picture of what is necessary at each step.
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}{.7\linewidth}
+    \begin{algorithm}[H]
+        \DontPrintSemicolon
+        \SetAlgoLined
+        \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+        \Input{$\tau$}
+        \Output{${f_1,\cdots, f_n}$}
+        \BlankLine
+        Initialization: $t_a = 0$, $g_f = g_{max}$, $i=1$ \\
+        \While{ $i \leq n$}{
+            \eIf{ $g_f \geq g_i$}{
+                $f_i = t_a + C_i$; \\
+                Update $g_f$ and $t_a$; \\
+                i++ ; // Next kernel \\ 
+            }{
+                $g_i = g_i - g_f$;\\
+                Update $g_f$ and $t_a$; \\
+            }
+        }
+        \caption{Basic real time analysis algorithm }
+        \label{alg:basic}
+    \end{algorithm} 
+  \end{minipage}
+\end{figure}
+
+In order to analyze a new kernel \(\tau_i\) and update \(t_a\) and
+\(g_f\) we need to track old values of \(g_f\quad \forall t \leq t_a\).
+Fortunately, it is necessary only to track \(g_f\) at specific points of
+time. Some relevant points of time , as it was shown in the previous
+example described by Figure \ref{img:new_kernel_2}, are given by
+completion times of previous kernels, in other words we must track
+\(g_{i-k}\) and \(f_{i-k}\) where \(k \in {1,2,\dots, i-1}\), because
+updated values of \(g_f\) and \(t_a\) depend as well on these them.
+
+Let's define a set \(h\) of pair of values \((t_k, g_k)\) where \(g_k\)
+are the number of free blocks at \(t=t_k\) such that \(t_k \geq t_a\).
+In a further example we will show step by step how this array \(h\) is
+filled and updated in order to have a better understanding.
+
+A complete version of our algorithm is presented in Algorithm
+\ref{alg:full}.
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}{.7\linewidth}
+    \begin{algorithm}[H]
+        \DontPrintSemicolon
+        \SetAlgoLined
+        \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+        \Input{$\tau$}
+        \Output{${f_1,\cdots, f_n}$}
+        \BlankLine
+        Initialization: $t_a = 0$, $g_f = g_{max}$, $i=1$, $h = \{\}$ \\
+        \While{ $i \leq n$}{
+            \eIf{ $g_f \geq g_i$}{
+                $f_i = t_a + C_i$; \\
+                $h = \{h; (f_i, g_i )\}$;\\
+                $t_a = t_a$;\\ 
+                $g_f = g_f - g_i$; \\
+                i++ ; // Next kernel \\ 
+            }{
+                $g_i = g_i - g_f$;\\
+                $h = \{ h; (t_a+C_i, g_f) \}$;\\
+                $[ t_a, \mathrm{index}] = \mathrm{min}( h[:,1] )$;\\
+                $g_f = h[ \mathrm{index}, 2]$;\\
+            }
+        }
+        \caption{Real time analysis algorithm }
+        \label{alg:full}
+    \end{algorithm} 
+  \end{minipage}
+\end{figure}
+
+Our algorithm is based on three main updates: \(h\), \(t_a\) and
+\(g_f\). The set \(h\) can be seen as an array of size Nx2, where \(N\)
+is the number of tracked pairs. For this reason, when \(g_f > g_i\) we
+used MATLAB notation of \texttt{min} function
+\texttt{{[}value,\ index{]}\ =\ min(A)}, where \texttt{index} is the
+position of the pair or row \((t_k, g_k) \in h\) that has the minimun of
+all time values saved in \(h\). Once we know which pair has the minimun
+time, we just assign \(t_a = t_k\) and \(g_f = g_k\). It is important to
+mention again that by definition of \(h\), all the tracked times should
+be greater or equal than the current \(t_a\), meaning that pairs that
+have tracked times lower than \(t_a\) must be removed.
+
+\hypertarget{example}{%
+\section{Example}\label{example}}
+
+Let's say there are four kernels we want to allocated, all with the same
+period \(T = 15\) and block size of 512 threads, \(b = 512\), which
+means \(g_{max} = 8\). The four tasks are defined as
+\(\tau = \{\tau_1 = \{15, 4, 2, 512\} , \tau_2 = \{15, 6,7,512\}, \tau_3 = \{15, 6,2,512\}, \tau_4 =\{ 15, 5,5,512\} \}\).
+
+At the beginning \(t_a =0\), \(i=1\), \(h=\{\}\) and
+\(g_f = g_{max} = 8\). Let's start with \(\tau_1\). Kernel \(\tau_1\)
+and inital state of GPU are shown in Figure \ref{img:ex_1}(a) and Figure
+\ref{img:ex_1}(b) respectively.
+
+\begin{itemize}
+\tightlist
+\item
+  \(g_f \geq g_1\)? yes, because \(g_1 = 2\)
+\item
+  \(f_1 = t_a + C_1 = 0 + 4 = 4\)
+\item
+  \(h = \{h, (f_1, g_1)\} = \{ (4,2) \}\)
+\item
+  \(t_a = 0\)
+\item
+  \(g_f = g_f - g_1 = 8 - 2 = 6\)
+\item
+  \(i = 2\)
+\end{itemize}
+
+After \(\tau_1\) allocation the GPU state is as shown in Figure
+\ref{img:ex_1}(c), as it is observed, \(t_a\) remains the same but
+\(g_f\) now is 6. Furthermore, that is the initial GPU state when
+\(\tau_2\) arrives.
+
+\begin{figure}
+\centering
+\includegraphics{source/figures/ex_1.jpg}
+\caption{(a) Kernel \(\tau_1\) (b)GPU state prior to \(\tau_1\)
+allocation (c) GPU state after \(\tau_1\) allocation \label{img:ex_1}}
+\end{figure}
+
+Since \(i=2\), it's time to analyze \(\tau_2\). Figure \ref{img:ex_2}(a)
+shows the number of blocks that should be allocated for \(\tau_2\). It
+this case \(t_a = 0\) and \(g_f = 6\) as shown in Figure
+\ref{img:ex_2}(b).
+
+\begin{itemize}
+\tightlist
+\item
+  \(g_f \geq g_2\)? no, because \(g_i = 7\)
+\item
+  \(g_2 = g_2 - g_f = 7-6 = 1\)
+\item
+  \(h = \{h, (t_a + C_2, g_f)\} = \{ (4,2), (6,6) \}\)
+\item
+  \([ t_a, \mathrm{index} ] = \mathrm{min}(h[:,1]) = \mathrm{min}([4,6])\)
+\item
+  \([ t_a, \mathrm{index} ] = [4,1]\)
+\item
+  \(g_f = h[ \mathrm{index},2] = h[1,2] = 2\)
+\item
+  \(h = h - \{ (4,2) \} = \{ (4,2), (6,6) \} - \{ (4,2) \}\)
+\item
+  \(h = \{(6,6)\}\)
+\end{itemize}
+
+\begin{figure}
+\centering
+\includegraphics{source/figures/ex_2.jpg}
+\caption{(a) Kernel \(\tau_2\) (b)GPU state prior to \(\tau_2\)
+allocation (c) GPU state after \(\tau_2\) allocation \label{img:ex_2}}
+\end{figure}
+
+Values for \(t_a\), \(g_f\), \(g_2\) and \(h\) were updated. Notice that
+current value of \(t_a\) is the completion time of \(\tau_1\) and
+\(g_f\) is \(g_1\), that is why, as mention before, it is important to
+track \(f_1\) and \(g_1\). However, completion time for \(\tau_2\) is
+not known yet. Let's continue with the analysis.
+
+\begin{itemize}
+\tightlist
+\item
+  \(g_f \geq g_2\)? yes, because \(g_2 = 1\)
+\item
+  \(f_2 = t_a + C_2 = 4 + 6 = 10\)
+\item
+  \(h = \{h, (f_2, g_2)\} = \{ (6,6),(10,1) \}\)
+\item
+  \(t_a = 4\)
+\item
+  \(g_f = g_f - g_2 = 2 - 1 = 1\)
+\item
+  \(i = 3\)
+\end{itemize}
+
+In Figure \ref{img:ex_2}(c) is shown the GPU state, \(t_a\) and \(g_f\)
+values after \(\tau_2\) allocation. This setup is the starting point for
+the analysis of \(\tau_3\) as observed in Figure \ref{img:ex_3}(b).
+Since we already described step by step analysis for \(\tau_1\) and
+\(\tau_2\), we skip some details in \(\tau_3\) analysis, however we will
+point out something important about \(h\).
+
+\begin{figure}
+\centering
+\includegraphics{source/figures/ex_3.jpg}
+\caption{(a) Kernel \(\tau_3\) (b)GPU state prior to \(\tau_3\)
+allocation (c) GPU state after \(\tau_3\) allocation \label{img:ex_3}}
+\end{figure}
+
+The initial setup for \(\tau_3\) is \(t_a = 4\), \(g_f= 1\) and
+\(h = \{ (6,6),(10,1) \}\). The number of blocks and thread execution
+time of \(\tau_3\) is illustrated in Figure \ref{img:ex_3}.
+
+\begin{itemize}
+\tightlist
+\item
+  \(g_f \geq g_3\)? no
+\item
+  \(g_3 = g_2 - g_f = 1\)
+\item
+  \(h = \{ (6,6), (10,1), (10,1) \}\)
+\item
+  \(h = \{ (6,6), (10,2) \}\)
+\item
+  \([ t_a, \mathrm{index} ] = [6,1]\)
+\item
+  \(g_f = h[ \mathrm{index},2] = h[1,2] = 6\)
+\item
+  \(h = \{(10,2)\}\)
+\end{itemize}
+
+As mention before, we performed an \emph{extra} step with \(h\) in which
+\(h\) went from having three pairs to having just two. The reason behind
+it lies on the definition of \(h\). The set \(h\) of pair of values
+\((t_k, g_k)\) where \(g_k\) are the number of free blocks at \(t=t_k\);
+notice that at \(t=10\) there are two \emph{free} tracked blocks, one
+that comes from \(\tau_2\) and other from \(\tau_3\) as shown is Figure
+\ref{img:ex_3}(c), as well as the results of the following \(\tau_3\)
+analysis.
+
+\begin{itemize}
+\tightlist
+\item
+  \(g_f \geq g_3\)? yes
+\item
+  \(f_3 = t_a + C_3 = 12\)
+\item
+  \(h = \{ (10,2),(12,1) \}\)
+\item
+  \(t_a = 6\)
+\item
+  \(g_f = g_f - g_3 = 5\)
+\item
+  \(i = 4\)
+\end{itemize}
+
+The analysis for \(\tau_4\) is straightforward. The blocks and thread
+execution time for \(\tau_4\), the GPU prior to \(\tau_4\) allocation
+and GPU state after \(\tau_4\) allocation are shown in Figure
+\ref{img:ex_4}. It is easy to find out that the completion time \(f_4\)
+is 11.
+
+\begin{figure}
+\centering
+\includegraphics{source/figures/ex_4.jpg}
+\caption{(a) Kernel \(\tau_4\) (b)GPU state prior to \(\tau_4\)
+allocation (c) GPU state after \(\tau_4\) allocation \label{img:ex_4}}
+\end{figure}
+
+We have calculated the completion times
+\(f_i \quad \forall i \in \tau\), \(f = \{4,10,12,11\}\). Given the fact
+that all kernel were scheduled at the same time, the release time for
+all kernels is 0. Thus, the response time for each kernel is the same as
+their completion times. Furthermore, we can conclude that all the
+kernels can be scheduled because
+\(R_i \leq T \quad \forall i \in \tau\).
+
+\hypertarget{a-special-case}{%
+\section{A Special case}\label{a-special-case}}
+
+In this section we demostrate that if all kernels are released at the
+same time and also have the same thread execution time,
+\(C_i = C \quad \forall i \in \tau\), our response time analysis has not
+algorithmic behavior, instead it's a set of three equations.
+
+In this special case, there is no need of \(h\), because \(t_a\) and
+\(g_f\) can be calculated directly with two equations. The goal is as
+always to find \(t_a\), \(g_f\) and \(f_i\), however, we will exploit
+the fact that \(C_i\) is the same for all kernels. The case in which
+\(g_i \leq g_f\) is trivial to analyze, therefore we will analyze the
+other case. If Figure \ref{img:free_blocks_alg} is shown the block
+distribution when \(g_i > g_f\), thus in order to find \(g^{*}_f\) and
+\(t^{*}_a\), that are the updated values, we must calculate \(K\).
+
+\begin{figure}
+\centering
+\includegraphics{source/figures/free_blocks_alg.png}
+\caption{New kernel allocation \label{img:free_blocks_alg}}
+\end{figure}
+
+It is not hard to see that \(K\) is given by equation \ref{eq:K}. The
+interpretation is that \(K\) is the maximum amount of times that
+\(g_{max}\) blocks can be allocated.
+
+\begin{equation}
+K = \lfloor \frac{g_i - g_f}{g_{max}} \rfloor
+\label{eq:K}
+\end{equation}
+
+From \(K\) , the value of \(g^{*}_f\) is calculated using equation
+\ref{eq:g_f}. If we observed the blocks in Figure
+\ref{img:free_blocks_alg}, we notice that \(g^{*}_f\) can be calculated
+using geometry. The area of the first block is \(g_f\), of the second
+one \(Kg_{max}\) and the last one is \(g_i - g_f - K g_{max}\).
+
+\begin{equation}
+g^{*}_f = g_{max} - (g_i -  g_f - K g_{max} )
+\label{eq:g_f}
+\end{equation}
+
+The value of \(t^{*}_a\) is calculated in similar fashion and is given
+by equation \ref{eq:t_a}. On the other hand, the calculation of \(f_i\)
+remains the same.
+
+\begin{equation}
+t^{*}_a = t_a + C+ KC
+\label{eq:t_a}
+\end{equation}
+
+We are at a point at which we are able to calculate with formulas the
+updated values of \(t_a\) and \(g_f\), nonetheless, we still have the
+algoritmic behavior given by the \texttt{if} condition. Therefore to no
+longer use that dependency, we will make use of the absolute value and
+the signum function. The signum function of a real number x is defined
+as follows:
+
+\begin{equation}
+\mathrm{sgn}(x)=
+    \begin{cases}
+        -1  & \text{if    x<0,}\\
+        0   & \text{if    x=0,}\\
+        1   & \text{if    x>0.}
+    \end{cases} 
+\end{equation}
+
+We redefine \(K\) with the absolute value using equation \ref{eq:new_k},
+we use absolute value in \ref{eq:new_k} because we want K to be zero
+when \(g_i \leq g_f\).
+
+\begin{equation}
+K = \lfloor \frac{ \| g_i - g_f \|}{g_{max}} \rfloor
+\label{eq:new_k}
+\end{equation}
+
+In addition, we define \(\alpha\) which value is given by equation
+\ref{eq:alpha}. The value of \(\alpha\) is zero when \(g_i \leq g_f\)
+and one otherwise.
+
+\begin{equation}
+\alpha =  \frac{ \mathrm{sgn}(g_i-g_f) + 1 }{2}
+\label{eq:alpha}
+\end{equation}
+
+With \ref{eq:new_k} and \ref{eq:alpha} we eliminate the \texttt{if}
+condition and at the same time the algoritmic behavior. Therefore, the
+updated values of \(t_a\) and \(g_f\) are calculated using
+\ref{eq:new_t_a} and \ref{eq:new_g_f}. To emphasize again, when
+\(g_i \leq g_f\) \ref{eq:new_t_a} and \ref{eq:new_g_f} are the same
+steps described in Algorithm \ref{alg:full}.
+
+\begin{equation}
+t_a = t_a + \alpha C+ KC
+\label{eq:new_t_a}
+\end{equation}
+
+\begin{equation}
+g_f = \alpha g_{max} - (g_i -  g_f - K g_{max} )
+\label{eq:new_g_f}
+\end{equation}
+
+\hypertarget{computational-complexity}{%
+\section{Computational Complexity}\label{computational-complexity}}
+
+Our algorithm described in Algorithm \ref{alg:full} has two branches,
+inside the \texttt{while} loop, given by an \texttt{if} conditional. In
+Table \ref{tab:bigO} is shown the computational complexity of each step
+of the real time analysis algorithm.
 
 \begin{longtable}[]{@{}lll@{}}
-\caption{This is the table caption. Suspendisse blandit dolor sed tellus
-venenatis, venenatis fringilla turpis pretium.
-\label{ref_a_table}}\tabularnewline
+\caption{Computational Complexity \label{tab:bigO}}\tabularnewline
 \toprule
-\begin{minipage}[b]{0.25\columnwidth}\raggedright
-Column 1\strut
-\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright
-Column 2\strut
-\end{minipage} & \begin{minipage}[b]{0.25\columnwidth}\raggedright
-Column 3\strut
+\begin{minipage}[b]{0.52\columnwidth}\raggedright
+Step\strut
+\end{minipage} & \begin{minipage}[b]{0.24\columnwidth}\raggedright
+Type of operation\strut
+\end{minipage} & \begin{minipage}[b]{0.15\columnwidth}\raggedright
+Average Cost\strut
 \end{minipage}\tabularnewline
 \midrule
 \endfirsthead
 \toprule
-\begin{minipage}[b]{0.25\columnwidth}\raggedright
-Column 1\strut
-\end{minipage} & \begin{minipage}[b]{0.30\columnwidth}\raggedright
-Column 2\strut
-\end{minipage} & \begin{minipage}[b]{0.25\columnwidth}\raggedright
-Column 3\strut
+\begin{minipage}[b]{0.52\columnwidth}\raggedright
+Step\strut
+\end{minipage} & \begin{minipage}[b]{0.24\columnwidth}\raggedright
+Type of operation\strut
+\end{minipage} & \begin{minipage}[b]{0.15\columnwidth}\raggedright
+Average Cost\strut
 \end{minipage}\tabularnewline
 \midrule
 \endhead
-\begin{minipage}[t]{0.25\columnwidth}\raggedright
-Row 1\strut
-\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
-0.1\strut
-\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
-0.2\strut
+\begin{minipage}[t]{0.52\columnwidth}\raggedright
+\(f_i = t_a + C_i\)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\raggedright
+Sum\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+O(1)\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.25\columnwidth}\raggedright
-Row 2\strut
-\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
-0.3\strut
-\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
-0.3\strut
+\begin{minipage}[t]{0.52\columnwidth}\raggedright
+\(h = \{h; (f_i, g_i )\}\)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\raggedright
+Append\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+O(1)\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.25\columnwidth}\raggedright
-Row 3\strut
-\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
-0.4\strut
-\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
-0.4\strut
+\begin{minipage}[t]{0.52\columnwidth}\raggedright
+\(t_a = t_a\)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\raggedright
+Sum\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+O(1)\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.25\columnwidth}\raggedright
-Row 4\strut
-\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
-0.5\strut
-\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
-0.6\strut
+\begin{minipage}[t]{0.52\columnwidth}\raggedright
+\(g_f = g_f - g_i\)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\raggedright
+Sum\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+O(1)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.52\columnwidth}\raggedright
+i++\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\raggedright
+Sum\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+O(1)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.52\columnwidth}\raggedright
+\(g_i = g_i - g_f\)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\raggedright
+Sum\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+O(1)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.52\columnwidth}\raggedright
+\(h = \{ h; (t_a+C_i, g_f) \}\)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\raggedright
+Append\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+O(1)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.52\columnwidth}\raggedright
+\([ t_a, \mathrm{index}] = \mathrm{min}( h[:,1] )\)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\raggedright
+Min\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+O(n)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.52\columnwidth}\raggedright
+\(g_f = h[ \mathrm{index}, 2]\)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\raggedright
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\raggedright
+O(1)\strut
 \end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
 
-\hypertarget{discussion-2}{%
-\section{Discussion}\label{discussion-2}}
+The first branch is when \(g_f \geq g_i\). The computational complexity,
+given by big O notation, of that branch is O(1), because all the
+operations in this branch are O(1).
 
-This is the discussion. Etiam sit amet mi eros. Donec vel nisi sed purus
-gravida fermentum at quis odio. Vestibulum quis nisl sit amet justo
-maximus molestie. Maecenas vitae arcu erat. Nulla facilisi. Nam pretium
-mauris eu enim porttitor, a mattis velit dictum. Nulla sit amet ligula
-non mauris volutpat fermentum quis vitae sapien.
+In the case of the second branch the computational complexity is O(n),
+because \texttt{min} function is the most costly operation. In the worst
+case scenario \texttt{n} is the number of kernels we want to allocate,
+it is important to highlight that only on the first branch the lenght of
+\(h\) increases. Thus, the computational complexity of the \texttt{if}
+statement is O(n).
 
-\hypertarget{conclusion-2}{%
-\section{Conclusion}\label{conclusion-2}}
+Let us analyze the outer \texttt{while} loop. The number of iterations
+depends on number of kernels, their grid sizes \(g_i\) and how many
+blocks can be allocated in total in the GPU or \(g_{max}\). An
+estimation can be given by \(\frac{g}{g_{max}}\), where \(g\) is
+\(\sum g_i\), \(g\) contains the information about number of kernels and
+their grid sizes. Thus, computational complexity of our algorithm is O(
+\(\frac{ng}{g_{max}}\)).
 
-This is the conclusion to the chapter. Nullam porta tortor id vehicula
-interdum. Quisque pharetra, neque ut accumsan suscipit, orci orci
-commodo tortor, ac finibus est turpis eget justo. Cras sodales nibh nec
-mauris laoreet iaculis. Morbi volutpat orci felis, id condimentum nulla
-suscipit eu. Fusce in turpis quis ligula tempus scelerisque eget quis
-odio. Vestibulum et dolor id erat lobortis ullamcorper quis at sem.
+It can be observed in Figure \ref{img:bestfit} the relationship between
+computation time and number of kernels and total of allocated blocks.
+The right side graph shows the polinomial behavior between time and
+number of kernels. On the other hand, the lelf side graph shows a more
+linear relation between computation time and number of allocated blocks.
 
-\hypertarget{final-research-study}{%
-\chapter{Final research study}\label{final-research-study}}
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/max100min2gmax10.png}
+\caption{Best fit for computational complexity \label{img:bestfit}}
+\end{figure}
 
-\hypertarget{introduction-4}{%
-\section{Introduction}\label{introduction-4}}
+We analyze in more details the influence of \(g_{max}\) and maximum
+number of allocated blocks on computation time. Let us assume that
+number of blocks per kernel increase in linear fashion to the number of
+kernels. In order words, the more kernels we want to launch, the more
+blocks each kernel will have. As shown in Figure
+\ref{img:gmax_variable}b. Results are shown in Figure
+\ref{img:gmax_variable}. The value of \(g_{max}\) has a strong influence
+on computation times. When \(g_{max} = 128\) computation times are an
+order of magnitude lower than when \(g_{max} = 8\). The inverse relation
+is consistent with computational complexity. The value of \(g_{max}\)
+tells us how many blocks can be allocated on the GPU at the same time
+which implies fewer iterations of our algorithm.
 
-This is the introduction. Nunc lorem odio, laoreet eu turpis at,
-condimentum sagittis diam. Phasellus metus ligula, auctor ac nunc vel,
-molestie mattis libero. Praesent id posuere ex, vel efficitur nibh.
-Quisque vestibulum accumsan lacus vitae mattis.
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/gmax_variable.png}
+\caption{Analysis of computational complexity when \(g_{max}\) is
+variable \label{img:gmax_variable}}
+\end{figure}
 
-\hypertarget{method-3}{%
-\section{Method}\label{method-3}}
+Let us assume now the value of \(g_{max}\) is constant, but the number
+of of allocated blocks increase as shown in Figure
+\ref{img:bmax_variable}b. Results are shown in Figure
+\ref{img:bmax_variable}. In Figure \ref{img:bmax_variable}c, we can see
+that for the same amount of blocks the algorithm runs faster because
+there are fewer kernels.
 
-In tincidunt viverra dolor, ac pharetra tellus faucibus eget.
-Pellentesque tempor a enim nec venenatis. Morbi blandit magna imperdiet
-posuere auctor. Maecenas in maximus est.
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/bmax_variable.png}
+\caption{Analysis of computational complexity when \(b_{max}\) is
+variable \label{img:bmax_variable}}
+\end{figure}
 
-\hypertarget{subsection-1-2}{%
-\subsection{Subsection 1}\label{subsection-1-2}}
+The graphs above tell us that our algorithm perform better when the
+number of threads per block is low. In addition, the grid size has a
+minor influence on the algorithm performance as shown in Figure
+\ref{img:bmax_variable}.
 
-This is the first part of the methodology. Praesent mollis sem diam, sit
-amet tristique lacus vulputate quis. Vivamus rhoncus est rhoncus tellus
-lacinia, a interdum sem egestas. Curabitur quis urna vel quam blandit
-semper vitae a leo. Nam vel lectus lectus.
+\hypertarget{experimental-results}{%
+\chapter{Experimental Results}\label{experimental-results}}
 
-\hypertarget{subsection-2-3}{%
-\subsection{Subsection 2}\label{subsection-2-3}}
+In this chapter we presents our experimental results. A complete example
+using AMALTHEA models can be found in the Appendix 1. We compare results
+from Jetson TX2 platfrom againts our APP4MC implementation. The former
+are used as ground truth to verify our implementation and assumptions.
 
-This is the second part of the methodology. Aenean vel pretium tortor.
-Aliquam erat volutpat. Quisque quis lobortis mi. Nulla turpis leo,
-ultrices nec nulla non, ullamcorper laoreet risus.
+\hypertarget{ground-truth-generation}{%
+\section{Ground truth generation}\label{ground-truth-generation}}
 
-\hypertarget{results-3}{%
-\section{Results}\label{results-3}}
+Amert et. al {[}12{]} published their code in github. They developed a
+CUDA Scheduling Viewer, which is a tool for examining block-level
+scheduling behavior and co-scheduling performance on CUDA devices. The
+input are configuration files on the JSON format, and the output can be
+displayed as figure using a Python script, which is provided as well. An
+example output is shown in Figure \ref{img:nvidia-base}
 
-These are the results. Curabitur vulputate nisl non ante tincidunt
-tempor. Aenean porta nisi quam, sed ornare urna congue sed. Curabitur in
-sapien justo. Quisque pulvinar ullamcorper metus, eu varius mauris
-pellentesque et. In hac habitasse platea dictumst. Pellentesque nec
-porttitor libero. Duis et magna a massa lacinia cursus.
+Our test scenario was similar to the example presented in the last
+chapter. We had four kernels we wanted to allocate. The parameters were:
+block size = 512 threads, and \(g_{max} = 8\). The four kernels were
+defined as
+\(\tau = \{\tau_1 = \{15, 4, 2, 512\} , \tau_2 = \{15, 6,7,512\}, \tau_3 = \{15, 6,2,512\}, \tau_4 =\{ 15, 5,5,512\} \}\).
 
-\hypertarget{discussion-3}{%
-\section{Discussion}\label{discussion-3}}
+\begin{figure}
+\centering
+\includegraphics{source/figures/nvidia/base.png}
+\caption{Output of the CUDA Scheduling Viewer \label{img:nvidia-base}}
+\end{figure}
 
-This is the discussion. Curabitur gravida nisl id gravida congue. Duis
-est nisi, sagittis eget accumsan ullamcorper, semper quis turpis. Mauris
-ultricies diam metus, sollicitudin ultricies turpis lobortis vitae. Ut
-egestas vehicula enim, porta molestie neque consectetur placerat.
-Integer iaculis sapien dolor, non porta nibh condimentum ut.
+An example of a kernel description in the configuration file was as
+follows:
 
-\hypertarget{conclusion-3}{%
-\section{Conclusion}\label{conclusion-3}}
+\begin{Shaded}
+\begin{Highlighting}[]
+      \ErrorTok{"filename":} \ErrorTok{"./bin/timer\_spin.so",}
+      \ErrorTok{"log\_name":} \ErrorTok{"k3.json",}
+      \ErrorTok{"label":} \ErrorTok{"Kernel} \ErrorTok{3",}
+      \ErrorTok{"thread\_count":} \ErrorTok{512,}
+      \ErrorTok{"block\_count":} \ErrorTok{2,}
+      \ErrorTok{"additional\_info":} \ErrorTok{6000000000}
+\end{Highlighting}
+\end{Shaded}
 
-This is the conclusion to the chapter. Nulla sed condimentum lectus.
-Duis sed tempor erat, at cursus lacus. Nam vitae tempus arcu, id
-vestibulum sapien. Cum sociis natoque penatibus et magnis dis parturient
-montes, nascetur ridiculus mus.
+The \texttt{filename} is the benchmark binary file we used as a kernel.
+For all the kernels was \texttt{timer\_spin.so}. This file defines a
+bare-bones CUDA benchmark which spins waiting for a user-specified
+amount of time to complete. The execution time in nanoseconds or \(C_i\)
+was set as \texttt{additional\_info}. The \texttt{log\_name} was the
+JSON file that contained metadata and results related to a specfied
+kernel (\texttt{label}). In addition, \texttt{thread\_count} and
+\texttt{block\_count} were the values of \(b_i\) and \(g_i\)
+respectively.
 
-\hypertarget{conclusion-4}{%
-\chapter{Conclusion}\label{conclusion-4}}
+\hypertarget{implementation-results}{%
+\section{Implementation results}\label{implementation-results}}
+
+We implemented our algorithm in Eclipse APP4MC. The goal was not to test
+how many kernel the Jetson could manage, instead we focused on verifying
+our assumptions and therefore our algorithm.
+
+We set up three test scenarios. The four previously described kernels
+were launched in different order. The first scenario was the one
+presented in Figure \ref{img:nvidia-base}. The kernels were launched on
+the following order: K2, K3, K4, K1. As showed in Figure
+\ref{img:nvidia-base} the completion times were \(f = \{6, 12,11,10\}\).
+The results from APP4MC are shown in Figure \ref{img:octave-base}.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/octave/base.png}
+\caption{APP4MC: Scenario 1 - K2,K3,K4,K1 \label{img:octave-base}}
+\end{figure}
+
+In the second scenario kernels were launched on the following order: K2,
+K4, K1, K3. As observed in Figure \ref{img:nvidia-ex02} the completion
+times were \(f = \{6,11,10,12\}\). Notice that \emph{GPUSping: 5} for
+kernel 4 should be shown, but there is a bug in the code from {[}12{]}
+in which sometimes the log file doesn't contain all the data. On the
+other hand, results from APP4MC are shown in Figure
+\ref{img:octave-ex02}. The block allocation differ from Jetson's
+allocation because our code follows our assumption described in section
+3.3.2.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/nvidia/ex02.png}
+\caption{JetsonTX2: Scenario 2 - K2,K4,K1,K3 \label{img:nvidia-ex02}}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/octave/ex02.png}
+\caption{APP4MC: Scenario 2 - K2,K4,K1,K3 \label{img:octave-ex02}}
+\end{figure}
+
+In the third scenario kernels were launched on the following order: K2,
+K1, K3, K4. As observed in Figure \ref{img:nvidia-ex05} the completion
+times were \(f = \{6,8,12,11\}\). Notice in this case that
+\emph{GPUSping:4} from kernel 4 and \emph{GPUSping:1} from kernel 5
+overlap in the figure. This is again an error on how the log file was
+created. We tested {[}12{]} C implementation using \texttt{printf}, and
+the values were correct. Nevertheless, results from APP4MC shown in
+Figure \ref{img:octave-ex02} remain congruent with the results of its
+counterpart.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/nvidia/ex05.png}
+\caption{JetsonTX2: Scenario 3 - K2,K1,K3,K4 \label{img:nvidia-ex05}}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/octave/ex05.png}
+\caption{APP4MC: Scenario 3 - K2,K1,K3,K4 \label{img:octave-ex05}}
+\end{figure}
+
+\hypertarget{more-results}{%
+\section{More results}\label{more-results}}
+
+In this section we present more results. We focused in this section on
+the interaction between kernels with several blocks, and kernels with
+long execution time.
+
+In Figure \ref{img:nvidia-ex06} can be observed the result after
+executing five kernels. The kernels were defined as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\tau_1 = \{15,4,2,512\}\): small block count, short execution time.
+\item
+  \(\tau_2 = \{15, 7,1,512\}\): big block count, short execution time.
+\item
+  \(\tau_3 = \{15,10,4,512\}\): big block count, long execution time.
+\item
+  \(\tau_4 =\{ 15, 1,11,512\}\): small block count, very long execution
+  time.
+\item
+  \(\tau_5 = \{15,3,6,512\}\): big block count, medium execution time.
+\end{itemize}
+
+Our result shown in Figure \ref{img:octave-ex06} is still consistent
+with the ground truth. We obtained the same completion time for each
+kernel.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/nvidia/ex06.png}
+\caption{JetsonTX2 \label{img:nvidia-ex06}}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/octave/ex06.png}
+\caption{APP4MC \label{img:octave-ex06}}
+\end{figure}
+
+In this experiment the setup was as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\tau_1 = \{15,5,1.5,512\}\): small block count, small execution
+  time.
+\item
+  \(\tau_2 = \{15,4,1.5,512\}\): small block count, small execution
+  time.
+\item
+  \(\tau_3 = \{15,7,1.5,512\}\): big block count, small execution time.
+\item
+  \(\tau_4 =\{ 15, 1,4,512\}\): very small block count, big execution
+  time.
+\item
+  \(\tau_5 = \{15,8,2.5,512\}\): big block count, large execution time.
+\end{itemize}
+
+As expected completion times shown in Figure \ref{img:nvidia-ex07} and
+Figure \ref{img:octave-ex07} are the same for each kernel.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/nvidia/ex07.png}
+\caption{JetsonTX2 \label{img:nvidia-ex07}}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth,height=\textheight]{source/figures/octave/ex07.png}
+\caption{APP4MC \label{img:octave-ex07}}
+\end{figure}
+
+\hypertarget{conclusion}{%
+\chapter{Conclusion}\label{conclusion}}
 
 \hypertarget{thesis-summary}{%
 \section{Thesis summary}\label{thesis-summary}}
 
-In summary, pellentesque habitant morbi tristique senectus et netus et
-malesuada fames ac turpis egestas. Nunc eleifend, ex a luctus porttitor,
-felis ex suscipit tellus, ut sollicitudin sapien purus in libero. Nulla
-blandit eget urna vel tempus. Praesent fringilla dui sapien, sit amet
-egestas leo sollicitudin at.
+We gave an overview in Chapter 1 of the motivation of this work, the
+Bosch WATERS Challenge 2019, explained the architecture of NVIDIA Jetson
+TX2 platform and its AMALTHEA model. Furthermore, in Chapter 2 we
+introduced key concepts related to NVIDIA's GPU such as kernel
+definition, block and threads, as well as its memory hierarchy. We
+described in detail Jetson TX2 hardware architecture, and explained the
+rules behind hardware scheduler. In Chapter 3 we introduced our real
+time analysis algorithm for Jetson TX2's scheduler. In addition we gave
+some examples to explain in detail each step. Finally in Chapter 4 we
+showed our experimental results.
+
+\hypertarget{conclusions}{%
+\section{Conclusions}\label{conclusions}}
+
+It has been proved that for purposes of mathematical calculation, the
+main assumption, due to all blocks have the same thread count we
+considered all GPU streaming multiprocessors as one big streaming
+multiprocessor, was correct. Our experimental results show the accuracy
+of our algorithm to estimate completion times for kernels executed on
+Jetson TX2 platform. Moreover, we implemented our algorithm on Eclipse
+APP4MC, which allows AMALTHEA based response time analysis for NVIDIA's
+Jetson TX2.
 
 \hypertarget{future-work}{%
 \section{Future work}\label{future-work}}
 
-There are several potential directions for extending this thesis. Lorem
-ipsum dolor sit amet, consectetur adipiscing elit. Aliquam gravida ipsum
-at tempor tincidunt. Aliquam ligula nisl, blandit et dui eu, eleifend
-tempus nibh. Nullam eleifend sapien eget ante hendrerit commodo.
-Pellentesque pharetra erat sit amet dapibus scelerisque.
+There are several potential directions for extending this thesis. First,
+the possibility to develop a complete model-based development for NVDIA
+platform using AMALTHEA models, which may include automatic CUDA C code
+generation for deployment and testing. Second, there is still no full
+understanding of how Jetson TX2's scheduler decides which kernel should
+run first. Thus, developers should either consider all possible cases
+when analyzing completion times or reverse engineering Jetson TX2's
+scheduler. Finally, we didn't consider memory transaction and other
+constrains such as amount of shared memory, influence of the \emph{null}
+stream and priorities within scheduler. Therefore, there is still room
+to go deeper into this topic.
 
-Vestibulum suscipit tellus risus, faucibus vulputate orci lobortis eget.
-Nunc varius sem nisi. Nunc tempor magna sapien, euismod blandit elit
-pharetra sed. In dapibus magna convallis lectus sodales, a consequat sem
-euismod. Curabitur in interdum purus. Integer ultrices laoreet aliquet.
-Nulla vel dapibus urna. Nunc efficitur erat ac nisi auctor sodales.
+\hypertarget{appendix-1-example-app4mc}{%
+\chapter*{Appendix 1: Example APP4MC}\label{appendix-1-example-app4mc}}
+\addcontentsline{toc}{chapter}{Appendix 1: Example APP4MC}
 
-\hypertarget{appendix-1-some-extra-stuff}{%
-\chapter*{Appendix 1: Some extra
-stuff}\label{appendix-1-some-extra-stuff}}
-\addcontentsline{toc}{chapter}{Appendix 1: Some extra stuff}
+Here is a complete example of how to use our response time analysis
+algorithm in APP4MC to analyze AMALTHEA based Jetson TX2's models.
 
-Add appendix 1 here. Vivamus hendrerit rhoncus interdum. Sed ullamcorper
-et augue at porta. Suspendisse facilisis imperdiet urna, eu pellentesque
-purus suscipit in. Integer dignissim mattis ex aliquam blandit.
-Curabitur lobortis quam varius turpis ultrices egestas.
-
-\hypertarget{appendix-2-some-more-extra-stuff}{%
-\chapter*{Appendix 2: Some more extra
-stuff}\label{appendix-2-some-more-extra-stuff}}
-\addcontentsline{toc}{chapter}{Appendix 2: Some more extra stuff}
-
-Add appendix 2 here. Aliquam rhoncus mauris ac neque imperdiet, in
-mattis eros aliquam. Etiam sed massa et risus posuere rutrum vel et
-mauris. Integer id mauris sed arcu venenatis finibus. Etiam nec
-hendrerit purus, sed cursus nunc. Pellentesque ac luctus magna. Aenean
-non posuere enim, nec hendrerit lacus. Etiam lacinia facilisis tempor.
-Aenean dictum nunc id felis rhoncus aliquam.
+\lstinputlisting[style=javaCodeStyle, caption=Complete example]{source/code/rta.java}
 
 \footnotesize
 
@@ -1341,5 +2016,39 @@ real-time systems (ecrts 2018)}, 2018, vol. 106, pp. 20:1--20:21.
 {[}14{]} J. Bakita, N. Otterness, J. H. Anderson, and F. D. Smith,
 ``Scaling up: The validation of empirically derived scheduling rules on
 nvidia gpus,'' \emph{OSPERT 2018}, p. 49, 2018.
+
+\leavevmode\hypertarget{ref-yang2019}{}%
+{[}15{]} M. Yang and J. Anderson, ``Response-time bounds for concurrent
+gpu,'' \emph{Proceedings of 29th Euromicro Conference on Real-Time
+Systems Work in Progress Session}, pp. 13--15, 2019.
+
+\leavevmode\hypertarget{ref-Mukunoki2016}{}%
+{[}16{]} D. Mukunoki, T. Imamura, and D. Takahashi, ``Automatic
+thread-block size adjustment for memory-bound blas kernels on gpus,'' in
+\emph{2016 ieee 10th international symposium on embedded
+multicore/many-core systems-on-chip (mcsoc)}, 2016, pp. 377--384.
+
+\leavevmode\hypertarget{ref-Lim2017}{}%
+{[}17{]} R. Lim, B. Norris, and A. Malony, ``Autotuning gpu kernels via
+static and predictive analysis,'' in \emph{2017 46th international
+conference on parallel processing (icpp)}, 2017, pp. 523--532.
+
+\leavevmode\hypertarget{ref-Torres2011}{}%
+{[}18{]} Y. Torres, A. Gonzalez-Escribano, and D. R. Llanos,
+``Understanding the impact of cuda tuning techniques for fermi,'' in
+\emph{2011 international conference on high performance computing
+simulation}, 2011, pp. 631--639.
+
+\leavevmode\hypertarget{ref-Kurzak2012}{}%
+{[}19{]} J. Kurzak, S. Tomov, and J. Dongarra, ``Autotuning gemm kernels
+for the fermi gpu,'' \emph{IEEE Transactions on Parallel and Distributed
+Systems}, vol. 23, no. 11, pp. 2045--2057, Nov. 2012.
+
+\leavevmode\hypertarget{ref-CCUDA20192}{}%
+{[}20{]} \emph{NVIDIA cuda c: Best practices}. NVIDIA Corporation, 2019.
+
+\leavevmode\hypertarget{ref-CCUDA2019}{}%
+{[}21{]} \emph{NVIDIA cuda c: Programming guide}. NVIDIA Corporation,
+2019.
 
 \end{document}

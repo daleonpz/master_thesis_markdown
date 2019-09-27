@@ -1,0 +1,37 @@
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Jetson TX2 Architecture Overview \relax }}{3}{figure.caption.10}% 
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Runnable example for a CPU {[}6{]} \relax }}{4}{figure.caption.11}% 
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Runnable example for a GPU {[}6{]} \relax }}{5}{figure.caption.12}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Organisation of grids, blocks, threads, and kernels {[}11{]}. \relax }}{7}{figure.caption.13}% 
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Memory hierarchy {[}11{]}. \relax }}{8}{figure.caption.14}% 
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Memory hierarchy \relax }}{9}{figure.caption.15}% 
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Inactive threads \relax }}{10}{figure.caption.16}% 
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Basic GPU scheduling experiment {[}12{]} \relax }}{13}{figure.caption.17}% 
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Detailed state information at various time points in Fig. \ref {img:scheduler_blocks} {[}12{]} .\relax }}{14}{figure.caption.18}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Time chart \relax }}{19}{figure.caption.22}% 
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Free blocks (a) at \(t=t_1\), \(g_f < g_{max}\) (b) at \(t=t_2\), \(g_f = g_{max}\) \relax }}{21}{figure.caption.23}% 
+\contentsline {figure}{\numberline {3.3}{\ignorespaces (a) \(t_a=t_1 \hskip 1em\relax \forall r_4\) s.t \(r_4 \leq t_1\) (b) \(t_a=r_4 \hskip 1em\relax \forall r_4\) s.t \(t_2 \leq r_4 \leq t_3\) \relax }}{22}{figure.caption.24}% 
+\contentsline {figure}{\numberline {3.4}{\ignorespaces (a)New kernel \(K3\) with 6 blocks to allocate \(g_3 = 6\). (b) State prior to \(K3\) of the GPU (c) state after K3 allocation \relax }}{22}{figure.caption.25}% 
+\contentsline {figure}{\numberline {3.5}{\ignorespaces (a)New kernel \(K3\) with 6 blocks to allocate \(g_3 = 6\). (b) State prior to \(K3\) of the GPU. Kernels K1 and K2 were previously allocated (c) state after K3 allocation \relax }}{23}{figure.caption.26}% 
+\contentsline {figure}{\numberline {3.6}{\ignorespaces (a) Kernel \(\mittau _1\) (b)GPU state prior to \(\mittau _1\) allocation (c) GPU state after \(\mittau _1\) allocation \relax }}{26}{figure.caption.29}% 
+\contentsline {figure}{\numberline {3.7}{\ignorespaces (a) Kernel \(\mittau _2\) (b)GPU state prior to \(\mittau _2\) allocation (c) GPU state after \(\mittau _2\) allocation \relax }}{27}{figure.caption.30}% 
+\contentsline {figure}{\numberline {3.8}{\ignorespaces (a) Kernel \(\mittau _3\) (b)GPU state prior to \(\mittau _3\) allocation (c) GPU state after \(\mittau _3\) allocation \relax }}{28}{figure.caption.31}% 
+\contentsline {figure}{\numberline {3.9}{\ignorespaces (a) Kernel \(\mittau _4\) (b)GPU state prior to \(\mittau _4\) allocation (c) GPU state after \(\mittau _4\) allocation \relax }}{29}{figure.caption.32}% 
+\contentsline {figure}{\numberline {3.10}{\ignorespaces New kernel allocation \relax }}{30}{figure.caption.33}% 
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Best fit for computational complexity \relax }}{33}{figure.caption.34}% 
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Analysis of computational complexity when \(g_{max}\) is variable \relax }}{34}{figure.caption.35}% 
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Analysis of computational complexity when \(b_{max}\) is variable \relax }}{35}{figure.caption.36}% 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Output of the CUDA Scheduling Viewer \relax }}{37}{figure.caption.37}% 
+\contentsline {figure}{\numberline {4.2}{\ignorespaces APP4MC: Scenario 1 - K2,K3,K4,K1 \relax }}{38}{figure.caption.38}% 
+\contentsline {figure}{\numberline {4.3}{\ignorespaces JetsonTX2: Scenario 2 - K2,K4,K1,K3 \relax }}{39}{figure.caption.39}% 
+\contentsline {figure}{\numberline {4.4}{\ignorespaces APP4MC: Scenario 2 - K2,K4,K1,K3 \relax }}{39}{figure.caption.40}% 
+\contentsline {figure}{\numberline {4.5}{\ignorespaces JetsonTX2: Scenario 3 - K2,K1,K3,K4 \relax }}{40}{figure.caption.41}% 
+\contentsline {figure}{\numberline {4.6}{\ignorespaces APP4MC: Scenario 3 - K2,K1,K3,K4 \relax }}{41}{figure.caption.42}% 
+\contentsline {figure}{\numberline {4.7}{\ignorespaces JetsonTX2 \relax }}{42}{figure.caption.43}% 
+\contentsline {figure}{\numberline {4.8}{\ignorespaces APP4MC \relax }}{42}{figure.caption.44}% 
+\contentsline {figure}{\numberline {4.9}{\ignorespaces JetsonTX2 \relax }}{43}{figure.caption.45}% 
+\contentsline {figure}{\numberline {4.10}{\ignorespaces APP4MC \relax }}{43}{figure.caption.46}% 
+\addvspace {10\p@ }

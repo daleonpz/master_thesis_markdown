@@ -6,7 +6,7 @@ and outlining future areas for research
 -->
 
 ## Thesis summary
-We gave an overview in Chapter 1 of the motivation of this works, the  Bosch WATERS Challenge 2019, explained the architecture of NVIDIA Jetson TX2 platform and its AMALTHEA model. 
+We gave an overview in Chapter 1 of the motivation of this work, the  Bosch WATERS Challenge 2019, explained the architecture of NVIDIA Jetson TX2 platform and its AMALTHEA model. 
 Furthermore, in Chapter 2 we introduced key concepts related to NVIDIA's GPU such as kernel definition, block  and threads, as well as its memory hierarchy. 
 We described in detail Jetson TX2 hardware architecture, and explained the rules behind hardware scheduler.
 In Chapter 3 we introduced our real time analysis algorithm for Jetson TX2's scheduler. In addition we gave some examples to explain in detail  each step.

@@ -1,8 +1,9 @@
 \contentsline {chapter}{Abstract}{i}{chapter*.1}% 
-\contentsline {chapter}{Acknowledgements}{ii}{chapter*.2}% 
-\contentsline {chapter}{List of figures}{iii}{chapter*.4}% 
-\contentsline {chapter}{List of tables}{iv}{chapter*.5}% 
-\contentsline {chapter}{Abbreviations}{v}{chapter*.6}% 
+\contentsline {chapter}{Declaration of Authorship}{ii}{chapter*.2}% 
+\contentsline {chapter}{Ehrenwörtliche Erklärung}{iii}{chapter*.3}% 
+\contentsline {chapter}{Abbreviations and Symbols}{}{chapter*.7}% 
+\contentsline {section}{Abbreviations}{}{section*.8}% 
+\contentsline {section}{Symbols}{}{section*.9}% 
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}% 
 \contentsline {section}{\numberline {1.1}Motivation}{1}{section.1.1}% 
 \contentsline {section}{\numberline {1.2}Industrial challenge WATERS 2019}{2}{section.1.2}% 
@@ -12,41 +13,23 @@
 \contentsline {section}{\numberline {2.1}NVIDIA GPU Software Model}{6}{section.2.1}% 
 \contentsline {section}{\numberline {2.2}NVIDIA GPU Hardware Model}{9}{section.2.2}% 
 \contentsline {section}{\numberline {2.3}NVIDIA Jetson TX2's GPU Scheduler}{11}{section.2.3}% 
-\contentsline {chapter}{\numberline {3}First research study, with code}{18}{chapter.3}% 
-\contentsline {section}{\numberline {3.1}Introduction}{18}{section.3.1}% 
-\contentsline {section}{\numberline {3.2}Method}{18}{section.3.2}% 
-\contentsline {subsection}{\numberline {3.2.1}Subsection 1 with example code block}{18}{subsection.3.2.1}% 
-\contentsline {subsection}{\numberline {3.2.2}Subsection 2}{19}{subsection.3.2.2}% 
-\contentsline {section}{\numberline {3.3}Results}{19}{section.3.3}% 
-\contentsline {section}{\numberline {3.4}Discussion}{19}{section.3.4}% 
-\contentsline {section}{\numberline {3.5}Conclusion}{20}{section.3.5}% 
-\contentsline {chapter}{\numberline {4}Research containing a figure}{21}{chapter.4}% 
-\contentsline {section}{\numberline {4.1}Introduction}{21}{section.4.1}% 
-\contentsline {section}{\numberline {4.2}Method}{21}{section.4.2}% 
-\contentsline {subsection}{\numberline {4.2.1}Subsection 1}{21}{subsection.4.2.1}% 
-\contentsline {subsection}{\numberline {4.2.2}Subsection 2}{22}{subsection.4.2.2}% 
-\contentsline {section}{\numberline {4.3}Results}{22}{section.4.3}% 
-\contentsline {section}{\numberline {4.4}Discussion}{22}{section.4.4}% 
-\contentsline {section}{\numberline {4.5}Conclusion}{22}{section.4.5}% 
-\contentsline {chapter}{\numberline {5}Research containing a table}{24}{chapter.5}% 
-\contentsline {section}{\numberline {5.1}Introduction}{24}{section.5.1}% 
-\contentsline {section}{\numberline {5.2}Method}{24}{section.5.2}% 
-\contentsline {subsection}{\numberline {5.2.1}Subsection 1}{24}{subsection.5.2.1}% 
-\contentsline {subsection}{\numberline {5.2.2}Subsection 2}{25}{subsection.5.2.2}% 
-\contentsline {section}{\numberline {5.3}Results}{25}{section.5.3}% 
-\contentsline {section}{\numberline {5.4}Discussion}{26}{section.5.4}% 
-\contentsline {section}{\numberline {5.5}Conclusion}{26}{section.5.5}% 
-\contentsline {chapter}{\numberline {6}Final research study}{27}{chapter.6}% 
-\contentsline {section}{\numberline {6.1}Introduction}{27}{section.6.1}% 
-\contentsline {section}{\numberline {6.2}Method}{27}{section.6.2}% 
-\contentsline {subsection}{\numberline {6.2.1}Subsection 1}{27}{subsection.6.2.1}% 
-\contentsline {subsection}{\numberline {6.2.2}Subsection 2}{28}{subsection.6.2.2}% 
-\contentsline {section}{\numberline {6.3}Results}{28}{section.6.3}% 
-\contentsline {section}{\numberline {6.4}Discussion}{28}{section.6.4}% 
-\contentsline {section}{\numberline {6.5}Conclusion}{28}{section.6.5}% 
-\contentsline {chapter}{\numberline {7}Conclusion}{29}{chapter.7}% 
-\contentsline {section}{\numberline {7.1}Thesis summary}{29}{section.7.1}% 
-\contentsline {section}{\numberline {7.2}Future work}{29}{section.7.2}% 
-\contentsline {chapter}{Appendix 1: Some extra stuff}{31}{chapter*.20}% 
-\contentsline {chapter}{Appendix 2: Some more extra stuff}{32}{chapter*.21}% 
-\contentsline {chapter}{References}{33}{chapter*.22}% 
+\contentsline {chapter}{\numberline {3}Jetson TX2's GPU scheduler response time analysis}{18}{chapter.3}% 
+\contentsline {section}{\numberline {3.1}Task model}{18}{section.3.1}% 
+\contentsline {section}{\numberline {3.2}Assumptions}{19}{section.3.2}% 
+\contentsline {subsection}{\numberline {3.2.1}All blocks have the same amount of threads}{20}{subsection.3.2.1}% 
+\contentsline {subsection}{\numberline {3.2.2}One big streaming multiprocessor}{20}{subsection.3.2.2}% 
+\contentsline {section}{\numberline {3.3}Introduction to GPU Response Time Analysis}{21}{section.3.3}% 
+\contentsline {section}{\numberline {3.4}Response Time Analysis Algorithm}{24}{section.3.4}% 
+\contentsline {section}{\numberline {3.5}Example}{26}{section.3.5}% 
+\contentsline {section}{\numberline {3.6}A Special case}{29}{section.3.6}% 
+\contentsline {section}{\numberline {3.7}Computational Complexity}{32}{section.3.7}% 
+\contentsline {chapter}{\numberline {4}Experimental Results}{36}{chapter.4}% 
+\contentsline {section}{\numberline {4.1}Ground truth generation}{36}{section.4.1}% 
+\contentsline {section}{\numberline {4.2}Implementation results}{38}{section.4.2}% 
+\contentsline {section}{\numberline {4.3}More results}{40}{section.4.3}% 
+\contentsline {chapter}{\numberline {5}Conclusion}{44}{chapter.5}% 
+\contentsline {section}{\numberline {5.1}Thesis summary}{44}{section.5.1}% 
+\contentsline {section}{\numberline {5.2}Conclusions}{44}{section.5.2}% 
+\contentsline {section}{\numberline {5.3}Future work}{45}{section.5.3}% 
+\contentsline {chapter}{Appendix 1: Example APP4MC}{46}{chapter*.47}% 
+\contentsline {chapter}{References}{49}{chapter*.48}% 
