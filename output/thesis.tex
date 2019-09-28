@@ -292,7 +292,7 @@
 \addcontentsline{toc}{chapter}{Abstract}
 
 The purpose of the thesis is to develop a response time algorithm for
-AMALTHEA-based models to analyze timming behaviors of CUDA kernels on
+AMALTHEA-based models to analyze timing behaviors of CUDA kernels on
 NVIDIA Jetson TX2's GPU. This work was developed on the context of Bosch
 WATERS Challenge 2019. The challenge focuses on timing-analysis for
 heterogeneous software-hardware systems based on centralized end-to-end
@@ -301,11 +301,11 @@ testing. Furthermore, key concepts related to NVIDIA's GPU architecture
 are presented, as well as a detailed explanation of rules behind
 platform's GPU scheduler.
 
-Our algorithm is based on these rules and our experimental result shows
-the accuracy of our algorithm to estimate completion times for kernels
-executed on Jetson TX2 platform. Real timming data from NVIDIA's
-platform was used in our experiments. Moreover, we implemented our
-algorithm on Eclipse APP4MC, which allows AMALTHEA-based response time
+Our algorithm is based on these rules and experimental results show
+the accuracy of our approach to estimate completion times for kernels
+executed on Jetson TX2 platform. We used in our experiments real timing data from NVIDIA's
+platform. Moreover, we implemented our
+algorithm on Eclipse APP4MC, which allows an AMALTHEA-based response time
 analysis for NVIDIA's Jetson TX2.
 
 \pagenumbering{roman}
@@ -431,11 +431,11 @@ hierarchical and cost effectiveness of centralized end-to-end
 architectures, because today requirements of computational power,
 bandwidth, integration, safety and real-time {[}3{]}.
 
-However, car manufactures don't forget that at the end, in centralized
+However, car manufactures do not forget at the end, in centralized
 end-to-end architectures, different types of software would run on top
 of an heterogeneous hardware supplied by companies such as NVIDIA,
-Mobileye or Qualcomm. Thus, it's important to analyze and understand how
-software will behave under those conditions, in order to ensure a
+Mobileye or Qualcomm. Thus, it is important to analyze and understand how
+software will behaves under those conditions, in order to ensure a
 predictable and efficient system.
 
 \hypertarget{industrial-challenge-waters-2019}{%
@@ -504,7 +504,7 @@ The GPU uses \textbf{streams} to run applications. The number of streams
 depends on the GPU resources. An application can run in one or multiple
 streams, the GPU scheduler, by default, manages how to application will
 be allocated on streams in order to maximize throughput. In Chapter 2,
-we will discuss in more detail how the TX2 GPU scheduler behave in case
+we will discuss in more detail how the TX2 GPU scheduler behaves in case
 of multiple applications.
 
 \hypertarget{jetson-tx2-amalthea-model}{%
@@ -545,7 +545,7 @@ host} as shown in Figure \ref{img:amalthea02}.
 In this chapter we give an overview of the theorical background of
 NVIDIA GPU software and hardware model. We introduce the concepts of
 threads, blocks, kernels and streaming multriprocesor, and how they
-apply to our study case. We discuss abour Jetson TX2's memory hierarchy
+apply to our study case. We discuss about Jetson TX2's memory hierarchy
 and scheduler. In addition, we describe the rules behind the Jetson
 TX2's hardware scheduler with an example.
 
@@ -556,7 +556,7 @@ Now a days computer applications run on heterogeneous hardware and GPUs
 are important in order to achieve high performance computing. Since 2006
 running software on NVIDIA GPUs are known as a \emph{CUDA application}
 {[}10{]}. A CUDA application will run concurrently multiple instances of
-special functions called \textbf{kernels}.Each instance runs on a
+special functions called \textbf{kernels}. Each instance runs on a
 \textbf{thread}. Moreover, these threads are arranged in
 \textbf{blocks}, and blocks compose \textbf{grids} as shown in Figure
 \ref{img:sw_model_grids}.
@@ -665,7 +665,7 @@ Thread\strut
 \caption{Memory hierarchy {[}11{]}. \label{img:sw_model_memory}}
 \end{figure}
 
-In summary, CUDA application solve problems that were modeled based on
+In summary, CUDA applications solve problems that were modeled based on
 \emph{divide and conquer} principle. Moreover, CUDA software model not
 only allow users to achieve high computational performance, but also
 CUDA application are highly scalable.
@@ -674,11 +674,11 @@ CUDA application are highly scalable.
 \section{NVIDIA GPU Hardware Model}\label{nvidia-gpu-hardware-model}}
 
 The CUDA architecture is based on \textbf{Streaming Multiprocessors}
-(SM) which perform the actual computation. Each SM has it own control
+(SM) which perform the actual computation. Each SM has its own control
 units, registers, execution pipelines and local memories, but they also
 have access to global memory as ilustrated in Figure
 \ref{img:sm_memory}. A \textbf{stream} is a queue of CUDA operations,
-memory copy and kernel launch. We will talk more about streams in
+memory copies and kernel launches. We will talk more about streams in
 following sections.
 
 \begin{figure}
@@ -687,10 +687,10 @@ following sections.
 \caption{Memory hierarchy \label{img:sm_memory}}
 \end{figure}
 
-When a kernel grid is launch blocks are enumerated and assigend to the
+When a kernel grid is launched blocks are enumerated and assigend to the
 SMs. Once the blocks are assigned, threads are managed in \textbf{wraps}
 by the \textbf{wrap scheduler}. A wraps is a group of 32 threads that
-run in parallel. Thus, it's highly recommendable to use block sizes of
+run in parallel. Thus, it is highly recommendable to use block sizes of
 size \(32N, N \in \mathbb{N}\), otherwise there would be ``inactive''
 threads. A example is shown in Figure \ref{img:inactive_thread}, where
 there is a block of 140 threads but since the wrap scheduler works with
@@ -734,10 +734,10 @@ tool. Some information about Jetson TX2 is presented below:
 Scheduler}\label{nvidia-jetson-tx2s-gpu-scheduler}}
 
 It's common to use several kernels in an application. In order to reduce
-computation time and maximaze GPU utilization, it's desire to run
+computation time and maximaze GPU utilization, it is desired to run
 multiple kernels in parallel. CUDA uses streams to achieve this goal. As
-mentioned before, a stream is a queue of CUDA operations, memory copy
-and kernel launch. Thus, it is possible either to launch multiple
+mentioned before, a stream is a queue of CUDA operations, memory copies
+and kernel launches. Thus, it is possible either to launch multiple
 kernels within one streams or multiple kernels on multiple streams.
 Operations within the same stream are managed in FIFO (First In First
 Out) fashion, thus, we will also use the term \textbf{stream queue} when
@@ -759,7 +759,7 @@ more unpredictable behaviours, as stated in {[}12{]} and {[}13{]}. In
 this section, we will present GPU scheduling policies devired by
 {[}12{]} and use them in an example to clarify their use.
 
-Let's start by defining some terms. When one block of a kernel has been
+Let us start by defining some terms. When one block of a kernel has been
 scheduled for execution on a SM it's said that the block was
 \textbf{assigned}. Moreover, it's said a kernel was \textbf{dispatched}
 as soon as one of its blocks were assigned, and \textbf{fully
@@ -885,7 +885,7 @@ G3 & No kernels fullfill this rule. & K1, K4 have dispatched all their blocks. K
 G4 & No kernels fullfill this rule. K1 still has running blocks. & K1, K4 still have running blocks. Thus they cannot be dequeued from their stream queues. & K1, K4 were dequeued from their stream queues, because all their blocks finished execution. K2, K5 still have running blocks, they cannot be dequeued from stream queues. & K6 still have running blocks. Thus cannot be yet dequeued from S2. \\ \hline
 \end{tabularx}
 \label{tab:scheduler_rules1}
-\caption{Detailed state information at various time points in Fig.}
+\caption{Detailed state information at various time points in Fig. 2.6}
 \end{table}
 
 
@@ -900,7 +900,7 @@ R2 & Applies only to K1. & K5 is eligible, but check R3 & There were enough thre
 R3 & Applies only to K1. & There is not enough shared memory to launch K5.  Each K5 block requires 32KB (64KB in total), but K4 blocks are consuming the whole shared memory available per SM (64KB). & There were enough shared memory for K2 and K5 (64KB in each SM). & K6 blocks required no memory shared.  \\ \hline
 \end{tabularx}
 \label{tab:scheduler_rules2}
-\caption{Detailed state information at various time points in Fig.}
+\caption{Detailed state information at various time points in Fig. 2.6}
 \end{table}
 
 
@@ -915,7 +915,7 @@ C3 & No available copy operations. & No available copy operations. & No availabl
 C4 & No copy operations at the head of streams. & No copy operations at the head of streams. & No copy operations at the head of streams. & C5o is still copying. Thus it cannot be dequeued from S3. \\ \hline
 \end{tabularx}
 \label{tab:scheduler_rules3}
-\caption{Detailed state information at various time points in Fig.}
+\caption{Detailed state information at various time points in Fig. 2.6}
 \end{table}
 
 
@@ -927,13 +927,13 @@ C4 & No copy operations at the head of streams. & No copy operations at the head
 \chapter{Jetson TX2's GPU scheduler response time
 analysis}\label{jetson-tx2s-gpu-scheduler-response-time-analysis}}
 
-In this chapter, we present our approach to calculate the response time
+In this chapter, we present our approach to perform a response time
 analysis for Jetson TX2's GPU scheduler based on the set of scheduling
 rules explained in the last chapter. We define a task model, declare our
-assumptions, and give an brief introduction to GPU response time
+assumptions, and give a brief introduction to GPU response time
 analysis.\\
 In addition we introduce our algorithm, show some examples, describe how
-algorithm can change under certain conditions, and discuss its
+our algorithm can change under certain conditions, and discuss its
 computational complexity.
 
 \hypertarget{task-model}{%
@@ -941,7 +941,7 @@ computational complexity.
 
 There is a set of tasks or kernels \(\tau\) of \(n\) independent kernels
 \(\{\tau_1, \tau_2, \ldots, \tau_n\}\) on a single GPU. Each kernel has
-a period \(T_i\) defined as the separatin between two consecutivs
+a period \(T_i\) defined as the separation between two consecutives
 releases of \(\tau_i\), thread execution time workload \(C_i\) and a
 grid of blocks \(g_i\). Each block contains \(b_i\) threads.
 
@@ -987,7 +987,7 @@ assume that a kernel \(\tau_i\) has a deadline equal to its period
 \hypertarget{assumptions}{%
 \section{Assumptions}\label{assumptions}}
 
-For the calculation of the response time we have two assumption:
+For the calculation of response times we have two assumption:
 
 \hypertarget{all-blocks-have-the-same-amount-of-threads}{%
 \subsection{All blocks have the same amount of
@@ -1000,7 +1000,7 @@ developers recommend, for practical purposes, on their offical guides
 {[}20{]} and {[}21{]} to use block sizes equals to either 128, 256, 512
 or 1024, because it has been documented that these values are more
 likely to take full advantage of the GPU resources. In our case we will
-assume that all the blocks, regarless the kernel, are the same size.
+assume that all the blocks, regardless the kernel, are the same size.
 
 \begin{equation} 
 b_i = b, \quad \forall \tau_i \in \tau
@@ -1052,7 +1052,7 @@ while in Figure \ref{img:free_blocks}b for a \(t=t_2\),
 \(t=t_2\), \(g_f = g_{max}\) \label{img:free_blocks}}
 \end{figure}
 
-In Figure \ref{img:ta_example} we present two cases. Let's assume there
+In Figure \ref{img:ta_example} we present two cases. Let us assume there
 is a new kernel K4 which wants to allocate a block \(b_i \in g_i\). In
 Figure \ref{img:ta_example}a the release time \(r_4\) of the kernel 4 is
 lower than \(t_1\), which means that \(t_a = t_1\) because
@@ -1094,7 +1094,7 @@ State prior to \(K3\) of the GPU (c) state after K3 allocation
 
 Once \(f_3\) and \(R_3\) are calculated, it's important to update the
 values of \(t_a\) and \(g_f\), because these values will be used by the
-following kernel. Let's start with \(g_f\), it is easy to notice that
+following kernel. Let us start with \(g_f\), it is easy to notice that
 after K3 allocation there are two free blocks \(g_f - g_3 = 2\) as a
 result the new value of \(g_f = 2\). On the other hand, by definition
 \(t_a\) is the point in time in which a block \(b_i \in g_i\) can be
@@ -1142,7 +1142,7 @@ example where there was only one kernel.
 Algorithm}\label{response-time-analysis-algorithm}}
 
 Our algorithm is focused on the calculation of \(t_a\) and \(g_f\) for
-each block regarless from which kernel \(t_i\) comes. In addition, it is
+each block regardless from which kernel \(\tau_i\) comes. In addition, it is
 important to notice that \(t_a\) and \(g_f\) depend on how previous
 blocks were allocated and on the GPU state at some point in time, as it
 was described above and illustrated in the Figure \ref{img:new_kernel_1}
@@ -1199,7 +1199,7 @@ completion times of previous kernels, in other words we must track
 \(g_{i-k}\) and \(f_{i-k}\) where \(k \in {1,2,\dots, i-1}\), because
 updated values of \(g_f\) and \(t_a\) depend as well on these them.
 
-Let's define a set \(h\) of pair of values \((t_k, g_k)\) where \(g_k\)
+Let us define a set \(h\) of pair of values \((t_k, g_k)\) where \(g_k\)
 are the number of free blocks at \(t=t_k\) such that \(t_k \geq t_a\).
 In a further example we will show step by step how this array \(h\) is
 filled and updated in order to have a better understanding.
@@ -1253,13 +1253,13 @@ have tracked times lower than \(t_a\) must be removed.
 \hypertarget{example}{%
 \section{Example}\label{example}}
 
-Let's say there are four kernels we want to allocated, all with the same
+Let us say there are four kernels we want to allocated, all with the same
 period \(T = 15\) and block size of 512 threads, \(b = 512\), which
 means \(g_{max} = 8\). The four tasks are defined as
 \(\tau = \{\tau_1 = \{15, 4, 2, 512\} , \tau_2 = \{15, 6,7,512\}, \tau_3 = \{15, 6,2,512\}, \tau_4 =\{ 15, 5,5,512\} \}\).
 
 At the beginning \(t_a =0\), \(i=1\), \(h=\{\}\) and
-\(g_f = g_{max} = 8\). Let's start with \(\tau_1\). Kernel \(\tau_1\)
+\(g_f = g_{max} = 8\). Let us start with \(\tau_1\). Kernel \(\tau_1\)
 and inital state of GPU are shown in Figure \ref{img:ex_1}(a) and Figure
 \ref{img:ex_1}(b) respectively.
 
@@ -1327,7 +1327,7 @@ Values for \(t_a\), \(g_f\), \(g_2\) and \(h\) were updated. Notice that
 current value of \(t_a\) is the completion time of \(\tau_1\) and
 \(g_f\) is \(g_1\), that is why, as mention before, it is important to
 track \(f_1\) and \(g_1\). However, completion time for \(\tau_2\) is
-not known yet. Let's continue with the analysis.
+not known yet. Let us continue with the analysis.
 
 \begin{itemize}
 \tightlist
