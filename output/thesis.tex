@@ -280,7 +280,7 @@
         
         \normalsize
         Fachhochschule Dortmund, Germany\\
-        December 2019
+        October 2019
 
         % Except where otherwise noted, content in this thesis is licensed under a Creative Commons Attribution 4.0 License (http://creativecommons.org/licenses/by/4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited. Copyright 2015,Tom Pollard.
 
@@ -303,8 +303,8 @@ platform's GPU scheduler.
 
 Our algorithm is based on these rules and experimental results show
 the accuracy of our approach to estimate completion times for kernels
-executed on Jetson TX2 platform. We used in our experiments real timing data from NVIDIA's
-platform. Moreover, we implemented our
+executed on Jetson TX2 platform. We used real timing data from NVIDIA's
+platform in our experiments. Moreover, we implemented our
 algorithm on Eclipse APP4MC, which allows an AMALTHEA-based response time
 analysis for NVIDIA's Jetson TX2.
 
@@ -416,26 +416,26 @@ $t_a$ \> Point in ime at which a block will be allocated \\
 Car manufactures want to reduce cost in terms of money and time required
 to develop, test and validate a new piece of software due to a change of
 supplier. For that reason, centralized end-to-end architectures are the
-solution they are aiming to, because for car companies such as BWW and
-Audi the car of future will be similar to a ``data center on wheels''
+solution they are aiming to, because, for car companies such as BWW and
+Audi, the car of future will be similar to a ``data center on wheels''
 {[}1{]}.
 
 Centralized end-to-end architectures would be the first step stone
-toward to decoupling software and hardware {[}2{]}. This type of
-architectures not only will take advantage of internet connectivity,
+towards decoupling software and hardware {[}2{]}. This type of
+architectures will not only take advantage of internet connectivity,
 cloud computing and powerful heterogeneous processing units, but also
-will allow scalable, hierarchical and highly integrated system.
+allow scalable, hierarchical and highly integrated system.
 
-In other words, car manufactures prefer now a days low-latency,
+In other words, car manufactures prefer nowadays low-latency,
 hierarchical and cost effectiveness of centralized end-to-end
-architectures, because today requirements of computational power,
+architectures, because of today's requirements of computational power,
 bandwidth, integration, safety and real-time {[}3{]}.
 
-However, car manufactures do not forget at the end, in centralized
+However, car manufactures do not forget, in centralized
 end-to-end architectures, different types of software would run on top
 of an heterogeneous hardware supplied by companies such as NVIDIA,
 Mobileye or Qualcomm. Thus, it is important to analyze and understand how
-software will behaves under those conditions, in order to ensure a
+software will behave under those conditions, in order to ensure a
 predictable and efficient system.
 
 \hypertarget{industrial-challenge-waters-2019}{%
@@ -462,11 +462,11 @@ problems issued from real industrial case studies {[}6{]}.
 This year, 2019, the challenge focuses on timing-analysis for
 heterogeneous software-hardware systems based on centralized end-to-end
 architectures. The platform chosen for this purpose is the NVIDIA®
-Jetson™ TX2 platform which has an heterogeneous architecture equipped
+Jetson™ TX2 platform, which has an heterogeneous architecture equipped
 with a Quad ARM A57 processor, a Dual Denver processor, 8GB of LPDDR4
-memory and 256 CUDA cores of NVIDIA's Pascal Architecture. For the
-challenge it is available an Amalthea model for this platform to design
-a solution, and test it later on real hardware.
+memory and 256 CUDA cores of NVIDIA's Pascal Architecture. 
+An AMALTHEA model based on this platform is available. Developers can design
+solutions, and test them later on real hardware.
 
 \hypertarget{nvidia-jetson-tx2-architecture-overview}{%
 \section{NVIDIA Jetson TX2: Architecture
@@ -502,10 +502,10 @@ the possibility that EE and CE can run concurrently.
 
 The GPU uses \textbf{streams} to run applications. The number of streams
 depends on the GPU resources. An application can run in one or multiple
-streams, the GPU scheduler, by default, manages how to application will
+streams, the GPU scheduler, by default, manages how the application will
 be allocated on streams in order to maximize throughput. In Chapter 2,
-we will discuss in more detail how the TX2 GPU scheduler behaves in case
-of multiple applications.
+we will discuss how the TX2 GPU scheduler behaves in case
+of multiple applications in more detail.
 
 \hypertarget{jetson-tx2-amalthea-model}{%
 \section{Jetson TX2 Amalthea Model}\label{jetson-tx2-amalthea-model}}
@@ -513,7 +513,7 @@ of multiple applications.
 AMALTHEA is a platform for engineering multi- and many-core embedded
 systems. This platform enables the creation and management of complex
 tool chains including simulation and validation {[}9{]}. In the context
-of WATERS Challenge 2019, Bosch offers an AMALTHEA model of the Jetson
+of the WATERS Challenge 2019, Bosch offers an AMALTHEA model of the Jetson
 TX2. In this model, a CPU runnable will read data from memory, execute
 some computation (Ticks) and write back data into memory as shown in
 Figure \ref{img:amalthea01}.
@@ -545,14 +545,14 @@ host} as shown in Figure \ref{img:amalthea02}.
 In this chapter we give an overview of the theorical background of
 NVIDIA GPU software and hardware model. We introduce the concepts of
 threads, blocks, kernels and streaming multriprocesor, and how they
-apply to our study case. We discuss about Jetson TX2's memory hierarchy
+apply to our study case. We discuss Jetson TX2's memory hierarchy
 and scheduler. In addition, we describe the rules behind the Jetson
 TX2's hardware scheduler with an example.
 
 \hypertarget{nvidia-gpu-software-model}{%
 \section{NVIDIA GPU Software Model}\label{nvidia-gpu-software-model}}
 
-Now a days computer applications run on heterogeneous hardware and GPUs
+Nowadays computer applications run on heterogeneous hardware and GPUs
 are important in order to achieve high performance computing. Since 2006
 running software on NVIDIA GPUs are known as a \emph{CUDA application}
 {[}10{]}. A CUDA application will run concurrently multiple instances of
@@ -668,7 +668,7 @@ Thread\strut
 In summary, CUDA applications solve problems that were modeled based on
 \emph{divide and conquer} principle. Moreover, CUDA software model not
 only allow users to achieve high computational performance, but also
-CUDA application are highly scalable.
+high scalable CUDA application.
 
 \hypertarget{nvidia-gpu-hardware-model}{%
 \section{NVIDIA GPU Hardware Model}\label{nvidia-gpu-hardware-model}}
@@ -687,7 +687,7 @@ following sections.
 \caption{Memory hierarchy \label{img:sm_memory}}
 \end{figure}
 
-When a kernel grid is launched blocks are enumerated and assigend to the
+When a kernel grid is launched, blocks are enumerated and assigend to the
 SMs. Once the blocks are assigned, threads are managed in \textbf{wraps}
 by the \textbf{wrap scheduler}. A wraps is a group of 32 threads that
 run in parallel. Thus, it is highly recommendable to use block sizes of
@@ -836,7 +836,7 @@ scheduler and queues behaviours.
     to be assigned to the CE.
   \item
     \textbf{C3} A copy operation at the head of the CE queue is dequeued
-    from the CE queue once the copy is
+    from the CE queue once the copy is assigned to the CE on the GPU.
   \item
     \textbf{C4} A copy operation is dequeued from its stream queue once
     the CE has completed the copy.
@@ -1072,7 +1072,7 @@ and there are enough resources.
 Assuming \(t_a\) is known, we would need to calculate how many blocks
 can be allocated at that point of time. In other words, we need to know
 the value of \(g_f\) at \(t_a\). In Figure \ref{img:new_kernel_1}a a new
-kernel K3 with 6 blocks \(g_3 = 6\) is going to be allocation on the
+kernel K3 with 6 blocks \(g_3 = 6\) is going to be allocated on the
 Jetson's GPU. Each block have 512 threads, which means that
 \(g_{max} = 8\). The GPU is not executing any kernel at \(t=t_a\) as
 shown in Figure \ref{img:new_kernel_1}b therefore \(g_f = g_{max} = 8\)
@@ -1120,7 +1120,7 @@ State prior to \(K3\) of the GPU. Kernels K1 and K2 were previously
 allocated (c) state after K3 allocation \label{img:new_kernel_2}}
 \end{figure}
 
-The next logic question is where the last block of K3 should be
+The next logical question is where the last block of K3 should be
 allocated. The answer again is given by the updated values of \(t_a\)
 and \(g_f\). Looking at Figure \ref{img:new_kernel_2}c is easy to get
 these new values. The new value of \(t_a\) is \(f_2\) since
@@ -1142,7 +1142,7 @@ example where there was only one kernel.
 Algorithm}\label{response-time-analysis-algorithm}}
 
 Our algorithm is focused on the calculation of \(t_a\) and \(g_f\) for
-each block regardless from which kernel \(\tau_i\) comes. In addition, it is
+each block regardless of from which kernel \(\tau_i\) comes. In addition, it is
 important to notice that \(t_a\) and \(g_f\) depend on how previous
 blocks were allocated and on the GPU state at some point in time, as it
 was described above and illustrated in the Figure \ref{img:new_kernel_1}
@@ -1158,7 +1158,7 @@ f_i = f(t_a, C_i)
 A basic version of our algorithm is described in Algorithm
 \ref{alg:basic}. This version is derived directly from the examples
 illustrated in Figure \ref{img:new_kernel_1} and Figure
-\ref{img:new_kernel_2}, in other words, this basic algorithm is a
+\ref{img:new_kernel_2}; in other words, this basic algorithm is a
 summary of the section above. We have omitted details such as how
 \(t_a\) and \(g_f\) are updated in the case that \(g_f \geq g_i\),
 however we still keep the big picture of what is necessary at each step.
@@ -1192,12 +1192,12 @@ however we still keep the big picture of what is necessary at each step.
 
 In order to analyze a new kernel \(\tau_i\) and update \(t_a\) and
 \(g_f\) we need to track old values of \(g_f\quad \forall t \leq t_a\).
-Fortunately, it is necessary only to track \(g_f\) at specific points of
+Fortunately, it is only necessary to track \(g_f\) at specific points of
 time. Some relevant points of time , as it was shown in the previous
 example described by Figure \ref{img:new_kernel_2}, are given by
 completion times of previous kernels, in other words we must track
 \(g_{i-k}\) and \(f_{i-k}\) where \(k \in {1,2,\dots, i-1}\), because
-updated values of \(g_f\) and \(t_a\) depend as well on these them.
+updated values of \(g_f\) and \(t_a\) depend on these as well.
 
 Let us define a set \(h\) of pair of values \((t_k, g_k)\) where \(g_k\)
 are the number of free blocks at \(t=t_k\) such that \(t_k \geq t_a\).
@@ -1345,10 +1345,10 @@ not known yet. Let us continue with the analysis.
   \(i = 3\)
 \end{itemize}
 
-In Figure \ref{img:ex_2}(c) is shown the GPU state, \(t_a\) and \(g_f\)
+In Figure \ref{img:ex_2}(c) the GPU state is shown, \(t_a\) and \(g_f\)
 values after \(\tau_2\) allocation. This setup is the starting point for
 the analysis of \(\tau_3\) as observed in Figure \ref{img:ex_3}(b).
-Since we already described step by step analysis for \(\tau_1\) and
+Since we already described step by step the analysis for \(\tau_1\) and
 \(\tau_2\), we skip some details in \(\tau_3\) analysis, however we will
 point out something important about \(h\).
 
@@ -1421,7 +1421,7 @@ allocation (c) GPU state after \(\tau_4\) allocation \label{img:ex_4}}
 
 We have calculated the completion times
 \(f_i \quad \forall i \in \tau\), \(f = \{4,10,12,11\}\). Given the fact
-that all kernel were scheduled at the same time, the release time for
+that all kernels were scheduled at the same time, the release time for
 all kernels is 0. Thus, the response time for each kernel is the same as
 their completion times. Furthermore, we can conclude that all the
 kernels can be scheduled because
@@ -1436,12 +1436,12 @@ same time and also have the same thread execution time,
 algorithmic behavior, instead it's a set of three equations.
 
 In this special case, there is no need of \(h\), because \(t_a\) and
-\(g_f\) can be calculated directly with two equations. The goal is as
-always to find \(t_a\), \(g_f\) and \(f_i\), however, we will exploit
+\(g_f\) can be calculated directly with two equations. The goal is, as
+always, to find \(t_a\), \(g_f\) and \(f_i\), however, we will exploit
 the fact that \(C_i\) is the same for all kernels. The case in which
 \(g_i \leq g_f\) is trivial to analyze, therefore we will analyze the
-other case. If Figure \ref{img:free_blocks_alg} is shown the block
-distribution when \(g_i > g_f\), thus in order to find \(g^{*}_f\) and
+other case. If Figure \ref{img:free_blocks_alg} the block
+distribution when \(g_i > g_f\) is shown, thus in order to find \(g^{*}_f\) and
 \(t^{*}_a\), that are the updated values, we must calculate \(K\).
 
 \begin{figure}
@@ -1470,7 +1470,7 @@ g^{*}_f = g_{max} - (g_i -  g_f - K g_{max} )
 \label{eq:g_f}
 \end{equation}
 
-The value of \(t^{*}_a\) is calculated in similar fashion and is given
+The value of \(t^{*}_a\) is calculated in a similar fashion and is given
 by equation \ref{eq:t_a}. On the other hand, the calculation of \(f_i\)
 remains the same.
 
@@ -1479,7 +1479,7 @@ t^{*}_a = t_a + C+ KC
 \label{eq:t_a}
 \end{equation}
 
-We are at a point at which we are able to calculate with formulas the
+We are at a point at which we are able to calculate, with formulas, the
 updated values of \(t_a\) and \(g_f\), nonetheless, we still have the
 algoritmic behavior given by the \texttt{if} condition. Therefore to no
 longer use that dependency, we will make use of the absolute value and
@@ -1657,10 +1657,10 @@ linear relation between computation time and number of allocated blocks.
 \caption{Best fit for computational complexity \label{img:bestfit}}
 \end{figure}
 
-We analyze in more details the influence of \(g_{max}\) and maximum
+We analyze in more detail the influence of \(g_{max}\) and maximum
 number of allocated blocks on computation time. Let us assume that
-number of blocks per kernel increase in linear fashion to the number of
-kernels. In order words, the more kernels we want to launch, the more
+the number of blocks per kernel increase in linear fashion to the number of
+kernels. In other words, the more kernels we want to launch, the more
 blocks each kernel will have. As shown in Figure
 \ref{img:gmax_variable}b. Results are shown in Figure
 \ref{img:gmax_variable}. The value of \(g_{max}\) has a strong influence
@@ -1796,7 +1796,7 @@ In the third scenario kernels were launched on the following order: K2,
 K1, K3, K4. As observed in Figure \ref{img:nvidia-ex05} the completion
 times were \(f = \{6,8,12,11\}\). Notice in this case that
 \emph{GPUSping:4} from kernel 4 and \emph{GPUSping:1} from kernel 5
-overlap in the figure. This is again an error on how the log file was
+overlap in the figure. This is, again, an error on how the log file was
 created. We tested {[}12{]} C implementation using \texttt{printf}, and
 the values were correct. Nevertheless, results from APP4MC shown in
 Figure \ref{img:octave-ex02} remain congruent with the results of its
@@ -1895,9 +1895,9 @@ Figure \ref{img:octave-ex07} are the same for each kernel.
 \hypertarget{thesis-summary}{%
 \section{Thesis summary}\label{thesis-summary}}
 
-We gave an overview in Chapter 1 of the motivation of this work, the
-Bosch WATERS Challenge 2019, explained the architecture of NVIDIA Jetson
-TX2 platform and its AMALTHEA model. Furthermore, in Chapter 2 we
+We gave an overview, in Chapter 1, of the motivation of this work, the
+Bosch WATERS Challenge 2019, and explained the architecture of NVIDIA Jetson
+TX2 platform and its AMALTHEA model. Furthermore, in Chapter 2, we
 introduced key concepts related to NVIDIA's GPU such as kernel
 definition, block and threads, as well as its memory hierarchy. We
 described in detail Jetson TX2 hardware architecture, and explained the
