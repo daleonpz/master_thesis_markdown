@@ -15,7 +15,7 @@
 \contentsline {figure}{\numberline {3.3}{\ignorespaces (a) \(t_a=t_1 \hskip 1em\relax \forall r_4\) s.t \(r_4 \leq t_1\) (b) \(t_a=r_4 \hskip 1em\relax \forall r_4\) s.t \(t_2 \leq r_4 \leq t_3\) \relax }}{22}{figure.caption.24}% 
 \contentsline {figure}{\numberline {3.4}{\ignorespaces (a)New kernel \(K3\) with 6 blocks to allocate \(g_3 = 6\). (b) State prior to \(K3\) of the GPU (c) state after K3 allocation \relax }}{22}{figure.caption.25}% 
 \contentsline {figure}{\numberline {3.5}{\ignorespaces (a)New kernel \(K3\) with 6 blocks to allocate \(g_3 = 6\). (b) State prior to \(K3\) of the GPU. Kernels K1 and K2 were previously allocated (c) state after K3 allocation \relax }}{23}{figure.caption.26}% 
-\contentsline {figure}{\numberline {3.6}{\ignorespaces (a) Kernel \(\mittau _1\) (b)GPU state prior to \(\mittau _1\) allocation (c) GPU state after \(\mittau _1\) allocation \relax }}{26}{figure.caption.29}% 
+\contentsline {figure}{\numberline {3.6}{\ignorespaces (a) Kernel \(\mittau _1\) (b)GPU state prior to \(\mittau _1\) allocation (c) GPU state after \(\mittau _1\) allocation \relax }}{27}{figure.caption.29}% 
 \contentsline {figure}{\numberline {3.7}{\ignorespaces (a) Kernel \(\mittau _2\) (b)GPU state prior to \(\mittau _2\) allocation (c) GPU state after \(\mittau _2\) allocation \relax }}{27}{figure.caption.30}% 
 \contentsline {figure}{\numberline {3.8}{\ignorespaces (a) Kernel \(\mittau _3\) (b)GPU state prior to \(\mittau _3\) allocation (c) GPU state after \(\mittau _3\) allocation \relax }}{28}{figure.caption.31}% 
 \contentsline {figure}{\numberline {3.9}{\ignorespaces (a) Kernel \(\mittau _4\) (b)GPU state prior to \(\mittau _4\) allocation (c) GPU state after \(\mittau _4\) allocation \relax }}{29}{figure.caption.32}% 

@@ -678,7 +678,7 @@ following sections.
 \caption{Memory hierarchy \label{img:sm_memory}}
 \end{figure}
 
-When a kernel grid is launched, blocks are enumerated and assigend to the
+When a kernel grid is launched, blocks are enumerated and assigned to the
 SMs. Once the blocks are assigned, threads are managed in \textbf{wraps}
 by the \textbf{wrap scheduler}. A wraps is a group of 32 threads that
 run in parallel. Thus, it is highly recommendable to use block sizes of
@@ -933,7 +933,7 @@ There is a set of tasks or kernels \(\tau\) of \(n\) independent kernels
 \(\{\tau_1, \tau_2, \ldots, \tau_n\}\) on a single GPU. Each kernel has
 a period \(T_i\) defined as the separation between two consecutives
 releases of \(\tau_i\), thread execution time workload \(C_i\) and a
-grid of blocks \(g_i\). Each block contains \(b_i\) threads.
+grid of \(g_i\) blocks. Each block contains \(b_i\) threads.
 
 \begin{equation} 
 \tau = \{ \tau_i \}; \quad i \geq n \wedge n \in \mathbb{N}
@@ -1022,12 +1022,13 @@ case of Jetson TX2 is 4096.
 Analysis}\label{introduction-to-gpu-response-time-analysis}}
 
 In addition to the variables defined in the assumptions section, 
-\(g_{f}\) defines the number of blocks that are available at some point in
+\(g_{f}(t)\) defines the number of blocks that are available at some point in
 time \(t\), and \(t_a\) the point in time in which a block \(b_i \in g_i\) can be allocated.
+In the case \(g_{f}(t)\) the time point is obvious or irrelevant \(g_{f}\) is used instead.
 
-For example in Figure \ref{img:free_blocks}a is shown that for a
+For example in Figure \ref{img:free_blocks}a is shown that for
 \(t=t_1\) the amount of free blocks \(g_{f}\) is lower than \(g_{max}\)
-while in Figure \ref{img:free_blocks}b for a \(t=t_2\),
+while in Figure \ref{img:free_blocks}b for  \(t=t_2\),
 \(g_{f} = g_{max}\).
 
 \begin{figure}
@@ -1037,8 +1038,8 @@ while in Figure \ref{img:free_blocks}b for a \(t=t_2\),
 \(t=t_2\), \(g_f = g_{max}\) \label{img:free_blocks}}
 \end{figure}
 
-In Figure \ref{img:ta_example} we present two cases. Let us assume there
-is a new kernel K4 which wants to allocate a block \(b_i \in g_i\). In
+In Figure \ref{img:ta_example} there are two cases for a kernel K4. 
+The GPU scheduler allocates a block \(b_4 \in g_4\). In
 Figure \ref{img:ta_example}a the release time \(r_4\) of the kernel 4 is
 lower than \(t_1\), which means that \(t_a = t_1\) because
 \(r_4 \leq t_1\) and kernel 3 (K3) was already dequeued. In Figure
@@ -1054,15 +1055,15 @@ and there are enough resources.
 \label{img:ta_example}}
 \end{figure}
 
-Assuming \(t_a\) is known, we would need to calculate how many blocks
-can be allocated at that point of time. In other words, we need to know
-the value of \(g_f\) at \(t_a\). In Figure \ref{img:new_kernel_1}a a new
+Assuming \(t_a\) is known, to calculate how many blocks
+can be allocated at that point in time the value of \(g_f\) at \(t_a\) should be known.
+In Figure \ref{img:new_kernel_1}a a new
 kernel K3 with 6 blocks \(g_3 = 6\) is going to be allocated on the
 Jetson's GPU. Each block have 512 threads, which means that
 \(g_{max} = 8\). The GPU is not executing any kernel at \(t=t_a\) as
 shown in Figure \ref{img:new_kernel_1}b therefore \(g_f = g_{max} = 8\)
-at \(t=t_a\). Given that \(g_3 < g_f\) all the blocks of K3 will be
-allocated at the same time as shown in Figure \ref{img:new_kernel_1}c.~
+at \(t=t_a\). Given that \(g_3 < g_f(t_a)\) all the blocks of K3 are
+allocated at the same time as shown in Figure \ref{img:new_kernel_1}c. 
 The completion time \(f_3\) of kernel K3 is \(t_a\) plus the thread
 execution time given by \(C_3\), \(f_3 = C_3 + t_a\). If we assume that
 the release time \(r_3\) is the same as \(t_a\) then the completion time
@@ -1077,21 +1078,21 @@ State prior to \(K3\) of the GPU (c) state after K3 allocation
 \label{img:new_kernel_1}}
 \end{figure}
 
-Once \(f_3\) and \(R_3\) are calculated, it's important to update the
-values of \(t_a\) and \(g_f\), because these values will be used by the
+Once \(f_3\) and \(R_3\) are calculated, it is important to update the
+values of \(t_a\) and \(g_f\), because these values are used by the
 following kernel. Let us start with \(g_f\), it is easy to notice that
 after K3 allocation there are two free blocks \(g_f - g_3 = 2\) as a
 result the new value of \(g_f = 2\). On the other hand, by definition
 \(t_a\) is the point in time in which a block \(b_i \in g_i\) can be
 allocated, therefore \(t_a\) will not change because \(g_f > 0\).
 
-In Figure \ref{img:new_kernel_2} we analyze another highly probable
+In Figure \ref{img:new_kernel_2} is presented another highly probable
 scenario. We use the same kernel K3 as in the last example
 (\(g_3 = 6\)). However, as shown in Figure \ref{img:new_kernel_2}b,
-there were two kernels allocated previously to K3. Kernel K1 with 5
+there are two kernels already  allocated. Kernel K1 with 5
 allocated blocks \(g_1 = 5\) and K2 with 3 allocated blocks \(g_2 = 3\).
 Note that these kernels have different completion time \(f_2 > f_1\).
-Nevertheless, what matters is not either K1 or K2 completion time but
+Nevertheless, the important thing is not either K1 or K2 completion time but
 the value of \(t_a\) and \(g_f\). In this example, \(t_a\) is the same
 as K1 completion time and \(g_f\) has the same value as \(g_1\),
 \(g_f = 5\). Thus, 5 blocks from K3 will be allocated first as shown in
@@ -1107,32 +1108,28 @@ allocated (c) state after K3 allocation \label{img:new_kernel_2}}
 
 The next logical question is where the last block of K3 should be
 allocated. The answer again is given by the updated values of \(t_a\)
-and \(g_f\). Looking at Figure \ref{img:new_kernel_2}c is easy to get
-these new values. The new value of \(t_a\) is \(f_2\) since
-\(f_2 <( t_a + C_3 )\), and for \(t=t_a\) the corresponding \(g_f\) is
-\(g_2\). Thus, the last K3 block is allocated at \(t=t_a=f_2\) and that
-give us the completion time for K3 that is \(f_3 = f_2+C_3\) or
-\(f_3 = t_a + C_3\). In Figure \ref{img:new_kernel_2}c, we defined a new
-variable \(C^{*}_3\) as the total amount of time in which K3 was using
-GPU resources.
+and \(g_f\). 
+The new value of \(t_a\) is \(f_2\) since \(f_2 <( t_a + C_3 )\), and for  \(g_f(t_a)\) is \(g_2\). 
+Thus, the last K3 block is allocated at \(t=t_a=f_2\) and  completion time for K3 that is \(f_3 = f_2+C_3\) or \(f_3 = t_a + C_3\).
+In Figure \ref{img:new_kernel_2}c,  \(C^{*}_3\) is the total amount of time in which K3 was using GPU resources.
 
-After K3 allocation, \(t_a\) and \(g_f\) should be updated again. In
-this example, the new \(g_f\) is the old value of \(g_f\) minus the last
-allocated K3 blocks \(g_f = g_f - 1 = 2\), while \(t_a\) remains the
-same \(t_a = f_2\) because the conditions are the same as in the later
+After K3 is allocated, \(t_a\) and \(g_f\) should be updated again. In
+this example, the new \(g_f\) is  \(g_2\) minus the last
+allocated K3 blocks \(g_f = g_2 - 1 = 2\), while \(t_a\) remains the
+same \(t_a = f_2\) because the conditions are the same as in the latter
 example where there was only one kernel.
 
 \hypertarget{response-time-analysis-algorithm}{%
 \section{Response Time Analysis
 Algorithm}\label{response-time-analysis-algorithm}}
 
-Our algorithm is focused on the calculation of \(t_a\) and \(g_f\) for
-each block regardless of from which kernel \(\tau_i\) comes. In addition, it is
-important to notice that \(t_a\) and \(g_f\) depend on how previous
+This work focusses on the calculation of \(t_a\) and \(g_f\) for
+each block regardless of which kernel \(\tau_i\) comes from. In addition, it is
+important to note that \(t_a\) and \(g_f\) depend on how previous
 blocks were allocated and on the GPU state at some point in time, as it
 was described above and illustrated in the Figure \ref{img:new_kernel_1}
 and Figure \ref{img:new_kernel_2}.\\
-The output of our algorithm is a set of release times
+The output of our algorithm is a set of response times
 \({f_1, f_2, \cdots, f_n}\) where \(n\) is the length of \(\tau\) which
 values \(f_i\) depend on \(t_a\) and \(C_i\).
 
@@ -1140,13 +1137,12 @@ values \(f_i\) depend on \(t_a\) and \(C_i\).
 f_i = f(t_a, C_i)
 \end{equation}
 
-A basic version of our algorithm is described in Algorithm
-\ref{alg:basic}. This version is derived directly from the examples
+The core algorithm is described in Algorithm \ref{alg:basic}. 
+This version is derived directly from the examples
 illustrated in Figure \ref{img:new_kernel_1} and Figure
-\ref{img:new_kernel_2}; in other words, this basic algorithm is a
-summary of the section above. We have omitted details such as how
-\(t_a\) and \(g_f\) are updated in the case that \(g_f \geq g_i\),
-however we still keep the big picture of what is necessary at each step.
+\ref{img:new_kernel_2}.
+In other words, even for complex situations such as different release times or block sizes, this algorithm remains the same.
+Thus, We have omitted details such as how \(t_a\) and \(g_f\) are updated in the case that \(g_f \geq g_i\), however the big picture of what is necessary at each step is shown.
 
 \begin{figure}[ht]
 \centering
@@ -1169,24 +1165,24 @@ however we still keep the big picture of what is necessary at each step.
                 Update $g_f$ and $t_a$; \\
             }
         }
-        \caption{Basic real time analysis algorithm }
+        \caption{Core response time analysis algorithm }
         \label{alg:basic}
     \end{algorithm} 
   \end{minipage}
 \end{figure}
 
 In order to analyze a new kernel \(\tau_i\) and update \(t_a\) and
-\(g_f\) we need to track old values of \(g_f\quad \forall t \leq t_a\).
-Fortunately, it is only necessary to track \(g_f\) at specific points of
-time. Some relevant points of time , as it was shown in the previous
+\(g_f\) it is important to track the values of \(g_f\quad \forall t \leq t_a\).
+Fortunately, it is only necessary to track \(g_f\) at specific points in
+time. Some relevant points in time, as it was shown in the previous
 example described by Figure \ref{img:new_kernel_2}, are given by
-completion times of previous kernels, in other words we must track
-\(g_{i-k}\) and \(f_{i-k}\) where \(k \in {1,2,\dots, i-1}\), because
+completion times of previous kernels. In other words 
+\(g_{i-k}\) and \(f_{i-k}\) where \(k \in {1,2,\dots, i-1}\) are tracked, because
 updated values of \(g_f\) and \(t_a\) depend on these as well.
 
-Let us define a set \(h\) of pair of values \((t_k, g_k)\) where \(g_k\)
-are the number of free blocks at \(t=t_k\) such that \(t_k \geq t_a\).
-In a further example we will show step by step how this array \(h\) is
+A set \(h\) is defined as a values  pair \((t_k, g_k)\) where \(g_k\)
+is the number of free blocks at \(t=t_k\) such that \(t_k \geq t_a\).
+A further example shows step by step how this array \(h\) is
 filled and updated in order to have a better understanding.
 
 A complete version of our algorithm is presented in Algorithm
@@ -1215,9 +1211,10 @@ A complete version of our algorithm is presented in Algorithm
                 $h = \{ h; (t_a+C_i, g_f) \}$;\\
                 $[ t_a, \mathrm{index}] = \mathrm{min}( h[:,1] )$;\\
                 $g_f = h[ \mathrm{index}, 2]$;\\
+                Update $h$;\\
             }
         }
-        \caption{Real time analysis algorithm }
+        \caption{Response time analysis algorithm }
         \label{alg:full}
     \end{algorithm} 
   \end{minipage}
@@ -1225,12 +1222,11 @@ A complete version of our algorithm is presented in Algorithm
 
 Our algorithm is based on three main updates: \(h\), \(t_a\) and
 \(g_f\). The set \(h\) can be seen as an array of size Nx2, where \(N\)
-is the number of tracked pairs. For this reason, when \(g_f > g_i\) we
-used MATLAB notation of \texttt{min} function
-\texttt{{[}value,\ index{]}\ =\ min(A)}, where \texttt{index} is the
+is the number of tracked pairs. For this reason, when \(g_f > g_i\) MATLAB notation of \texttt{min} function
+\texttt{{[}value,\ index{]}\ =\ min(A)} is used, where \texttt{index} is the
 position of the pair or row \((t_k, g_k) \in h\) that has the minimun of
-all time values saved in \(h\). Once we know which pair has the minimun
-time, we just assign \(t_a = t_k\) and \(g_f = g_k\). It is important to
+all time values saved in \(h\). Once the pair with the minimun
+time is found, \(t_a = t_k\) and \(g_f = g_k\) are assigned. It is important to
 mention again that by definition of \(h\), all the tracked times should
 be greater or equal than the current \(t_a\), meaning that pairs that
 have tracked times lower than \(t_a\) must be removed.
@@ -1238,13 +1234,13 @@ have tracked times lower than \(t_a\) must be removed.
 \hypertarget{example}{%
 \section{Example}\label{example}}
 
-Let us say there are four kernels we want to allocated, all with the same
+In this section there are four kernels, all with the same
 period \(T = 15\) and block size of 512 threads, \(b = 512\), which
-means \(g_{max} = 8\). The four tasks are defined as
+means \(g_{max} = 8\). The task is defined as
 \(\tau = \{\tau_1 = \{15, 4, 2, 512\} , \tau_2 = \{15, 6,7,512\}, \tau_3 = \{15, 6,2,512\}, \tau_4 =\{ 15, 5,5,512\} \}\).
 
 At the beginning \(t_a =0\), \(i=1\), \(h=\{\}\) and
-\(g_f = g_{max} = 8\). Let us start with \(\tau_1\). Kernel \(\tau_1\)
+\(g_f = g_{max} = 8\). The first one is \(\tau_1\). Kernel \(\tau_1\)
 and inital state of GPU are shown in Figure \ref{img:ex_1}(a) and Figure
 \ref{img:ex_1}(b) respectively.
 
@@ -1308,11 +1304,10 @@ this case \(t_a = 0\) and \(g_f = 6\) as shown in Figure
 allocation (c) GPU state after \(\tau_2\) allocation \label{img:ex_2}}
 \end{figure}
 
-Values for \(t_a\), \(g_f\), \(g_2\) and \(h\) were updated. Notice that
-current value of \(t_a\) is the completion time of \(\tau_1\) and
-\(g_f\) is \(g_1\), that is why, as mention before, it is important to
+Note that the current value of \(t_a\) is the completion time of \(\tau_1\) and
+\(g_f\) is \(g_1\), that is why it is important to
 track \(f_1\) and \(g_1\). However, completion time for \(\tau_2\) is
-not known yet. Let us continue with the analysis.
+not known yet. Consequently, \(\tau_2\) is still under analysis.
 
 \begin{itemize}
 \tightlist
@@ -1333,9 +1328,8 @@ not known yet. Let us continue with the analysis.
 In Figure \ref{img:ex_2}(c) the GPU state is shown, \(t_a\) and \(g_f\)
 values after \(\tau_2\) allocation. This setup is the starting point for
 the analysis of \(\tau_3\) as observed in Figure \ref{img:ex_3}(b).
-Since we already described step by step the analysis for \(\tau_1\) and
-\(\tau_2\), we skip some details in \(\tau_3\) analysis, however we will
-point out something important about \(h\).
+Since it was described a step by step analysis for \(\tau_1\) and
+\(\tau_2\), some details in \(\tau_3\) analysis are skipped, however the focus is on \(h\).
 
 \begin{figure}
 \centering
@@ -1366,13 +1360,13 @@ time of \(\tau_3\) is illustrated in Figure \ref{img:ex_3}.
   \(h = \{(10,2)\}\)
 \end{itemize}
 
-As mention before, we performed an \emph{extra} step with \(h\) in which
+Note the \emph{extra} step with \(h\) in which
 \(h\) went from having three pairs to having just two. The reason behind
 it lies on the definition of \(h\). The set \(h\) of pair of values
 \((t_k, g_k)\) where \(g_k\) are the number of free blocks at \(t=t_k\);
-notice that at \(t=10\) there are two \emph{free} tracked blocks, one
-that comes from \(\tau_2\) and other from \(\tau_3\) as shown is Figure
-\ref{img:ex_3}(c), as well as the results of the following \(\tau_3\)
+note that at \(t=10\) there are two allocated blocks, one
+that comes from \(\tau_2\) and one from \(\tau_3\) as shown is Figure
+\ref{img:ex_3}(c) as well as the results of the following \(\tau_3\)
 analysis.
 
 \begin{itemize}
@@ -1391,11 +1385,8 @@ analysis.
   \(i = 4\)
 \end{itemize}
 
-The analysis for \(\tau_4\) is straightforward. The blocks and thread
-execution time for \(\tau_4\), the GPU prior to \(\tau_4\) allocation
-and GPU state after \(\tau_4\) allocation are shown in Figure
-\ref{img:ex_4}. It is easy to find out that the completion time \(f_4\)
-is 11.
+The analysis for \(\tau_4\) is trivial. The blocks for \(\tau_4\), GPU state prior to \(\tau_4\) allocation and GPU state after \(\tau_4\) allocation are shown in Figure \ref{img:ex_4}. 
+The completion time \(f_4\) is 11.
 
 \begin{figure}
 \centering
@@ -1404,30 +1395,27 @@ is 11.
 allocation (c) GPU state after \(\tau_4\) allocation \label{img:ex_4}}
 \end{figure}
 
-We have calculated the completion times
-\(f_i \quad \forall i \in \tau\), \(f = \{4,10,12,11\}\). Given the fact
-that all kernels were scheduled at the same time, the release time for
+The completion times \(f_i \quad \forall \tau_i \in \tau\), \(f = \{4,10,12,11\}\), were explained.
+Given the fact that all kernels were scheduled at the same time, the release time for
 all kernels is 0. Thus, the response time for each kernel is the same as
-their completion times. Furthermore, we can conclude that all the
-kernels can be scheduled because
-\(R_i \leq T \quad \forall i \in \tau\).
+their completion times. 
+Furthermore,  all the kernels can be scheduled because \(R_i \leq T \quad \forall \tau_i \in \tau\).
 
 \hypertarget{a-special-case}{%
 \section{A Special case}\label{a-special-case}}
 
-In this section we demostrate that if all kernels are released at the
+In this section, it is demostrated  that if all kernels are released at the
 same time and also have the same thread execution time,
-\(C_i = C \quad \forall i \in \tau\), our response time analysis has not
-algorithmic behavior, instead it's a set of three equations.
+\(C_i = C \quad \forall i \in \tau\), then the response time analysis has not
+algorithmic behavior, instead it is a set of three equations.
 
 In this special case, there is no need of \(h\), because \(t_a\) and
-\(g_f\) can be calculated directly with two equations. The goal is, as
-always, to find \(t_a\), \(g_f\) and \(f_i\), however, we will exploit
-the fact that \(C_i\) is the same for all kernels. The case in which
-\(g_i \leq g_f\) is trivial to analyze, therefore we will analyze the
-other case. If Figure \ref{img:free_blocks_alg} the block
+\(g_f\) can be calculated directly with two equations.
+In order to find \(t_a\), \(g_f\) and \(f_i\) the fact that \(C_i\) is the same for all kernels is exploitde. 
+The case in which \(g_i \leq g_f\) is trivial to analyze, therefore it is skipped.
+In Figure \ref{img:free_blocks_alg} the block
 distribution when \(g_i > g_f\) is shown, thus in order to find \(g^{*}_f\) and
-\(t^{*}_a\), that are the updated values, we must calculate \(K\).
+\(t^{*}_a\), that are the updated values of \(g_f\) and \(t_a\), a variable \(K\) must be calculated.
 
 \begin{figure}
 \centering
@@ -1435,7 +1423,7 @@ distribution when \(g_i > g_f\) is shown, thus in order to find \(g^{*}_f\) and
 \caption{New kernel allocation \label{img:free_blocks_alg}}
 \end{figure}
 
-It is not hard to see that \(K\) is given by equation \ref{eq:K}. The
+The value of \(K\) is given by equation \ref{eq:K}. The
 interpretation is that \(K\) is the maximum amount of times that
 \(g_{max}\) blocks can be allocated.
 
@@ -1444,11 +1432,9 @@ K = \lfloor \frac{g_i - g_f}{g_{max}} \rfloor
 \label{eq:K}
 \end{equation}
 
-From \(K\) , the value of \(g^{*}_f\) is calculated using equation
-\ref{eq:g_f}. If we observed the blocks in Figure
-\ref{img:free_blocks_alg}, we notice that \(g^{*}_f\) can be calculated
-using geometry. The area of the first block is \(g_f\), of the second
-one \(Kg_{max}\) and the last one is \(g_i - g_f - K g_{max}\).
+From \(K\), the value of \(g^{*}_f\) is calculated using equation \ref{eq:g_f}. 
+The value of \(g^{*}_f\) can be calculated using geometry in Figure \ref{img:free_blocks_alg}.
+The area of the first block is \(g_f\), of the second one \(Kg_{max}\) and the last one is \(g_i - g_f - K g_{max}\).
 
 \begin{equation}
 g^{*}_f = g_{max} - (g_i -  g_f - K g_{max} )
@@ -1456,7 +1442,7 @@ g^{*}_f = g_{max} - (g_i -  g_f - K g_{max} )
 \end{equation}
 
 The value of \(t^{*}_a\) is calculated in a similar fashion and is given
-by equation \ref{eq:t_a}. On the other hand, the calculation of \(f_i\)
+in equation \ref{eq:t_a}. On the other hand, the calculation of \(f_i\)
 remains the same.
 
 \begin{equation}
@@ -1464,12 +1450,10 @@ t^{*}_a = t_a + C+ KC
 \label{eq:t_a}
 \end{equation}
 
-We are at a point at which we are able to calculate, with formulas, the
-updated values of \(t_a\) and \(g_f\), nonetheless, we still have the
-algoritmic behavior given by the \texttt{if} condition. Therefore to no
-longer use that dependency, we will make use of the absolute value and
-the signum function. The signum function of a real number x is defined
-as follows:
+At this point updated values of \(t_a\) and \(g_f\) are calculated with equations.
+Nonetheless, there is still an algoritmic behavior given by the \texttt{if} condition. 
+However the absolute value and the signum function solve this problem. 
+The signum function of a real number x is defined as follows:
 
 \begin{equation}
 \mathrm{sgn}(x)=
@@ -1480,30 +1464,27 @@ as follows:
     \end{cases} 
 \end{equation}
 
-We redefine \(K\) with the absolute value using equation \ref{eq:new_k},
-we use absolute value in \ref{eq:new_k} because we want K to be zero
-when \(g_i \leq g_f\).
+The new definition of  \(K\) is given in equation \ref{eq:new_k},
+The absolute value in \ref{eq:new_k} make K to be zero when \(g_i \leq g_f\).
 
 \begin{equation}
 K = \lfloor \frac{ \| g_i - g_f \|}{g_{max}} \rfloor
 \label{eq:new_k}
 \end{equation}
 
-In addition, we define \(\alpha\) which value is given by equation
-\ref{eq:alpha}. The value of \(\alpha\) is zero when \(g_i \leq g_f\)
-and one otherwise.
+The equation \ref{eq:alpha} defines a variable \(\alpha\).
+The value of \(\alpha\) is zero when \(g_i \leq g_f\) and one otherwise.
 
 \begin{equation}
 \alpha =  \frac{ \mathrm{sgn}(g_i-g_f) + 1 }{2}
 \label{eq:alpha}
 \end{equation}
 
-With \ref{eq:new_k} and \ref{eq:alpha} we eliminate the \texttt{if}
-condition and at the same time the algoritmic behavior. Therefore, the
-updated values of \(t_a\) and \(g_f\) are calculated using
-\ref{eq:new_t_a} and \ref{eq:new_g_f}. To emphasize again, when
-\(g_i \leq g_f\) \ref{eq:new_t_a} and \ref{eq:new_g_f} are the same
-steps described in Algorithm \ref{alg:full}.
+With \ref{eq:new_k} and \ref{eq:alpha} the \texttt{if} condition and at the same time the algoritmic behavior disappears. 
+Therefore, the updated values of \(t_a\) and \(g_f\) are calculated using
+\ref{eq:new_t_a} and \ref{eq:new_g_f}. 
+It is important to mentiotn that  when
+\(g_i \leq g_f\) \ref{eq:new_t_a} and \ref{eq:new_g_f} are the same steps described in Algorithm \ref{alg:full}.
 
 \begin{equation}
 t_a = t_a + \alpha C+ KC
