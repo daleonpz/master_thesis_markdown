@@ -1,6 +1,7 @@
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
+\hyphenpenalty=10000
 %
 \documentclass[
   12pt,
@@ -293,20 +294,17 @@
 
 The purpose of the thesis is to develop a response time algorithm for
 AMALTHEA-based models to analyze timing behaviors of CUDA kernels on
-NVIDIA Jetson TX2's GPU. This work was developed on the context of Bosch
-WATERS Challenge 2019. The challenge focuses on timing-analysis for
-heterogeneous software-hardware systems based on centralized end-to-end
-architectures, and NVIDIA Jetson TX2 was the selected platform for
+NVIDIA Jetson TX2's GPU. This work was developed on the context of the Bosch
+WATERS Challenge 2019 {[}6{]}. The challenge focuses on timing-analysis for
+heterogeneous software and hardware systems based on centralized end-to-end
+architectures. The embedded platform NVIDIA Jetson TX2 was the selected platform for
 testing. Furthermore, key concepts related to NVIDIA's GPU architecture
 are presented, as well as a detailed explanation of rules behind
 platform's GPU scheduler.
-
-Our algorithm is based on these rules and experimental results show
+This work is based on these rules and experimental results show
 the accuracy of our approach to estimate completion times for kernels
-executed on Jetson TX2 platform. We used real timing data from NVIDIA's
-platform in our experiments. Moreover, we implemented our
-algorithm on Eclipse APP4MC, which allows an AMALTHEA-based response time
-analysis for NVIDIA's Jetson TX2.
+executed on Jetson TX2 platform. Experiments use real timing data from NVIDIA's
+platform. Moreover, the algorithm is implemented in  Eclipse APP4MC, which allows an AMALTHEA-based response time analysis for NVIDIA's Jetson TX2.
 
 \pagenumbering{roman}
 \setcounter{page}{1}
@@ -388,7 +386,7 @@ Ort, Datum
 \begin{tabbing}
 $\tau$~~~~~~~~~~~~ \= Set of tasks or kernels \\
 $\tau_i$ \> Task or kernel $i$\\
-$\T_i$ \> Period of $\tau_i$ \\
+$T_i$ \> Period of $\tau_i$ \\
 $g_i$ \> Grid size of $\tau_i$ \\
 $b_i$ \> Number of thread per block within $g_i$ \\
 $C_i$ \> Execution time workload of a thread within $b_i$ \\
@@ -400,7 +398,7 @@ $U_t$ \> Total utilization of $\tau$ \\
 $b_{max}$ \> Maximum amount of threads in a SM \\
 $g_{max}$ \> Maximum amount of blocks that can be allocated in a SM \\
 $g_f$ \> Available blocks at some point in time \\
-$t_a$ \> Point in ime at which a block will be allocated \\
+$t_a$ \> Point in time at which a block will be allocated \\
 \end{tabbing}
 
 \newpage
@@ -414,7 +412,7 @@ $t_a$ \> Point in ime at which a block will be allocated \\
 \section{Motivation}\label{motivation}}
 
 Car manufactures want to reduce cost in terms of money and time required
-to develop, test and validate a new piece of software due to a change of
+to develop, test and validate a new piece of software and hardware due to a change of
 supplier. For that reason, centralized end-to-end architectures are the
 solution they are aiming to, because, for car companies such as BWW and
 Audi, the car of future will be similar to a ``data center on wheels''
@@ -425,17 +423,16 @@ towards decoupling software and hardware {[}2{]}. This type of
 architectures will not only take advantage of internet connectivity,
 cloud computing and powerful heterogeneous processing units, but also
 allow scalable, hierarchical and highly integrated system.
-
-In other words, car manufactures prefer nowadays low-latency,
+In other words, car manufactures prefer low-latency,
 hierarchical and cost effectiveness of centralized end-to-end
 architectures, because of today's requirements of computational power,
 bandwidth, integration, safety and real-time {[}3{]}.
 
-However, car manufactures do not forget, in centralized
-end-to-end architectures, different types of software would run on top
+However, car manufactures do not forget that in centralized
+end-to-end architectures different types of software would run on top
 of an heterogeneous hardware supplied by companies such as NVIDIA,
 Mobileye or Qualcomm. Thus, it is important to analyze and understand how
-software will behave under those conditions, in order to ensure a
+software behave under those conditions, in order to ensure a
 predictable and efficient system.
 
 \hypertarget{industrial-challenge-waters-2019}{%
@@ -447,26 +444,24 @@ systems {[}4{]}. Analyzing time related characteristics is an important
 step to design predictable embedded systems. However, in multi-core or
 heterogeneous systems based on centralized end-to-end architectures is
 harder to satisfy timing constrains due to scheduling, caches,
-pipelines, out-of-order executions, and different kinds of speculation
-{[}5{]}. Thus, development of timing-analysis methods for these types of
+pipelines and out-of-order executions {[}5{]}. 
+Thus, development of timing-analysis methods for these types of
 architectures has become, nowadays, one of the main focus of research in
 both industry and academic environment.
 
-Robert Bosch GmbH or Bosch, the German multinational engineering and
-electronics company, and one of the top leaders in development
-technology for the automotive industry announces every year \emph{the
-WATERS Challenge}. The purpose of the WATERS industrial challenge is to
+Every year \emph{the WATERS Challenge} is announced.
+The purpose of the WATERS industrial challenge is to
 share ideas, experiences and solutions to concrete timing verification
 problems issued from real industrial case studies {[}6{]}.
 
 This year, 2019, the challenge focuses on timing-analysis for
 heterogeneous software-hardware systems based on centralized end-to-end
 architectures. The platform chosen for this purpose is the NVIDIA®
-Jetson™ TX2 platform, which has an heterogeneous architecture equipped
-with a Quad ARM A57 processor, a Dual Denver processor, 8GB of LPDDR4
+Jetson™ TX2 platform, which has a heterogeneous architecture equipped
+with a Quad ARM A57 processor, a dual Denver processor, 8GB of LPDDR4
 memory and 256 CUDA cores of NVIDIA's Pascal Architecture. 
-An AMALTHEA model based on this platform is available. Developers can design
-solutions, and test them later on real hardware.
+An AMALTHEA model based on this platform is available {[}6{]}.
+Developers can design solutions and test them later on real hardware.
 
 \hypertarget{nvidia-jetson-tx2-architecture-overview}{%
 \section{NVIDIA Jetson TX2: Architecture
@@ -474,19 +469,18 @@ Overview}\label{nvidia-jetson-tx2-architecture-overview}}
 
 NVIDIA Jetson TX2 is an embedded system-on-module (SOM). It is ideal for
 deploying advanced AI to remote field locations with poor or expensive
-internet connectivity, Robotics, Gaming Devices, Virtual Reality (VR),
-Augmented Reality (AR) and Portable Medical Devices. In addition, it
-offers near-real-time responsiveness and minimal latency---key for
-intelligent machines that need mission-critical autonomy {[}7{]}.
+internet connectivity, robotics, gaming devices, Virtual Reality (VR),
+Augmented Reality (AR) and portable medical devices. In addition, it
+offers near-real-time responsiveness and minimal latency which is key for
+intelligent machines that need mission-critical autonomy like mining{[}7{]}.
 
-The main components of the Jetson TX2 are dual-core ARMv8 based NVIDIA
+The main components of the Jetson TX2 are a dual-core ARMv8 based NVIDIA
 Denver2, quad-core ARMv8 Cortex-A57, 8GB 128-bit LPDDR4 and integrated
-256-core Pascal NVIDIA GPU. The quad-core Cortex-A57 and dual-core
+256-core Pascal NVIDIA GPU. The quad-core Cortex-A57 and the dual-core
 NVIDIA Denver2 can be seen as a cluster of heterogeneous multiprocessors
-(HMP) {[}8{]}. Both HMP and GPU shares a 8GB SRAM memory as shown in
-Figure \ref{img:overview_arch}. Hereafter, whenever we use the term
-\textbf{host}, we will refer to HMP, similarly we will use
-\textbf{device} to refer to GPU.
+(HMP) {[}8{]}. Both HMP and GPU share a 8GB SRAM memory as shown in
+Figure \ref{img:overview_arch}. Hereafter, whenever the term
+\textbf{host} will refer to HMP, similarly  \textbf{device} will refer to GPU.
 
 \begin{figure}
 \centering
@@ -496,27 +490,25 @@ Figure \ref{img:overview_arch}. Hereafter, whenever we use the term
 
 Any NVIDIA GPU has two types of engines, \textbf{Copy Engines} (CE) and
 \textbf{Execution Engines} (EE). The Jetson TX2 has only one CE and two
-EE also known as \textbf{Streaming multiprocessors}. CE is in charge of
+EE also known as \textbf{Streaming multiprocessors}. The CE is in charge of
 data transfers from host to device and viceversa. There is, moreover,
-the possibility that EE and CE can run concurrently.
+the possibility that EE and CE run concurrently.
 
 The GPU uses \textbf{streams} to run applications. The number of streams
 depends on the GPU resources. An application can run in one or multiple
-streams, the GPU scheduler, by default, manages how the application will
-be allocated on streams in order to maximize throughput. In Chapter 2,
-we will discuss how the TX2 GPU scheduler behaves in case
+streams, the GPU scheduler, by default, manages how the application 
+are allocated on streams in order to maximize throughput. In Chapter 2,
+it is discussed how the TX2 GPU scheduler behaves in case
 of multiple applications in more detail.
 
 \hypertarget{jetson-tx2-amalthea-model}{%
 \section{Jetson TX2 Amalthea Model}\label{jetson-tx2-amalthea-model}}
 
-AMALTHEA is a platform for engineering multi- and many-core embedded
+APP4MC is a platform for engineering multi- and many-core embedded
 systems. This platform enables the creation and management of complex
-tool chains including simulation and validation {[}9{]}. In the context
-of the WATERS Challenge 2019, Bosch offers an AMALTHEA model of the Jetson
-TX2. In this model, a CPU runnable will read data from memory, execute
-some computation (Ticks) and write back data into memory as shown in
-Figure \ref{img:amalthea01}.
+tool chains including simulation and validation based on AMALTHEA models{[}9{]}.
+In the context of the WATERS Challenge 2019, Bosch offers an AMALTHEA model of the Jetson TX2.
+In this model, a CPU runnable reads data from memory, executes some computation (Ticks) and writes back data into memory as shown in Figure \ref{img:amalthea01}.
 
 \begin{figure}
 \centering
@@ -524,12 +516,12 @@ Figure \ref{img:amalthea01}.
 \caption{Runnable example for a CPU {[}6{]} \label{img:amalthea01}}
 \end{figure}
 
-In the case of GPU modeling, the runnable will follow the same pattern
+In the case of GPU modeling, the runnable follows the same pattern
 as in the CPU case: read, execution, write back. However, the reading
 operation is actually to copy memory from host to device, thus it is
 modeled as \emph{memory reading from host} and then as \emph{memory
 writing to device}. On the other hand, the writing back operation
-requires to copy memory from device to host, therefore it is modeled as
+requires to copy memory from device to host therefore it is modeled as
 \emph{memory reading from device} and then as \emph{memory writing to
 host} as shown in Figure \ref{img:amalthea02}.
 
@@ -542,23 +534,21 @@ host} as shown in Figure \ref{img:amalthea02}.
 \hypertarget{cuda-and-jetson-tx2}{%
 \chapter{CUDA and Jetson TX2}\label{cuda-and-jetson-tx2}}
 
-In this chapter we give an overview of the theorical background of
-NVIDIA GPU software and hardware model. We introduce the concepts of
-threads, blocks, kernels and streaming multriprocesor, and how they
-apply to our study case. We discuss Jetson TX2's memory hierarchy
-and scheduler. In addition, we describe the rules behind the Jetson
-TX2's hardware scheduler with an example.
+In this chapter an overview of the theorical background of
+the NVIDIA GPU software and hardware model is given. 
+There is also an introduction to the concepts of threads, blocks, kernels and streaming multriprocesor, and how they apply to this work's study case.
+Jetson TX2's memory hierarchy and scheduler are presented in addition to the rules behind the Jetson TX2's hardware scheduler. At the end there is a comprehensive example.
 
 \hypertarget{nvidia-gpu-software-model}{%
 \section{NVIDIA GPU Software Model}\label{nvidia-gpu-software-model}}
 
-Nowadays computer applications run on heterogeneous hardware and GPUs
-are important in order to achieve high performance computing. Since 2006
-running software on NVIDIA GPUs are known as a \emph{CUDA application}
-{[}10{]}. A CUDA application will run concurrently multiple instances of
+Nowadays applications run on heterogeneous hardware and GPUs
+are important in order to achieve high performance computing. Since 2006,
+a running software on NVIDIA GPUs are known as a \emph{CUDA application}
+{[}10{]}. A CUDA application runs concurrently multiple instances of
 special functions called \textbf{kernels}. Each instance runs on a
 \textbf{thread}. Moreover, these threads are arranged in
-\textbf{blocks}, and blocks compose \textbf{grids} as shown in Figure
+\textbf{blocks} and blocks compose \textbf{grids} as shown in Figure
 \ref{img:sw_model_grids}.
 
 \begin{figure}
@@ -568,12 +558,11 @@ special functions called \textbf{kernels}. Each instance runs on a
 \label{img:sw_model_grids}}
 \end{figure}
 
-It's logical to think that there is also a hierarchical memory
+There is also a hierarchical memory
 structure. Threads, blocks and grids have access to different memory
 spaces as ilustrated in Figure \ref{img:sw_model_memory}. The types of
 memory are summarized in Table \ref{tab:memory_hierarchy}.
 
-\newpage
 
 \begin{longtable}[]{@{}llll@{}}
 \caption{Types of memories in a GPU
@@ -666,9 +655,11 @@ Thread\strut
 \end{figure}
 
 In summary, CUDA applications solve problems that were modeled based on
-\emph{divide and conquer} principle. Moreover, CUDA software model not
-only allow users to achieve high computational performance, but also
-high scalable CUDA application.
+\emph{divide and conquer} principle. 
+Each thread executes a kernel on a small subset of data.
+Thus, CUDA software model not
+only allows users to achieve high computational performance, but also
+high scalable CUDA applications.
 
 \hypertarget{nvidia-gpu-hardware-model}{%
 \section{NVIDIA GPU Hardware Model}\label{nvidia-gpu-hardware-model}}
@@ -678,7 +669,7 @@ The CUDA architecture is based on \textbf{Streaming Multiprocessors}
 units, registers, execution pipelines and local memories, but they also
 have access to global memory as ilustrated in Figure
 \ref{img:sm_memory}. A \textbf{stream} is a queue of CUDA operations,
-memory copies and kernel launches. We will talk more about streams in
+memory copies and kernel launches. Streams are presented in more detail in 
 following sections.
 
 \begin{figure}
@@ -691,10 +682,10 @@ When a kernel grid is launched, blocks are enumerated and assigend to the
 SMs. Once the blocks are assigned, threads are managed in \textbf{wraps}
 by the \textbf{wrap scheduler}. A wraps is a group of 32 threads that
 run in parallel. Thus, it is highly recommendable to use block sizes of
-size \(32N, N \in \mathbb{N}\), otherwise there would be ``inactive''
-threads. A example is shown in Figure \ref{img:inactive_thread}, where
+size \(32N, N \in \mathbb{N}\), otherwise there would be \textit{inactive}
+threads. An example is shown in Figure \ref{img:inactive_thread} where
 there is a block of 140 threads but since the wrap scheduler works with
-wraps, 20 threads are wasted and no other block can make use of them.
+wraps, 20 threads are wasted because no other block can make use of them.
 
 \begin{figure}
 \centering
@@ -703,11 +694,12 @@ wraps, 20 threads are wasted and no other block can make use of them.
 \end{figure}
 
 The amount of threads and blocks that can run concurrently per SM
-depends on the number of 32-bit registers and shared memory within SM,
+depends on the number of 32-bit registers and shared memory within SM
 as well as the CUDA computing capability of the GPU. Information related
-to maximum amount of blocks or threads, as well as the computing
-capability of the GPU can be display executing \texttt{deviceQuery}
-tool. Some information about Jetson TX2 is presented below:
+to the maximum amount of blocks or threads as well as the computing
+capability of the GPU can be displayed executing a device query
+tool, which is installed by default on the Jetson TX2. 
+Some information about Jetson TX2 is presented below:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -715,13 +707,11 @@ tool. Some information about Jetson TX2 is presented below:
 \ExtensionTok{Detected}\NormalTok{ 1 CUDA Capable device(s)}
 \ExtensionTok{Device}\NormalTok{ 0: }\StringTok{"NVIDIA Tegra X2"}
   \ExtensionTok{CUDA}\NormalTok{ Driver Version / Runtime Version     9.0 / 9.0}
-  \ExtensionTok{CUDA}\NormalTok{ Capability:                          6.2}
   \ExtensionTok{Total}\NormalTok{ amount of global memory:            7850 MBytes }
   \KeywordTok{(} \ExtensionTok{2}\KeywordTok{)} \ExtensionTok{SM}\NormalTok{, (128) }\ExtensionTok{CUDA}\NormalTok{ Cores/SM:             256 CUDA Cores}
   \ExtensionTok{L2}\NormalTok{ Cache Size:                            524288 bytes}
   \ExtensionTok{Total}\NormalTok{ amount of shared memory per block:  49152 bytes}
   \ExtensionTok{Total}\NormalTok{ number of registers per block:      32768}
-  \ExtensionTok{Warp}\NormalTok{ size:                                32}
   \ExtensionTok{Max.}\NormalTok{ number of threads per SM:            2048}
   \ExtensionTok{Max.}\NormalTok{ number of threads per block:         1024}
   \ExtensionTok{Max}\NormalTok{ dim. size of a thread block (x,y,z)}\BuiltInTok{:}\NormalTok{  (1024, 1024, 64)}
@@ -733,16 +723,15 @@ tool. Some information about Jetson TX2 is presented below:
 \section{NVIDIA Jetson TX2's GPU
 Scheduler}\label{nvidia-jetson-tx2s-gpu-scheduler}}
 
-It's common to use several kernels in an application. In order to reduce
+It is common to use several kernels in an application. In order to reduce
 computation time and maximaze GPU utilization, it is desired to run
 multiple kernels in parallel. CUDA uses streams to achieve this goal. As
 mentioned before, a stream is a queue of CUDA operations, memory copies
 and kernel launches. Thus, it is possible either to launch multiple
 kernels within one streams or multiple kernels on multiple streams.
 Operations within the same stream are managed in FIFO (First In First
-Out) fashion, thus, we will also use the term \textbf{stream queue} when
-we talk about FIFO queues within a stream. The Jeston TX2's GPU assigns
-resources to streams using its internal scheduler.
+Out) fashion, thus,  the term \textbf{stream queue} in this work is used to refer FIFO queues within a stream. 
+The Jeston TX2's GPU assigns resources to streams using its internal scheduler.
 
 Predictability is an important characteristic of safety-critical
 systems. It requires both functional and timing correctness. However, a
@@ -753,22 +742,21 @@ timing constrains. Nevertheless, there are some efforts {[}12{]},
 experimentation.
 
 NVIDIA GPU scheduling policies depend on whether the GPU workloads are
-launched by a CPU executing OS threads or OS processes. We will focus on
+launched by a CPU executing OS threads or OS processes. This work focuses on
 the first case, because GPU computations launched by OS processes have
 more unpredictable behaviours, as stated in {[}12{]} and {[}13{]}. In
-this section, we will present GPU scheduling policies devired by
-{[}12{]} and use them in an example to clarify their use.
+this section, GPU scheduling policies devired by
+{[}12{]} are presented and an example clarifies their use.
 
-Let us start by defining some terms. When one block of a kernel has been
-scheduled for execution on a SM it's said that the block was
+Some terms should be defined first. When one block of a kernel has been
+scheduled for execution on a SM it is said that the block was
 \textbf{assigned}. Moreover, it's said a kernel was \textbf{dispatched}
 as soon as one of its blocks were assigned, and \textbf{fully
 dispatched} once all its blocks were assigned. The same applies to copy
 operations and CE.\\
-There are, in addition, FIFO CE queues used to schedule copy operations,
+There are, in addition, FIFO CE queues used to schedule copy operations
 and FIFO EE queues used to schedule kernel launches. Stream queues feed
-CE and EE queues. Bellow we will present the rules that determine
-scheduler and queues behaviours.
+CE and EE queues. Bellow  the rules that determine scheduler and queues' behaviours are presented.
 
 \begin{itemize}
 \tightlist
@@ -860,6 +848,13 @@ Authors in {[}12{]} mentioned that rules related to \textbf{registry
 resources} are expected to have exactly the same impact as threads and
 shared-memory rules.
 
+An example of block allocation for different kernels on the Jetson's GPU  is shown in Figure \ref{img:scheduler_blocks}.
+Each rectangle represents a block: the \textit{j-th} block of kernel \textit{k} is labeled K\textit{k:j}. 
+End and start time of each block are represented by its right and left boundaries. 
+The height of each rectangle is the number of threads used by that block.
+Dashed lines correspond to time points that are interesting for analysis. 
+In Figure \ref{img:scheduler_queues} is presented the state of queries for each time represented by dashed lines and in Tables 2.2, 2.3 and 2.4 a description of how each  scheduling rule influence queries' behaviour.
+
 \begin{figure}
 \centering
 \includegraphics[width=0.6\textwidth,height=\textheight]{source/figures/scheduler_blocks.png}
@@ -927,14 +922,9 @@ C4 & No copy operations at the head of streams. & No copy operations at the head
 \chapter{Jetson TX2's GPU scheduler response time
 analysis}\label{jetson-tx2s-gpu-scheduler-response-time-analysis}}
 
-In this chapter, we present our approach to perform a response time
-analysis for Jetson TX2's GPU scheduler based on the set of scheduling
-rules explained in the last chapter. We define a task model, declare our
-assumptions, and give a brief introduction to GPU response time
-analysis.\\
-In addition we introduce our algorithm, show some examples, describe how
-our algorithm can change under certain conditions, and discuss its
-computational complexity.
+In this chapter, the main contribution of this work is presented, the response time analysis for Jetson TX2's GPU scheduler based on the set of scheduling rules explained in the last chapter.
+A task model is defined,  works assumptions are declared, and a brief introduction to GPU response time analysis is given.\\
+In addition, the last sections of this chapter present examples, description of a special case of this work,  computational complexity discussion.
 
 \hypertarget{task-model}{%
 \section{Task model}\label{task-model}}
@@ -973,10 +963,8 @@ U_t = \sum_{\tau_i \in \tau} u_i
 \label{eq:task_utilization}
 \end{equation}
 
-For a kernel \(\tau_i\) we denote the release time as \(r_i\), the
-completion time as \(f_i\) and response time as \(R_i = f_i - r_i\) We
-assume that a kernel \(\tau_i\) has a deadline equal to its period
-\(T_i\).
+For a kernel \(\tau_i\), \(r_i\) denotes its release  time, \(f_i\) its completion time as \(f_i\) and \(R_i = f_i - r_i\) its response time.
+This work assumes that a kernel \(\tau_i\) has a deadline equal to its period \(T_i\).
 
 \begin{figure}
 \centering
@@ -987,20 +975,20 @@ assume that a kernel \(\tau_i\) has a deadline equal to its period
 \hypertarget{assumptions}{%
 \section{Assumptions}\label{assumptions}}
 
-For the calculation of response times we have two assumption:
+For the calculation of response times there are two assumption:
 
 \hypertarget{all-blocks-have-the-same-amount-of-threads}{%
 \subsection{All blocks have the same amount of
 threads}\label{all-blocks-have-the-same-amount-of-threads}}
 
-The election of the optimum number of threads for a specific kernel is a
-hard task, for that reason there have been some efforts towards that
+The election of the optimal number of threads for a specific kernel is a hard task.
+For that reason there have been some efforts towards that
 direction {[}16{]}, {[}17{]}, {[}18{]}, {[}19{]}. However, NVIDIA
 developers recommend, for practical purposes, on their offical guides
 {[}20{]} and {[}21{]} to use block sizes equals to either 128, 256, 512
 or 1024, because it has been documented that these values are more
-likely to take full advantage of the GPU resources. In our case we will
-assume that all the blocks, regardless the kernel, are the same size.
+likely to take full advantage of the GPU resources. 
+This work assumes that all the blocks, regardless the kernel, are the same size because for this work is the first step to more complex analysis.
 
 \begin{equation} 
 b_i = b, \quad \forall \tau_i \in \tau
@@ -1016,29 +1004,26 @@ multiprocessor in the Jetson TX2 has 2048 available threads and since
 \(b_i\) can be either 128, 256, 512 or 1024
 (\(2048/ b_i = k, k \in \mathbb{N}\)), we can think of the two streaming
 multiprocessors as a big one of 4096 threads.
-
 It means that it could be allocated \(2048/b_i\) blocks per SM or
-\(4096/b_i\) blocks in the big SM. Hereafter we will refer the big SM as
-it were the only SM in the Jetson TX2's GPU. Thus, we defined
-\(g_{max}\) as the maximum number of blocks that can be allocated in the
-SM at some point in time.
+\(4096/b_i\) blocks in the big SM. 
+Hereafter, this work asummes that Jetson TX2's GPU has only one SM.
+Thus, \(g_{max}\) defines the maximum number of blocks that can be allocated in the SM at some point in time.
 
 \begin{equation} 
 g_{max} = \frac{b_{max}}{b}, \quad  g_{max} \in \mathbb{N}
 \label{eq:max_grid}
 \end{equation}
 
-Where \(b_{max}\) is the maximum amount of threads in the GPU, in the
+Where \(b_{max}\) is the maximum amount of threads in the GPU in the
 case of Jetson TX2 is 4096.
 
 \hypertarget{introduction-to-gpu-response-time-analysis}{%
 \section{Introduction to GPU Response Time
 Analysis}\label{introduction-to-gpu-response-time-analysis}}
 
-In addition to the variables defined in our assumptions we define
-\(g_{f}\) as the number of blocks that are available at some point in
-time \(t\), and \(t_a\) as the point in time in which a block
-\(b_i \in g_i\) can be allocated.
+In addition to the variables defined in the assumptions section, 
+\(g_{f}\) defines the number of blocks that are available at some point in
+time \(t\), and \(t_a\) the point in time in which a block \(b_i \in g_i\) can be allocated.
 
 For example in Figure \ref{img:free_blocks}a is shown that for a
 \(t=t_1\) the amount of free blocks \(g_{f}\) is lower than \(g_{max}\)
