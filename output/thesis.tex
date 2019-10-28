@@ -1499,7 +1499,7 @@ g_f = \alpha g_{max} - (g_i -  g_f - K g_{max} )
 \hypertarget{computational-complexity}{%
 \section{Computational Complexity}\label{computational-complexity}}
 
-Our algorithm described in Algorithm \ref{alg:full} has two branches,
+The algorithm described in Algorithm \ref{alg:full} has two branches,
 inside the \texttt{while} loop, given by an \texttt{if} conditional. In
 Table \ref{tab:bigO} is shown the computational complexity of each step
 of the real time analysis algorithm.
@@ -1603,7 +1603,7 @@ it is important to highlight that only on the first branch the lenght of
 \(h\) increases. Thus, the computational complexity of the \texttt{if}
 statement is O(n).
 
-Let us analyze the outer \texttt{while} loop. The number of iterations
+The analysis of the outer \texttt{while} loop goes as follows. The number of iterations
 depends on number of kernels, their grid sizes \(g_i\) and how many
 blocks can be allocated in total in the GPU or \(g_{max}\). An
 estimation can be given by \(\frac{g}{g_{max}}\), where \(g\) is
@@ -1611,63 +1611,12 @@ estimation can be given by \(\frac{g}{g_{max}}\), where \(g\) is
 their grid sizes. Thus, computational complexity of our algorithm is O(
 \(\frac{ng}{g_{max}}\)).
 
-It can be observed in Figure \ref{img:bestfit} the relationship between
-computation time and number of kernels and total of allocated blocks.
-The right side graph shows the polinomial behavior between time and
-number of kernels. On the other hand, the lelf side graph shows a more
-linear relation between computation time and number of allocated blocks.
-
-\begin{figure}
-\centering
-\includegraphics[width=1\textwidth,height=\textheight]{source/figures/max100min2gmax10.png}
-\caption{Best fit for computational complexity \label{img:bestfit}}
-\end{figure}
-
-We analyze in more detail the influence of \(g_{max}\) and maximum
-number of allocated blocks on computation time. Let us assume that
-the number of blocks per kernel increase in linear fashion to the number of
-kernels. In other words, the more kernels we want to launch, the more
-blocks each kernel will have. As shown in Figure
-\ref{img:gmax_variable}b. Results are shown in Figure
-\ref{img:gmax_variable}. The value of \(g_{max}\) has a strong influence
-on computation times. When \(g_{max} = 128\) computation times are an
-order of magnitude lower than when \(g_{max} = 8\). The inverse relation
-is consistent with computational complexity. The value of \(g_{max}\)
-tells us how many blocks can be allocated on the GPU at the same time
-which implies fewer iterations of our algorithm.
-
-\begin{figure}
-\centering
-\includegraphics[width=1\textwidth,height=\textheight]{source/figures/gmax_variable.png}
-\caption{Analysis of computational complexity when \(g_{max}\) is
-variable \label{img:gmax_variable}}
-\end{figure}
-
-Let us assume now the value of \(g_{max}\) is constant, but the number
-of of allocated blocks increase as shown in Figure
-\ref{img:bmax_variable}b. Results are shown in Figure
-\ref{img:bmax_variable}. In Figure \ref{img:bmax_variable}c, we can see
-that for the same amount of blocks the algorithm runs faster because
-there are fewer kernels.
-
-\begin{figure}
-\centering
-\includegraphics[width=1\textwidth,height=\textheight]{source/figures/bmax_variable.png}
-\caption{Analysis of computational complexity when \(b_{max}\) is
-variable \label{img:bmax_variable}}
-\end{figure}
-
-The graphs above tell us that our algorithm perform better when the
-number of threads per block is low. In addition, the grid size has a
-minor influence on the algorithm performance as shown in Figure
-\ref{img:bmax_variable}.
-
 \hypertarget{experimental-results}{%
 \chapter{Experimental Results}\label{experimental-results}}
 
-In this chapter we presents our experimental results. A complete example
-using AMALTHEA models can be found in the Appendix 1. We compare results
-from Jetson TX2 platfrom againts our APP4MC implementation. The former
+In this chapter experimental results are presented. A complete example
+using AMALTHEA models can be found in the Appendix 1. There is a comparison 
+between data from Jetson TX2 platfrom againts the APP4MC implementation. The former
 are used as ground truth to verify our implementation and assumptions.
 
 \hypertarget{ground-truth-generation}{%
@@ -1675,16 +1624,13 @@ are used as ground truth to verify our implementation and assumptions.
 
 Amert et. al {[}12{]} published their code in github. They developed a
 CUDA Scheduling Viewer, which is a tool for examining block-level
-scheduling behavior and co-scheduling performance on CUDA devices. The
-input are configuration files on the JSON format, and the output can be
-displayed as figure using a Python script, which is provided as well. An
+scheduling behavior and co-scheduling performance on CUDA devices. 
+Inputs are configuration files on the JSON format, and the output can be
+displayed as a figure using a Python script, which is provided as well. An
 example output is shown in Figure \ref{img:nvidia-base}
 
-Our test scenario was similar to the example presented in the last
-chapter. We had four kernels we wanted to allocate. The parameters were:
-block size = 512 threads, and \(g_{max} = 8\). The four kernels were
-defined as
-\(\tau = \{\tau_1 = \{15, 4, 2, 512\} , \tau_2 = \{15, 6,7,512\}, \tau_3 = \{15, 6,2,512\}, \tau_4 =\{ 15, 5,5,512\} \}\).
+The test scenario consists of four kernels defined as \(\tau = \{\tau_1 = \{15, 4, 2, 512\} , \tau_2 = \{15, 6,7,512\}, \tau_3 = \{15, 6,2,512\}, \tau_4 =\{ 15, 5,5,512\} \}\).
+The GPU parameters were: block size = 512 threads, and \(g_{max} = 8\).
 
 \begin{figure}
 \centering
@@ -1692,7 +1638,7 @@ defined as
 \caption{Output of the CUDA Scheduling Viewer \label{img:nvidia-base}}
 \end{figure}
 
-An example of a kernel description in the configuration file was as
+An example of a kernel description in the configuration file is as
 follows:
 
 \begin{Shaded}
@@ -1706,12 +1652,12 @@ follows:
 \end{Highlighting}
 \end{Shaded}
 
-The \texttt{filename} is the benchmark binary file we used as a kernel.
-For all the kernels was \texttt{timer\_spin.so}. This file defines a
-bare-bones CUDA benchmark which spins waiting for a user-specified
+The \texttt{filename} is the benchmark kernel as binary file.
+For all the kernels the binary file is \texttt{timer\_spin.so}. This file defines a
+CUDA benchmark which spins waiting for a user-specified
 amount of time to complete. The execution time in nanoseconds or \(C_i\)
-was set as \texttt{additional\_info}. The \texttt{log\_name} was the
-JSON file that contained metadata and results related to a specfied
+is set as \texttt{additional\_info}. The \texttt{log\_name} is the
+JSON file that contains metadata and results related to a specfied
 kernel (\texttt{label}). In addition, \texttt{thread\_count} and
 \texttt{block\_count} were the values of \(b_i\) and \(g_i\)
 respectively.
@@ -1719,14 +1665,14 @@ respectively.
 \hypertarget{implementation-results}{%
 \section{Implementation results}\label{implementation-results}}
 
-We implemented our algorithm in Eclipse APP4MC. The goal was not to test
-how many kernel the Jetson could manage, instead we focused on verifying
-our assumptions and therefore our algorithm.
+This work is implemented in  Eclipse APP4MC. The goal was not to test
+how many kernel the Jetson could manage, instead it was focused on verifying
+assumptions and therefore the algorithm.
 
-We set up three test scenarios. The four previously described kernels
-were launched in different order. The first scenario was the one
-presented in Figure \ref{img:nvidia-base}. The kernels were launched on
-the following order: K2, K3, K4, K1. As showed in Figure
+There are  three test scenarios. The four previously described kernels
+were launched in different order. The first scenario is the one
+presented in Figure \ref{img:nvidia-base}. The kernels are launched on
+the following order: K2, K3, K4, K1. As it is showed in Figure
 \ref{img:nvidia-base} the completion times were \(f = \{6, 12,11,10\}\).
 The results from APP4MC are shown in Figure \ref{img:octave-base}.
 
@@ -1740,11 +1686,11 @@ In the second scenario kernels were launched on the following order: K2,
 K4, K1, K3. As observed in Figure \ref{img:nvidia-ex02} the completion
 times were \(f = \{6,11,10,12\}\). Notice that \emph{GPUSping: 5} for
 kernel 4 should be shown, but there is a bug in the code from {[}12{]}
-in which sometimes the log file doesn't contain all the data. On the
+in which sometimes the log file does not contain all the data. On the
 other hand, results from APP4MC are shown in Figure
-\ref{img:octave-ex02}. The block allocation differ from Jetson's
+\ref{img:octave-ex02}. The block allocation visually differs from Jetson's
 allocation because our code follows our assumption described in section
-3.3.2.
+3.3.2. However, it can be observed that in both cases the data is exactly the same.  
 
 \begin{figure}
 \centering
@@ -1758,12 +1704,12 @@ allocation because our code follows our assumption described in section
 \caption{APP4MC: Scenario 2 - K2,K4,K1,K3 \label{img:octave-ex02}}
 \end{figure}
 
-In the third scenario kernels were launched on the following order: K2,
-K1, K3, K4. As observed in Figure \ref{img:nvidia-ex05} the completion
-times were \(f = \{6,8,12,11\}\). Notice in this case that
+In the third scenario kernels are launched on the following order: K2,
+K1, K3, K4. As observed in Figure \ref{img:nvidia-ex05}, completion
+times are \(f = \{6,8,12,11\}\). Notice in this case that
 \emph{GPUSping:4} from kernel 4 and \emph{GPUSping:1} from kernel 5
 overlap in the figure. This is, again, an error on how the log file was
-created. We tested {[}12{]} C implementation using \texttt{printf}, and
+created. C implementation from {[}12{]} was tested using \texttt{printf}, and
 the values were correct. Nevertheless, results from APP4MC shown in
 Figure \ref{img:octave-ex02} remain congruent with the results of its
 counterpart.
@@ -1780,15 +1726,13 @@ counterpart.
 \caption{APP4MC: Scenario 3 - K2,K1,K3,K4 \label{img:octave-ex05}}
 \end{figure}
 
-\hypertarget{more-results}{%
-\section{More results}\label{more-results}}
+\hypertarget{block-analysis}{%
+\section{Block analysis}\label{more-results}}
 
-In this section we present more results. We focused in this section on
-the interaction between kernels with several blocks, and kernels with
-long execution time.
+In this section the focus is on the interaction between kernels with several blocks, and kernels with long execution time.
 
 In Figure \ref{img:nvidia-ex06} can be observed the result after
-executing five kernels. The kernels were defined as follows:
+executing five kernels. The kernels are defined as follows:
 
 \begin{itemize}
 \tightlist
@@ -1805,9 +1749,8 @@ executing five kernels. The kernels were defined as follows:
   \(\tau_5 = \{15,3,6,512\}\): big block count, medium execution time.
 \end{itemize}
 
-Our result shown in Figure \ref{img:octave-ex06} is still consistent
-with the ground truth. We obtained the same completion time for each
-kernel.
+The result shown in Figure \ref{img:octave-ex06} is still consistent
+with the ground truth. Completions times are the same for each kernel.
 
 \begin{figure}
 \centering
@@ -1821,7 +1764,7 @@ kernel.
 \caption{APP4MC \label{img:octave-ex06}}
 \end{figure}
 
-In this experiment the setup was as follows:
+In this experiment the setup is as follows:
 
 \begin{itemize}
 \tightlist
@@ -1858,31 +1801,23 @@ Figure \ref{img:octave-ex07} are the same for each kernel.
 \hypertarget{conclusion}{%
 \chapter{Conclusion}\label{conclusion}}
 
-\hypertarget{thesis-summary}{%
-\section{Thesis summary}\label{thesis-summary}}
-
-We gave an overview, in Chapter 1, of the motivation of this work, the
+In Chapter 1 there is an overview of the motivation of this work, the
 Bosch WATERS Challenge 2019, and explained the architecture of NVIDIA Jetson
-TX2 platform and its AMALTHEA model. Furthermore, in Chapter 2, we
-introduced key concepts related to NVIDIA's GPU such as kernel
-definition, block and threads, as well as its memory hierarchy. We
-described in detail Jetson TX2 hardware architecture, and explained the
-rules behind hardware scheduler. In Chapter 3 we introduced our real
-time analysis algorithm for Jetson TX2's scheduler. In addition we gave
-some examples to explain in detail each step. Finally in Chapter 4 we
-showed our experimental results.
+TX2 platform and its AMALTHEA model. Furthermore, in Chapter 2, 
+key concepts related to NVIDIA's GPU such as kernel
+definition, block and threads, as well as its memory hierarchy were introduced.
+A detailed description of Jetson TX2 hardware architecture, and explantion of the
+rules behind hardware scheduler were described.
+In Chapter 3 the response time analysis algorithm for Jetson TX2's scheduler was presented.
+In addition, some examples  explained in detail each step. 
+Finally in Chapter 4 experimental results are showed.
 
 \hypertarget{conclusions}{%
 \section{Conclusions}\label{conclusions}}
 
-It has been proved that for purposes of mathematical calculation, the
-main assumption, due to all blocks have the same thread count we
-considered all GPU streaming multiprocessors as one big streaming
-multiprocessor, was correct. Our experimental results show the accuracy
-of our algorithm to estimate completion times for kernels executed on
-Jetson TX2 platform. Moreover, we implemented our algorithm on Eclipse
-APP4MC, which allows AMALTHEA based response time analysis for NVIDIA's
-Jetson TX2.
+For purposes of mathematical calculation, the main assumption, since all blocks have the same thread count all GPU streaming multiprocessors are considered as one big streaming multiprocessor, was correct.
+Experimental results show the accuracy of this work to estimate completion times for kernels executed on Jetson TX2 platform.
+Moreover, an implementation in Eclipse APP4MC, which allows AMALTHEA based response time analysis for NVIDIA's Jetson TX2, was described.
 
 \hypertarget{future-work}{%
 \section{Future work}\label{future-work}}
@@ -1893,11 +1828,11 @@ platform using AMALTHEA models, which may include automatic CUDA C code
 generation for deployment and testing. Second, there is still no full
 understanding of how Jetson TX2's scheduler decides which kernel should
 run first. Thus, developers should either consider all possible cases
-when analyzing completion times or reverse engineering Jetson TX2's
-scheduler. Finally, we didn't consider memory transaction and other
+when analyzing completion times or use a reverse engineering approach to Jetson TX2's
+scheduler. Finally, this work didn't consider memory transaction and other
 constrains such as amount of shared memory, influence of the \emph{null}
 stream and priorities within scheduler. Therefore, there is still room
-to go deeper into this topic.
+for more research into this topic.
 
 \hypertarget{appendix-1-example-app4mc}{%
 \chapter*{Appendix 1: Example APP4MC}\label{appendix-1-example-app4mc}}
