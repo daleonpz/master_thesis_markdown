@@ -1241,7 +1241,7 @@ means \(g_{max} = 8\). The task is defined as
 
 At the beginning \(t_a =0\), \(i=1\), \(h=\{\}\) and
 \(g_f = g_{max} = 8\). The first one is \(\tau_1\). Kernel \(\tau_1\)
-and inital state of GPU are shown in Figure \ref{img:ex_1}(a) and Figure
+and initial state of GPU are shown in Figure \ref{img:ex_1}(a) and Figure
 \ref{img:ex_1}(b) respectively.
 
 \begin{itemize}
@@ -1611,6 +1611,33 @@ estimation can be given by \(\frac{g}{g_{max}}\), where \(g\) is
 their grid sizes. Thus, computational complexity of our algorithm is O(
 \(\frac{ng}{g_{max}}\)).
 
+\hypertarget{app4mc-implementation}{%
+\section{APP4MC Implementation}\label{app4mc-implementation}}
+A APP4MC implementation for AMALTHEA models is presented in this section. 
+The code is presented below. 
+The input is an AMALTHEA software model and the output is a \texttt{ArrayList} with completion time values for each kernel within the model. 
+Runnables or kernels are assigned in line 4 to \texttt{rList}.
+Temporary variables for \(c_i\), \(g_i\) and \(f\) are needed as shown in lines 6,7 and 8, and their values are assigned in lines 11 to 15. 
+Since AMALTHEA software model does not have a grid size property, \texttt{CustomPropertyUtil} is used in line 14. 
+
+
+Then, \(t_a\), \(g_{max}\),\(g_f\) and \(h\) should be initialized, and it is done in lines 18 to 21. 
+A \texttt{HashMap} allows an easy acces to \(h\) block values, that means that time values in \(h\) are the keys.  
+
+\lstinputlisting[style=javaCodeStyle, caption=APP4MC Implementation]{source/code/alg.java}
+
+The algorithm itself starts at line 26. 
+The first \texttt{if} statement goes from line 27 to 34.
+Lists in java are a powerful tool to manage array like variable such as \(f\) and \(g_i\). 
+The methods \texttt{add} and \texttt{get} make the code understandable.
+The varible \(h\) is updated in line 30 using a function called \texttt{updateH} which updates the hash map with a new key and value given by \texttt{f.get(current\_kernel)} and \texttt{g\_i.get(current\_kernel)} respectively. In case the key already exists, \texttt{updateH} adds the old value andthe new value. 
+
+The second \texttt{if} statement goes from line 35 to 46. 
+In line 36 list method \texttt{set} is used to update \texttt{g\_i} value of the current kernel.
+The \(h\) is updated in line 38, and the minimun key of \texttt{h} is found in line 39 using a function called \texttt{findIndexOfMinValue}. This function compares all the keys saved in \texttt{h} and returns the lowest one.
+The lowest key is used to get \(g_f\) and \(t_a\) in lines 41 and 42 respectively. 
+At the end the useless key is removed using HashMap method \texttt{remove(key)}.
+
 \hypertarget{experimental-results}{%
 \chapter{Experimental Results}\label{experimental-results}}
 
@@ -1665,7 +1692,7 @@ respectively.
 \hypertarget{implementation-results}{%
 \section{Implementation results}\label{implementation-results}}
 
-This work is implemented in  Eclipse APP4MC. The goal was not to test
+This work is implemented in  Eclipse APP4MC as described in Section 3.8. The goal was not to test
 how many kernel the Jetson could manage, instead it was focused on verifying
 assumptions and therefore the algorithm.
 

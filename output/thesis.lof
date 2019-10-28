@@ -21,14 +21,14 @@
 \contentsline {figure}{\numberline {3.9}{\ignorespaces (a) Kernel \(\mittau _4\) (b)GPU state prior to \(\mittau _4\) allocation (c) GPU state after \(\mittau _4\) allocation \relax }}{29}{figure.caption.32}% 
 \contentsline {figure}{\numberline {3.10}{\ignorespaces New kernel allocation \relax }}{30}{figure.caption.33}% 
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Output of the CUDA Scheduling Viewer \relax }}{35}{figure.caption.34}% 
-\contentsline {figure}{\numberline {4.2}{\ignorespaces APP4MC: Scenario 1 - K2,K3,K4,K1 \relax }}{36}{figure.caption.35}% 
-\contentsline {figure}{\numberline {4.3}{\ignorespaces JetsonTX2: Scenario 2 - K2,K4,K1,K3 \relax }}{37}{figure.caption.36}% 
-\contentsline {figure}{\numberline {4.4}{\ignorespaces APP4MC: Scenario 2 - K2,K4,K1,K3 \relax }}{37}{figure.caption.37}% 
-\contentsline {figure}{\numberline {4.5}{\ignorespaces JetsonTX2: Scenario 3 - K2,K1,K3,K4 \relax }}{38}{figure.caption.38}% 
-\contentsline {figure}{\numberline {4.6}{\ignorespaces APP4MC: Scenario 3 - K2,K1,K3,K4 \relax }}{39}{figure.caption.39}% 
-\contentsline {figure}{\numberline {4.7}{\ignorespaces JetsonTX2 \relax }}{40}{figure.caption.40}% 
-\contentsline {figure}{\numberline {4.8}{\ignorespaces APP4MC \relax }}{40}{figure.caption.41}% 
-\contentsline {figure}{\numberline {4.9}{\ignorespaces JetsonTX2 \relax }}{41}{figure.caption.42}% 
-\contentsline {figure}{\numberline {4.10}{\ignorespaces APP4MC \relax }}{41}{figure.caption.43}% 
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Output of the CUDA Scheduling Viewer \relax }}{37}{figure.caption.34}% 
+\contentsline {figure}{\numberline {4.2}{\ignorespaces APP4MC: Scenario 1 - K2,K3,K4,K1 \relax }}{38}{figure.caption.35}% 
+\contentsline {figure}{\numberline {4.3}{\ignorespaces JetsonTX2: Scenario 2 - K2,K4,K1,K3 \relax }}{39}{figure.caption.36}% 
+\contentsline {figure}{\numberline {4.4}{\ignorespaces APP4MC: Scenario 2 - K2,K4,K1,K3 \relax }}{39}{figure.caption.37}% 
+\contentsline {figure}{\numberline {4.5}{\ignorespaces JetsonTX2: Scenario 3 - K2,K1,K3,K4 \relax }}{40}{figure.caption.38}% 
+\contentsline {figure}{\numberline {4.6}{\ignorespaces APP4MC: Scenario 3 - K2,K1,K3,K4 \relax }}{41}{figure.caption.39}% 
+\contentsline {figure}{\numberline {4.7}{\ignorespaces JetsonTX2 \relax }}{42}{figure.caption.40}% 
+\contentsline {figure}{\numberline {4.8}{\ignorespaces APP4MC \relax }}{42}{figure.caption.41}% 
+\contentsline {figure}{\numberline {4.9}{\ignorespaces JetsonTX2 \relax }}{43}{figure.caption.42}% 
+\contentsline {figure}{\numberline {4.10}{\ignorespaces APP4MC \relax }}{43}{figure.caption.43}% 
 \addvspace {10\p@ }
