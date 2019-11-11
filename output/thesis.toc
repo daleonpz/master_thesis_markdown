@@ -1,35 +1,35 @@
-\contentsline {chapter}{Abstract}{i}{chapter*.1}% 
-\contentsline {chapter}{Declaration of Authorship}{ii}{chapter*.2}% 
-\contentsline {chapter}{Ehrenwörtliche Erklärung}{iii}{chapter*.3}% 
-\contentsline {chapter}{Abbreviations and Symbols}{}{chapter*.7}% 
-\contentsline {section}{Abbreviations}{}{section*.8}% 
-\contentsline {section}{Symbols}{}{section*.9}% 
-\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}% 
-\contentsline {section}{\numberline {1.1}Motivation}{1}{section.1.1}% 
-\contentsline {section}{\numberline {1.2}Industrial challenge WATERS 2019}{2}{section.1.2}% 
-\contentsline {section}{\numberline {1.3}NVIDIA Jetson TX2: Architecture Overview}{2}{section.1.3}% 
-\contentsline {section}{\numberline {1.4}Jetson TX2 Amalthea Model}{4}{section.1.4}% 
-\contentsline {chapter}{\numberline {2}CUDA and Jetson TX2}{6}{chapter.2}% 
-\contentsline {section}{\numberline {2.1}NVIDIA GPU Software Model}{6}{section.2.1}% 
-\contentsline {section}{\numberline {2.2}NVIDIA GPU Hardware Model}{9}{section.2.2}% 
-\contentsline {section}{\numberline {2.3}NVIDIA Jetson TX2's GPU Scheduler}{10}{section.2.3}% 
-\contentsline {chapter}{\numberline {3}Jetson TX2's GPU scheduler response time analysis}{18}{chapter.3}% 
-\contentsline {section}{\numberline {3.1}Task model}{18}{section.3.1}% 
-\contentsline {section}{\numberline {3.2}Assumptions}{19}{section.3.2}% 
-\contentsline {subsection}{\numberline {3.2.1}All blocks have the same amount of threads}{20}{subsection.3.2.1}% 
-\contentsline {subsection}{\numberline {3.2.2}One big streaming multiprocessor}{20}{subsection.3.2.2}% 
-\contentsline {section}{\numberline {3.3}Introduction to GPU Response Time Analysis}{21}{section.3.3}% 
-\contentsline {section}{\numberline {3.4}Response Time Analysis Algorithm}{24}{section.3.4}% 
-\contentsline {section}{\numberline {3.5}Example}{26}{section.3.5}% 
-\contentsline {section}{\numberline {3.6}A Special case}{29}{section.3.6}% 
-\contentsline {section}{\numberline {3.7}Computational Complexity}{32}{section.3.7}% 
-\contentsline {section}{\numberline {3.8}APP4MC Implementation}{33}{section.3.8}% 
-\contentsline {chapter}{\numberline {4}Experimental Results}{36}{chapter.4}% 
-\contentsline {section}{\numberline {4.1}Ground truth generation}{36}{section.4.1}% 
-\contentsline {section}{\numberline {4.2}Implementation results}{38}{section.4.2}% 
-\contentsline {section}{\numberline {4.3}Block analysis}{40}{section.4.3}% 
-\contentsline {chapter}{\numberline {5}Conclusion}{44}{chapter.5}% 
-\contentsline {section}{\numberline {5.1}Conclusions}{44}{section.5.1}% 
-\contentsline {section}{\numberline {5.2}Future work}{45}{section.5.2}% 
-\contentsline {chapter}{Appendix 1: Example APP4MC}{46}{chapter*.44}% 
-\contentsline {chapter}{References}{49}{chapter*.45}% 
+\contentsline {chapter}{Abstract}{i}{chapter*.1}
+\contentsline {chapter}{Declaration of Authorship}{ii}{chapter*.2}
+\contentsline {chapter}{Ehrenwörtliche Erklärung}{iii}{chapter*.3}
+\contentsline {chapter}{Abbreviations and Symbols}{}{chapter*.7}
+\contentsline {section}{Abbreviations}{}{section*.8}
+\contentsline {section}{Symbols}{}{section*.9}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Motivation}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Industrial challenge WATERS 2019}{2}{section.1.2}
+\contentsline {section}{\numberline {1.3}NVIDIA Jetson TX2: Architecture Overview}{2}{section.1.3}
+\contentsline {section}{\numberline {1.4}Jetson TX2 Amalthea Model}{4}{section.1.4}
+\contentsline {chapter}{\numberline {2}CUDA and Jetson TX2}{6}{chapter.2}
+\contentsline {section}{\numberline {2.1}NVIDIA GPU Software Model}{6}{section.2.1}
+\contentsline {section}{\numberline {2.2}NVIDIA GPU Hardware Model}{9}{section.2.2}
+\contentsline {section}{\numberline {2.3}NVIDIA Jetson TX2's GPU Scheduler}{11}{section.2.3}
+\contentsline {chapter}{\numberline {3}Jetson TX2's GPU scheduler response time analysis}{18}{chapter.3}
+\contentsline {section}{\numberline {3.1}Task model}{18}{section.3.1}
+\contentsline {section}{\numberline {3.2}Assumptions}{19}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}All blocks have the same amount of threads}{20}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}One big streaming multiprocessor}{20}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}Introduction to GPU Response Time Analysis}{21}{section.3.3}
+\contentsline {section}{\numberline {3.4}Response Time Analysis Algorithm}{24}{section.3.4}
+\contentsline {section}{\numberline {3.5}Example}{26}{section.3.5}
+\contentsline {section}{\numberline {3.6}A Special case}{29}{section.3.6}
+\contentsline {section}{\numberline {3.7}Computational Complexity}{32}{section.3.7}
+\contentsline {section}{\numberline {3.8}APP4MC Implementation}{33}{section.3.8}
+\contentsline {chapter}{\numberline {4}Experimental Results}{36}{chapter.4}
+\contentsline {section}{\numberline {4.1}Ground truth generation}{36}{section.4.1}
+\contentsline {section}{\numberline {4.2}Implementation results}{38}{section.4.2}
+\contentsline {section}{\numberline {4.3}Block analysis}{40}{section.4.3}
+\contentsline {chapter}{\numberline {5}Conclusion}{44}{chapter.5}
+\contentsline {section}{\numberline {5.1}Conclusions}{44}{section.5.1}
+\contentsline {section}{\numberline {5.2}Future work}{45}{section.5.2}
+\contentsline {chapter}{Appendix 1: Example APP4MC}{46}{chapter*.44}
+\contentsline {chapter}{References}{49}{chapter*.45}

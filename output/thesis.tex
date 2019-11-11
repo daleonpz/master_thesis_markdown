@@ -874,10 +874,10 @@ Figure \ref{img:scheduler_queues} presents the state of queries for each time re
 \begin{tabularx}{\linewidth}{|X|X|X|X|X|}
     \hline
 Rules & (a) t=1.0s & (b) t=2.1s & (c) t=3.0s & (d) t=3.4s \\ \hline
-G1 & All Kernels except for K6 were enqueued on their streams. K6 is launched at t = 3.2s & K6 operations are not yet enqueued on  S2. Same reason as in (a). & Same situation as in (b). & K6 operations were enqueued at t=3.2s on S2. \\ \hline
-G2 & K1, K4, K5 were at the head of their streams. They were enqueued on EE queue. & There are not new kernel at the head of stream queues. & K2 was enqueued on EE queue. & K6 kernel was enqueued on EE, because it was at the head of S2. \\ \hline
-G3 & No kernels fullfill this rule. & K1, K4 have dispatched all their blocks. K5 is the only one on the EE queue. & K5, K2 were dequeued from EE queue, because all their blocks were dispatched.  & K6 was fully dispatched, thus was dequeued from EE queue. \\ \hline
-G4 & No kernels fullfill this rule. K1 still has running blocks. & K1, K4 still have running blocks. Thus they cannot be dequeued from their stream queues. & K1, K4 were dequeued from their stream queues, because all their blocks finished execution. K2, K5 still have running blocks, they cannot be dequeued from stream queues. & K6 still have running blocks. Thus cannot be yet dequeued from S2. \\ \hline
+G1 & All Kernels except for \(\tau_6\) were enqueued on their streams. \(\tau_6\) is launched at t = 3.2s & \(\tau_6\) operations are not yet enqueued on  S2. Same reason as in (a). & Same situation as in (b). & \(\tau_6\) operations were enqueued at t=3.2s on S2. \\ \hline
+G2 & \(\tau_1\), \(\tau_4\), \(\tau_5\) were at the head of their streams. They were enqueued on EE queue. & There are not new kernel at the head of stream queues. & \(\tau_2\) was enqueued on EE queue. & \(\tau_6\) kernel was enqueued on EE, because it was at the head of S2. \\ \hline
+G3 & No kernels fullfill this rule. & \(\tau_1\), \(\tau_4\) have dispatched all their blocks. \(\tau_5\) is the only one on the EE queue. & \(\tau_5\), \(\tau_2\) were dequeued from EE queue, because all their blocks were dispatched.  & \(\tau_6\) was fully dispatched, thus was dequeued from EE queue. \\ \hline
+G4 & No kernels fullfill this rule. \(\tau_1\) still has running blocks. & \(\tau_1\), \(\tau_4\) still have running blocks. Thus they cannot be dequeued from their stream queues. & \(\tau_1\), \(\tau_4\) were dequeued from their stream queues, because all their blocks finished execution. \(\tau_2\), \(\tau_5\) still have running blocks, they cannot be dequeued from stream queues. & \(\tau_6\) still have running blocks. Thus cannot be yet dequeued from S2. \\ \hline
 \end{tabularx}
 \label{tab:scheduler_rules1}
 \caption{Detailed state information at various time points in Fig. 2.6}
@@ -889,10 +889,10 @@ G4 & No kernels fullfill this rule. K1 still has running blocks. & K1, K4 still 
 \begin{tabularx}{\linewidth}{|X|X|X|X|X|}
     \hline
 Rules & (a) t=1.0s & (b) t=2.1s & (c) t=3.0s & (d) t=3.4s \\ \hline
-X1 & K4 cannot be launched because of this rule, even when there are enough resources (512 threads) & K4 was the next kernel on the EE queue. It was launch because K1 already dispatched it's remaining blocks. & K5 blocks became eligible then dispatched. After that K2 blocks became eligible and then dispatched. & K6 blocks became eligible, because K6 was at the head of EE queue. \\ \hline
-R1 & Applies only to K1. & K5 is eligible, but check R3 & K5 became eligible. K2 became eligible after K5. & There were enough resources for K6. \\ \hline
-R2 & Applies only to K1. & K5 is eligible, but check R3 & There were enough thread resources for K2 and K5 (1024 threads in SM0, and 1536 threads in SM1). & There were enough thread resources in each SM for K6 (free 512 threads per SM , each K6 block needed 512 threads). \\ \hline
-R3 & Applies only to K1. & There is not enough shared memory to launch K5.  Each K5 block requires 32KB (64KB in total), but K4 blocks are consuming the whole shared memory available per SM (64KB). & There were enough shared memory for K2 and K5 (64KB in each SM). & K6 blocks required no memory shared.  \\ \hline
+X1 & \(\tau_4\) cannot be launched because of this rule, even when there are enough resources (512 threads) & \(\tau_4\) was the next kernel on the EE queue. It was launch because \(\tau_1\) already dispatched it's remaining blocks. & \(\tau_5\) blocks became eligible then dispatched. After that \(\tau_2\) blocks became eligible and then dispatched. & \(\tau_6\) blocks became eligible, because \(\tau_6\) was at the head of EE queue. \\ \hline
+R1 & Applies only to \(\tau_1\). & \(\tau_5\) is eligible, but check R3 & \(\tau_5\) became eligible. \(\tau_2\) became eligible after \(\tau_5\). & There were enough resources for \(\tau_6\). \\ \hline
+R2 & Applies only to \(\tau_1\). & \(\tau_5\) is eligible, but check R3 & There were enough thread resources for \(\tau_2\) and \(\tau_5\) (1024 threads in SM0, and 1536 threads in SM1). & There were enough thread resources in each SM for \(\tau_6\) (free 512 threads per SM , each \(\tau_6\) block needed 512 threads). \\ \hline
+R3 & Applies only to \(\tau_1\). & There is not enough shared memory to launch \(\tau_5\).  Each \(\tau_5\) block requires 32KB (64KB in total), but \(\tau_4\) blocks are consuming the whole shared memory available per SM (64KB). & There were enough shared memory for \(\tau_2\) and \(\tau_5\) (64KB in each SM). & \(\tau_6\) blocks required no memory shared.  \\ \hline
 \end{tabularx}
 \label{tab:scheduler_rules2}
 \caption{Detailed state information at various time points in Fig. 2.6}
@@ -1038,11 +1038,11 @@ while in Figure \ref{img:free_blocks}b for  \(t=t_2\),
 \(t=t_2\), \(g_f = g_{max}\) \label{img:free_blocks}}
 \end{figure}
 
-In Figure \ref{img:ta_example} there are two cases for a kernel K4. 
+In Figure \ref{img:ta_example} there are two cases for a kernel \(\tau_4\). 
 The GPU scheduler allocates a block \(b_4 \in g_4\). In
 Figure \ref{img:ta_example}a the release time \(r_4\) of the kernel 4 is
 lower than \(t_1\), which means that \(t_a = t_1\) because
-\(r_4 \leq t_1\) and kernel 3 (K3) was already dequeued. In Figure
+\(r_4 \leq t_1\) and kernel 3 (\(\tau_3\)) was already dequeued. In Figure
 \ref{img:ta_example}b \(r_4\) lies between \(t_2\) and \(t_3\), in that
 case \(t_a = r_4\), because all previous kernels were already dequeued
 and there are enough resources.
@@ -1058,64 +1058,64 @@ and there are enough resources.
 Assuming \(t_a\) is known, to calculate how many blocks
 can be allocated at that point in time the value of \(g_f\) at \(t_a\) should be known.
 In Figure \ref{img:new_kernel_1}a a new
-kernel K3 with 6 blocks \(g_3 = 6\) is going to be allocated on the
+kernel \(\tau_3\) with 6 blocks \(g_3 = 6\) is going to be allocated on the
 Jetson's GPU. Each block have 512 threads, which means that
 \(g_{max} = 8\). The GPU is not executing any kernel at \(t=t_a\) as
 shown in Figure \ref{img:new_kernel_1}b therefore \(g_f = g_{max} = 8\)
-at \(t=t_a\). Given that \(g_3 < g_f(t_a)\) all the blocks of K3 are
+at \(t=t_a\). Given that \(g_3 < g_f(t_a)\) all the blocks of \(\tau_3\) are
 allocated at the same time as shown in Figure \ref{img:new_kernel_1}c. 
-The completion time \(f_3\) of kernel K3 is \(t_a\) plus the thread
+The completion time \(f_3\) of kernel \(\tau_3\) is \(t_a\) plus the thread
 execution time given by \(C_3\), \(f_3 = C_3 + t_a\). If we assume that
 the release time \(r_3\) is the same as \(t_a\) then the completion time
-for K3 is the same as the response time \(R_3\), otherwise
+for \(\tau_3\) is the same as the response time \(R_3\), otherwise
 \(R_3 \geq f_3\).
 
 \begin{figure}
 \centering
 \includegraphics{source/figures/new_kernel_1.png}
-\caption{(a)New kernel \(K3\) with 6 blocks to allocate \(g_3 = 6\). (b)
-State prior to \(K3\) of the GPU (c) state after K3 allocation
+\caption{(a)New kernel \(\tau_3\) with 6 blocks to allocate \(g_3 = 6\). (b)
+State prior to \(\tau_3\) of the GPU (c) state after \(\tau_3\) allocation
 \label{img:new_kernel_1}}
 \end{figure}
 
 Once \(f_3\) and \(R_3\) are calculated, it is important to update the
 values of \(t_a\) and \(g_f\), because these values are used by the
 following kernel. Let us start with \(g_f\), it is easy to notice that
-after K3 allocation there are two free blocks \(g_f - g_3 = 2\) as a
+after \(\tau_3\) allocation there are two free blocks \(g_f - g_3 = 2\) as a
 result the new value of \(g_f = 2\). On the other hand, by definition
 \(t_a\) is the point in time in which a block \(b_i \in g_i\) can be
 allocated, therefore \(t_a\) will not change because \(g_f > 0\).
 
 In Figure \ref{img:new_kernel_2} is presented another highly probable
-scenario. We use the same kernel K3 as in the last example
+scenario. We use the same kernel \(\tau_3\) as in the last example
 (\(g_3 = 6\)). However, as shown in Figure \ref{img:new_kernel_2}b,
-there are two kernels already  allocated. Kernel K1 with 5
-allocated blocks \(g_1 = 5\) and K2 with 3 allocated blocks \(g_2 = 3\).
+there are two kernels already  allocated. Kernel \(\tau_1\) with 5
+allocated blocks \(g_1 = 5\) and \(\tau_2\) with 3 allocated blocks \(g_2 = 3\).
 Note that these kernels have different completion time \(f_2 > f_1\).
-Nevertheless, the important thing is not either K1 or K2 completion time but
+Nevertheless, the important thing is not either \(\tau_1\) or \(\tau_2\) completion time but
 the value of \(t_a\) and \(g_f\). In this example, \(t_a\) is the same
-as K1 completion time and \(g_f\) has the same value as \(g_1\),
-\(g_f = 5\). Thus, 5 blocks from K3 will be allocated first as shown in
+as \(\tau_1\) completion time and \(g_f\) has the same value as \(g_1\),
+\(g_f = 5\). Thus, 5 blocks from \(\tau_3\) will be allocated first as shown in
 Figure \ref{img:new_kernel_2}c.~
 
 \begin{figure}
 \centering
 \includegraphics{source/figures/new_kernel_2.png}
-\caption{(a)New kernel \(K3\) with 6 blocks to allocate \(g_3 = 6\). (b)
-State prior to \(K3\) of the GPU. Kernels K1 and K2 were previously
-allocated (c) state after K3 allocation \label{img:new_kernel_2}}
+\caption{(a)New kernel \(\tau_3\) with 6 blocks to allocate \(g_3 = 6\). (b)
+State prior to \(tau_3\) of the GPU. Kernels \(\tau_1\) and \(\tau_2\) were previously
+allocated (c) state after \(\tau_3\) allocation \label{img:new_kernel_2}}
 \end{figure}
 
-The next logical question is where the last block of K3 should be
+The next logical question is where the last block of \(\tau_3\) should be
 allocated. The answer again is given by the updated values of \(t_a\)
 and \(g_f\). 
 The new value of \(t_a\) is \(f_2\) since \(f_2 <( t_a + C_3 )\), and for  \(g_f(t_a)\) is \(g_2\). 
-Thus, the last K3 block is allocated at \(t=t_a=f_2\) and  completion time for K3 that is \(f_3 = f_2+C_3\) or \(f_3 = t_a + C_3\).
-In Figure \ref{img:new_kernel_2}c,  \(C^{*}_3\) is the total amount of time in which K3 was using GPU resources.
+Thus, the last \(\tau_3\) block is allocated at \(t=t_a=f_2\) and  completion time for \(\tau_3\) that is \(f_3 = f_2+C_3\) or \(f_3 = t_a + C_3\).
+In Figure \ref{img:new_kernel_2}c,  \(C^{*}_3\) is the total amount of time in which \(\tau_3\) was using GPU resources.
 
-After K3 is allocated, \(t_a\) and \(g_f\) should be updated again. In
+After \(\tau_3\) is allocated, \(t_a\) and \(g_f\) should be updated again. In
 this example, the new \(g_f\) is  \(g_2\) minus the last
-allocated K3 blocks \(g_f = g_2 - 1 = 2\), while \(t_a\) remains the
+allocated \(\tau_3\) blocks \(g_f = g_2 - 1 = 2\), while \(t_a\) remains the
 same \(t_a = f_2\) because the conditions are the same as in the latter
 example where there was only one kernel.
 
@@ -1699,18 +1699,18 @@ assumptions and therefore the algorithm.
 There are  three test scenarios. The four previously described kernels
 were launched in different order. The first scenario is the one
 presented in Figure \ref{img:nvidia-base}. The kernels are launched on
-the following order: K2, K3, K4, K1. As it is showed in Figure
+the following order: \(\tau_2\), \(\tau_3\), \(\tau_4\), \(\tau_1\). As it is showed in Figure
 \ref{img:nvidia-base} the completion times were \(f = \{6, 12,11,10\}\).
 The results from APP4MC are shown in Figure \ref{img:octave-base}.
 
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth,height=\textheight]{source/figures/octave/base.png}
-\caption{APP4MC: Scenario 1 - K2,K3,K4,K1 \label{img:octave-base}}
+\caption{APP4MC: Scenario 1 - \(\tau_2\),\(\tau_3\),\(\tau_4\),\(\tau_1\) \label{img:octave-base}}
 \end{figure}
 
-In the second scenario kernels were launched on the following order: K2,
-K4, K1, K3. As observed in Figure \ref{img:nvidia-ex02} the completion
+In the second scenario kernels were launched on the following order: \(\tau_2\),
+\(\tau_4\), \(\tau_1\), \(\tau_3\). As observed in Figure \ref{img:nvidia-ex02} the completion
 times were \(f = \{6,11,10,12\}\). Notice that \emph{GPUSping: 5} for
 kernel 4 should be shown, but there is a bug in the code from {[}12{]}
 in which sometimes the log file does not contain all the data. On the
@@ -1722,17 +1722,17 @@ allocation because our code follows our assumption described in section
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth,height=\textheight]{source/figures/nvidia/ex02.png}
-\caption{JetsonTX2: Scenario 2 - K2,K4,K1,K3 \label{img:nvidia-ex02}}
+\caption{JetsonTX2: Scenario 2 - \(\tau_2\),\(\tau_4\),\(\tau_1\),\(\tau_3\) \label{img:nvidia-ex02}}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth,height=\textheight]{source/figures/octave/ex02.png}
-\caption{APP4MC: Scenario 2 - K2,K4,K1,K3 \label{img:octave-ex02}}
+\caption{APP4MC: Scenario 2 - \(\tau_2\),\(\tau_4\),\(\tau_1\),\(\tau_3\) \label{img:octave-ex02}}
 \end{figure}
 
-In the third scenario kernels are launched on the following order: K2,
-K1, K3, K4. As observed in Figure \ref{img:nvidia-ex05}, completion
+In the third scenario kernels are launched on the following order: \(\tau_2\),
+\(\tau_1\), \(\tau_3\), \(\tau_4\). As observed in Figure \ref{img:nvidia-ex05}, completion
 times are \(f = \{6,8,12,11\}\). Notice in this case that
 \emph{GPUSping:4} from kernel 4 and \emph{GPUSping:1} from kernel 5
 overlap in the figure. This is, again, an error on how the log file was
@@ -1744,13 +1744,13 @@ counterpart.
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth,height=\textheight]{source/figures/nvidia/ex05.png}
-\caption{JetsonTX2: Scenario 3 - K2,K1,K3,K4 \label{img:nvidia-ex05}}
+\caption{JetsonTX2: Scenario 3 - \(\tau_2\),\(\tau_1\),\(\tau_3\),\(\tau_4\) \label{img:nvidia-ex05}}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth,height=\textheight]{source/figures/octave/ex05.png}
-\caption{APP4MC: Scenario 3 - K2,K1,K3,K4 \label{img:octave-ex05}}
+\caption{APP4MC: Scenario 3 - \(\tau_2\),\(\tau_1\),\(\tau_3\),\(\tau_4\) \label{img:octave-ex05}}
 \end{figure}
 
 \hypertarget{block-analysis}{%
