@@ -1782,13 +1782,13 @@ with the ground truth. Completions times are the same for each kernel.
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth,height=\textheight]{source/figures/nvidia/ex06.png}
-\caption{JetsonTX2 \label{img:nvidia-ex06}}
+\caption{Jetson TX2's results for big block counts and short execution times \label{img:nvidia-ex06}}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth,height=\textheight]{source/figures/octave/ex06.png}
-\caption{APP4MC \label{img:octave-ex06}}
+\caption{APP4MC's results for big block counts and short execution times \label{img:octave-ex06}}
 \end{figure}
 
 In this experiment the setup is as follows:
@@ -1816,13 +1816,13 @@ Figure \ref{img:octave-ex07} are the same for each kernel.
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth,height=\textheight]{source/figures/nvidia/ex07.png}
-\caption{JetsonTX2 \label{img:nvidia-ex07}}
+\caption{Jetson TX2's results for small block counts and long execution times \label{img:nvidia-ex07}}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=1\textwidth,height=\textheight]{source/figures/octave/ex07.png}
-\caption{APP4MC \label{img:octave-ex07}}
+\caption{APP4MC's results for small block counts and long execution times \label{img:octave-ex07}}
 \end{figure}
 
 \hypertarget{conclusion}{%
@@ -1842,9 +1842,15 @@ Finally in Chapter 4 experimental results are showed.
 \hypertarget{conclusions}{%
 \section{Conclusions}\label{conclusions}}
 
-For purposes of mathematical calculation, the main assumption, all blocks have the same thread count all GPU streaming multiprocessors are considered as one big streaming multiprocessor, was correct.
+This work calculates response time for GPU kernels based on the assumptions described in Section 3.2.
+All blocks have the same thread count and all GPU streaming multiprocessors are considered as one big streaming multiprocessor simplify the mathematical model.
+The computational complexity of this work is exponential and depends on the number of kernels, grid sizes and maximum amount of blocks that a SM can allocate, the latter is constant.
+However, in Section 3.6, it is demostrated that if all kernels are released at the same time and also have the same thread execution time, then the has a linear behavior, which only depends on the number of kernels.
+
 Experimental results show the accuracy of this work to estimate completion times for kernels executed on Jetson TX2 platform.
+In other words, experiments described in Chapter 4 prove that  calculated and measured response times are the same for each kernel in all the tests. 
 Moreover, an implementation in Eclipse APP4MC, which allows AMALTHEA based response time analysis for NVIDIA's Jetson TX2, was described.
+This means that the implementation described in Section 3.8 can be used by any AMALTHEA model that integrates a GPU software and hardware model. 
 
 \hypertarget{future-work}{%
 \section{Future work}\label{future-work}}

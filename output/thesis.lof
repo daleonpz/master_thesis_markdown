@@ -27,8 +27,8 @@
 \contentsline {figure}{\numberline {4.4}{\ignorespaces APP4MC: Scenario 2 - \(\mittau _2\),\(\mittau _4\),\(\mittau _1\),\(\mittau _3\) \relax }}{39}{figure.caption.37}
 \contentsline {figure}{\numberline {4.5}{\ignorespaces JetsonTX2: Scenario 3 - \(\mittau _2\),\(\mittau _1\),\(\mittau _3\),\(\mittau _4\) \relax }}{40}{figure.caption.38}
 \contentsline {figure}{\numberline {4.6}{\ignorespaces APP4MC: Scenario 3 - \(\mittau _2\),\(\mittau _1\),\(\mittau _3\),\(\mittau _4\) \relax }}{41}{figure.caption.39}
-\contentsline {figure}{\numberline {4.7}{\ignorespaces JetsonTX2 \relax }}{42}{figure.caption.40}
-\contentsline {figure}{\numberline {4.8}{\ignorespaces APP4MC \relax }}{42}{figure.caption.41}
-\contentsline {figure}{\numberline {4.9}{\ignorespaces JetsonTX2 \relax }}{43}{figure.caption.42}
-\contentsline {figure}{\numberline {4.10}{\ignorespaces APP4MC \relax }}{43}{figure.caption.43}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Jetson TX2's results for big block counts and short execution times \relax }}{42}{figure.caption.40}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces APP4MC's results for big block counts and short execution times \relax }}{42}{figure.caption.41}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Jetson TX2's results for small block counts and long execution times \relax }}{43}{figure.caption.42}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces APP4MC's results for small block counts and long execution times \relax }}{43}{figure.caption.43}
 \addvspace {10\p@ }
