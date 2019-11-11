@@ -292,9 +292,9 @@
 \chapter*{Abstract}\label{abstract}}
 \addcontentsline{toc}{chapter}{Abstract}
 
-The purpose of the thesis is to develop a response time algorithm for
+The purpose of the thesis is to calculate response times for
 AMALTHEA-based models to analyze timing behaviors of CUDA kernels on
-NVIDIA Jetson TX2's GPU. This work was developed on the context of the Bosch
+NVIDIA Jetson TX2's GPU. This work was focused on the context of the Bosch
 WATERS Challenge 2019 {[}6{]}. The challenge focuses on timing-analysis for
 heterogeneous software and hardware systems based on centralized end-to-end
 architectures. The embedded platform NVIDIA Jetson TX2 was the selected platform for
@@ -397,7 +397,7 @@ $R_i$ \> Response time of $\tau_i$ \\
 $U_t$ \> Total utilization of $\tau$ \\
 $b_{max}$ \> Maximum amount of threads in a SM \\
 $g_{max}$ \> Maximum amount of blocks that can be allocated in a SM \\
-$g_f$ \> Available blocks at some point in time \\
+$g_f(t)$ \> Available blocks at  time t\\
 $t_a$ \> Point in time at which a block will be allocated \\
 \end{tabbing}
 
@@ -428,11 +428,11 @@ hierarchical and cost effectiveness of centralized end-to-end
 architectures, because of today's requirements of computational power,
 bandwidth, integration, safety and real-time {[}3{]}.
 
-However, car manufactures do not forget that in centralized
+However, car manufactures take into account that in centralized
 end-to-end architectures different types of software would run on top
 of an heterogeneous hardware supplied by companies such as NVIDIA,
 Mobileye or Qualcomm. Thus, it is important to analyze and understand how
-software behave under those conditions, in order to ensure a
+software behaves under those conditions, in order to ensure a
 predictable and efficient system.
 
 \hypertarget{industrial-challenge-waters-2019}{%
@@ -442,7 +442,7 @@ predictable and efficient system.
 Predictability is a key property for safety-critical and hard real-time
 systems {[}4{]}. Analyzing time related characteristics is an important
 step to design predictable embedded systems. However, in multi-core or
-heterogeneous systems based on centralized end-to-end architectures is
+heterogeneous systems based on centralized end-to-end architectures it is
 harder to satisfy timing constrains due to scheduling, caches,
 pipelines and out-of-order executions {[}5{]}. 
 Thus, development of timing-analysis methods for these types of
@@ -680,7 +680,7 @@ following sections.
 
 When a kernel grid is launched, blocks are enumerated and assigned to the
 SMs. Once the blocks are assigned, threads are managed in \textbf{wraps}
-by the \textbf{wrap scheduler}. A wraps is a group of 32 threads that
+by the \textbf{wrap scheduler}. A wrap is a group of 32 threads that
 run in parallel. Thus, it is highly recommendable to use block sizes of
 size \(32N, N \in \mathbb{N}\), otherwise there would be \textit{inactive}
 threads. An example is shown in Figure \ref{img:inactive_thread} where
@@ -853,7 +853,7 @@ Each rectangle represents a block: the \textit{j-th} block of kernel \textit{k} 
 End and start time of each block are represented by its right and left boundaries. 
 The height of each rectangle is the number of threads used by that block.
 Dashed lines correspond to time points that are interesting for analysis. 
-In Figure \ref{img:scheduler_queues} is presented the state of queries for each time represented by dashed lines and in Tables 2.2, 2.3 and 2.4 a description of how each  scheduling rule influence queries' behaviour.
+Figure \ref{img:scheduler_queues} presents the state of queries for each time represented by dashed lines and in Tables 2.2, 2.3 and 2.4 a description of how each  scheduling rule influence queries' behaviour.
 
 \begin{figure}
 \centering
@@ -988,7 +988,7 @@ developers recommend, for practical purposes, on their offical guides
 {[}20{]} and {[}21{]} to use block sizes equals to either 128, 256, 512
 or 1024, because it has been documented that these values are more
 likely to take full advantage of the GPU resources. 
-This work assumes that all the blocks, regardless the kernel, are the same size because for this work is the first step to more complex analysis.
+This work assumes that all the blocks, regardless the kernel, are the same size because for this work it is the first step to a more complex analysis.
 
 \begin{equation} 
 b_i = b, \quad \forall \tau_i \in \tau
@@ -1142,7 +1142,7 @@ This version is derived directly from the examples
 illustrated in Figure \ref{img:new_kernel_1} and Figure
 \ref{img:new_kernel_2}.
 In other words, even for complex situations such as different release times or block sizes, this algorithm remains the same.
-Thus, We have omitted details such as how \(t_a\) and \(g_f\) are updated in the case that \(g_f \geq g_i\), however the big picture of what is necessary at each step is shown.
+Thus, some details were omitted such as how \(t_a\) and \(g_f\) are updated in the case that \(g_f \geq g_i\), however the big picture of what is necessary at each step is shown.
 
 \begin{figure}[ht]
 \centering
@@ -1234,7 +1234,7 @@ have tracked times lower than \(t_a\) must be removed.
 \hypertarget{example}{%
 \section{Example}\label{example}}
 
-In this section there are four kernels, all with the same
+In this example there are four kernels, all with the same
 period \(T = 15\) and block size of 512 threads, \(b = 512\), which
 means \(g_{max} = 8\). The task is defined as
 \(\tau = \{\tau_1 = \{15, 4, 2, 512\} , \tau_2 = \{15, 6,7,512\}, \tau_3 = \{15, 6,2,512\}, \tau_4 =\{ 15, 5,5,512\} \}\).
@@ -1842,7 +1842,7 @@ Finally in Chapter 4 experimental results are showed.
 \hypertarget{conclusions}{%
 \section{Conclusions}\label{conclusions}}
 
-For purposes of mathematical calculation, the main assumption, since all blocks have the same thread count all GPU streaming multiprocessors are considered as one big streaming multiprocessor, was correct.
+For purposes of mathematical calculation, the main assumption, all blocks have the same thread count all GPU streaming multiprocessors are considered as one big streaming multiprocessor, was correct.
 Experimental results show the accuracy of this work to estimate completion times for kernels executed on Jetson TX2 platform.
 Moreover, an implementation in Eclipse APP4MC, which allows AMALTHEA based response time analysis for NVIDIA's Jetson TX2, was described.
 
